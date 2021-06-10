@@ -10,4 +10,4 @@ COPY ./dist .
 
 EXPOSE 8060
 
-RUN npm run build
+RUN npm run serve --port 8060
