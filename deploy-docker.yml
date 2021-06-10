@@ -1,0 +1,11 @@
+---
+- hosts: test
+  become: True
+  tasks:
+    - name: Start the container
+      docker_container:
+        name: testapp
+        image: "cranifax/nodetest:{{DOCKER_TAG}}"
+        state: started
+        published_ports:
+          - 0.0.0.0:8060:8060
