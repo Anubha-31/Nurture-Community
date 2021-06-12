@@ -1,0 +1,41 @@
+pipeline{
+    agent any
+    tools {nodejs "npm"}
+    environment {
+        DOCKER_TAG = """${sh(script: 'git rev-parse --short HEAD',returnStdout: true)}"""
+        BITBUCKET_COMMON_CREDS = credentials('docker')
+    }
+
+    stages{
+        stage('SCM'){
+            steps{
+                git branch: 'UI-UX_Development', 
+                credentialsId: 'githubMaven', 
+                url: 'https://github.com/Anubha-31/Nurture-Community'
+            }
+        }
+        stage('Docker Build'){
+            steps{
+                sh "docker build . -t cranifax/nodetest:${DOCKER_TAG}"
+            }
+        }
+        stage('Docker push'){
+            steps{
+                sh "docker login -u ${BITBUCKET_COMMON_CREDS_USR} -p ${BITBUCKET_COMMON_CREDS_PSW}" 
+                sh "docker push cranifax/nodetest:${DOCKER_TAG}"
+            }
+        }
+        stage('Docker deploy'){
+            steps{
+                ansiblePlaybook credentialsId: 'test-server', 
+                disableHostKeyChecking: true, 
+                extras: "-e DOCKER_TAG=${DOCKER_TAG}", 
+                installation: 'ansible', 
+                inventory: 'test.ini', 
+                playbook: 'deploy-docker.yml'
+            }
+        }
+        
+        
+    }
+}
