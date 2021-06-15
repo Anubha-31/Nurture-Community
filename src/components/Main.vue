@@ -13,8 +13,7 @@
                         <br>
                 </h1>
                 <br>
-                <h2 class="mb-8 leading-relaxed">We provide free food services directly from restaurants to reduce the
-                    food waste in Canada</h2>
+                <h2 class="mb-8 leading-relaxed">During this time of uncertainty, we have come together as a team to fight back hunger. Join with us to reduce food wastage and provide it to people who truly need it. With your support we can make a difference.</h2>
                 <div class="flex justify-center">
                     <button
                         class="inline-flex text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg">Login</button>
