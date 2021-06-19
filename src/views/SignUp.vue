@@ -13,7 +13,7 @@
 
                 <div class="col-span-6 sm:col-span-3">
                   <label for="user_type" class="block text-sm font-medium text-gray-700">Sign Up As</label>
-                  <select id="user_type" name="user_type" autocomplete="user_type" v-model="user_type" @change="onChangeUserType($event)" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <select id="user_type" name="user_type" autocomplete="user_type" v-model="user_type" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <option>Restaurant Representative</option>
                     <option>Client</option>
                   </select>
@@ -34,33 +34,22 @@
                   <input type="text" name="email_address" id="email_address" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
 
-                <div class="col-span-6 sm:col-span-3">
-                  <label for="country" class="block text-sm font-medium text-gray-700">Country / Region</label>
-                  <select id="country" name="country" autocomplete="country" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option>United States</option>
-                    <option>Canada</option>
-                    <option>Mexico</option>
-                  </select>
+                <div class="col-span-6 sm:col-span-4">
+                  <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                  <div class="flex space-x-1">
+                    <input type="text" value="+1" disabled class="w-1/5 mt-1 p-2 bg-gray-100 block shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                    <input type="number" name="phone_number" id="phone_number" class="w-4/5 mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  </div>
                 </div>
 
                 <div class="col-span-6">
-                  <label for="street_address" class="block text-sm font-medium text-gray-700">Street address</label>
-                  <input type="text" name="street_address" id="street_address" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                </div>
-
-                <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                  <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                  <input type="text" name="city" id="city" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                </div>
-
-                <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                  <label for="state" class="block text-sm font-medium text-gray-700">State / Province</label>
-                  <input type="text" name="state" id="state" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                  <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                  <textarea name="address" id="address" cols="30" rows="4" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"></textarea>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-2">
                   <label for="postal_code" class="block text-sm font-medium text-gray-700">ZIP / Postal</label>
-                  <input type="text" name="postal_code" id="postal_code" autocomplete="postal-code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                  <input type="text" name="postal_code" id="postal_code" autocomplete="postal-code" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
               </div>
             </div>
@@ -85,11 +74,6 @@ export default {
   data() {
     return {
       user_type: ""
-    }
-  },
-  methods: {
-    onChangeUserType(event) {
-      alert("test")
     }
   }
 }
