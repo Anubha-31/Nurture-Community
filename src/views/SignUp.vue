@@ -1,9 +1,17 @@
 <template>
-  <div class="container mx-auto px-6">
-    <div class="text-center">
-      <h1 class="text-3xl">Sign up</h1>
-      <p class="mt-5">Please provide the information below to sign up as a user</p>
-    </div>
+  <div>
+    <header class="text-gray-600 body-font">
+      <div class="container mx-auto flex flex-wrap pt-5 px-5 flex-col md:flex-row items-center">
+        <router-link to="/" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+          <img src="..\assets\images\logo.png" alt="" class="w-36">
+        </router-link>
+      </div>
+    </header>
+    <div class="container mx-auto px-6">
+      <div class="text-center">
+        <h1 class="text-3xl">Sign up</h1>
+        <p class="mt-5">Please provide the information below to sign up as a user</p>
+      </div>
 
       <div class="mt-5 md:mt-0 ">
         <form action="#" method="POST">
@@ -54,7 +62,7 @@
               </div>
             </div>
             <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-              <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button type="submit" class="inline-flex w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Save
               </button>
             </div>
@@ -65,6 +73,7 @@
 
 
 
+    </div>
   </div>
 </template>
 
