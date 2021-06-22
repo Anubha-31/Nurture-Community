@@ -22,8 +22,8 @@
                 <div class="col-span-6 sm:col-span-3">
                   <label for="user_type" class="block text-sm font-medium text-gray-700">Sign Up As</label>
                   <select id="user_type" name="user_type" autocomplete="user_type" v-model="user_type" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option>Restaurant Representative</option>
-                    <option>Client</option>
+                    <option value="restaurant">Restaurant Representative</option>
+                    <option value="client">Client</option>
                   </select>
                 </div>
 
@@ -40,6 +40,16 @@
                 <div class="col-span-6 sm:col-span-4">
                   <label for="email_address" class="block text-sm font-medium text-gray-700">Email address</label>
                   <input type="text" name="email_address" id="email_address" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                </div>
+
+                <div class="col-span-6 sm:col-span-3 lg:col-span-2" v-if="user_type === 'restaurant'">
+                  <label for="restaurant_name" class="block text-sm font-medium text-gray-700">Restaurant's Name</label>
+                  <input type="text" name="restaurant_name" id="restaurant_name" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                </div>
+
+                <div class="col-span-6 sm:col-span-3 lg:col-span-2" v-if="user_type === 'restaurant'">
+                  <label for="license_number" class="block text-sm font-medium text-gray-700">License Number</label>
+                  <input type="text" name="license_number" id="license_number" autocomplete="license-number" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
 
                 <div class="col-span-6 sm:col-span-4">
@@ -69,10 +79,6 @@
           </div>
         </form>
       </div>
-
-
-
-
     </div>
   </div>
 </template>
@@ -82,7 +88,7 @@ export default {
   name: "SignUp",
   data() {
     return {
-      user_type: ""
+      user_type: "restaurant"
     }
   }
 }
