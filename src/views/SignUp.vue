@@ -85,13 +85,16 @@
       </div>
     </div>
   </div>
+  <Footer/>
 </template>
 
 <script>
 import axios from 'axios'
+import Footer from "@/components/Footer";
 
 export default {
   name: "SignUp",
+  components: {Footer},
   data() {
     return {
       user_type: "restaurant"
