@@ -4,10 +4,10 @@
     <div class="flex-grow">
       <div class="container mx-auto px-1">
         <div class="text-center">
-          <h1 class="text-3xl">Login</h1>
-          <p class="mt-5">Please provide the information below to sign in as a user/restrurant </p>
+          <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Login</h1>
+          <p class="mt-5">Please provide the information below to sign in as a user or as a restaurant representative </p>
         </div>
-        <div class="mt-1 md:mt-0 md:w-1/2 md:mx-auto">
+        <div class="mt-1 md:mt-10 md:w-1/2 md:mx-auto">
           <form action="#" method="POST">
             <div class="shadow overflow-hidden rounded-lg border border-gray-200">
               <div class="px-4 py-5 bg-white sm:p-6">

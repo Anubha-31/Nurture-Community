@@ -13,7 +13,7 @@
     </header>
     <div class="container mx-auto px-6">
       <div class="text-center">
-        <h1 class="text-3xl">Sign up</h1>
+        <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Sign Up</h1>
         <p class="mt-5">Please provide the information below to sign up as a user</p>
       </div>
 
