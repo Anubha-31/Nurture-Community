@@ -97,7 +97,15 @@ export default {
   components: {Footer},
   data() {
     return {
-      user_type: "restaurant"
+      user_type: "restaurant",
+      first_name: "",
+      last_name: "",
+      email: "",
+      restaurant_name: "",
+      license_number: "",
+      phone: "",
+      address: "",
+      zip: ""
     }
   },
   mounted() {
