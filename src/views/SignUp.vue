@@ -43,7 +43,17 @@
 
                 <div class="col-span-6">
                   <label for="email_address" class="block text-sm font-medium text-gray-700">Email address</label>
-                  <input type="text" name="email_address" id="email_address" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <input type="email" name="email_address" id="email_address" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                </div>
+
+                <div class="col-span-6 sm:col-span-3 lg:col-span-3">
+                  <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                  <input type="password" name="password" id="password" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                </div>
+
+                <div class="col-span-6 sm:col-span-3 lg:col-span-3">
+                  <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                  <input type="password" name="confirm_password" id="confirm_password" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
@@ -102,6 +112,8 @@ export default {
         first_name: "",
         last_name: "",
         email: "",
+        password: "",
+        confirm_password: "",
         restaurant_name: "",
         license_number: "",
         phone: "",

@@ -6,7 +6,9 @@
 <!--          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" ></path>-->
 <!--        </svg>-->
 <!--        <span class="ml-3 text-xl">Nurture Community</span>-->
-        <img src="..\assets\images\logo.png" alt="" class="w-36">
+        <router-link to="/" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+          <img src="..\assets\images\logo.png" alt="" class="w-36">
+        </router-link>
       </a>
       <p class=" text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4 " > © 2021 Nurtune Community — <a href="https://github.com/Anubha-31/Nurture-Community" class="text-gray-600 ml-1" rel="noopener noreferrer" target="_blank" >@github</a > </p>
       <span class=" inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start " >
