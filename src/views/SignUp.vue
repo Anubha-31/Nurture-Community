@@ -46,12 +46,12 @@
                   <input type="text" name="email_address" id="email_address" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
 
-                <div class="col-span-6 sm:col-span-3 lg:col-span-2" v-if="user_type === 'restaurant'">
+                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user_type === 'restaurant'">
                   <label for="restaurant_name" class="block text-sm font-medium text-gray-700">Restaurant's Name</label>
                   <input type="text" name="restaurant_name" id="restaurant_name" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
 
-                <div class="col-span-6 sm:col-span-3 lg:col-span-2" v-if="user_type === 'restaurant'">
+                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user_type === 'restaurant'">
                   <label for="license_number" class="block text-sm font-medium text-gray-700">License Number</label>
                   <input type="text" name="license_number" id="license_number" autocomplete="license-number" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
