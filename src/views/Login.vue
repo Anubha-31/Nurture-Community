@@ -8,17 +8,17 @@
           <p class="mt-5">Please provide the information below to sign in as a user or as a restaurant representative </p>
         </div>
         <div class="mt-1 md:mt-10 md:w-1/2 md:mx-auto">
-          <form action="#" method="POST">
+          <form method="POST" @submit.prevent="formSubmit">
             <div class="shadow overflow-hidden rounded-lg border border-gray-200">
               <div class="px-4 py-5 bg-white sm:p-6">
                 <div class="grid grid-cols-1 gap-1">
                   <div class="col-span-6 sm:col-span-1 ">
                     <label for="Email" class="block text-sm font-medium text-gray-700">Email*</label>
-                    <input type="Email" name="Email" id="Email" autocomplete="Email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                    <input type="Email" name="Email" v-model="user.email" id="Email" autocomplete="Email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                   </div>
                   <div class="col-span-6 sm:col-span-1">
                     <label for="Password" class="block text-sm font-medium text-gray-700">Password*</label>
-                    <input type="Password" name="Password" id="Password" autocomplete="Password" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                    <input type="Password" name="Password" v-model="user.password" id="Password" autocomplete="Password" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                   </div>
                 </div>
               </div>
@@ -42,6 +42,25 @@ import Header from "@/components/Header";
 
 export default {
   name: "Login",
+  data() {
+    return {
+      user: {
+        email: "",
+        password: "",
+      }
+    }
+  },
+  methods: {
+    formSubmit: function () {
+      alert('foobar');
+      // axios.post('https://jsonplaceholder.typicode.com/posts', this.user)
+      // .then((response) => {
+      //   console.log(response);
+      // }, (error) => {
+      //   console.log(error);
+      // });
+    }
+  },
   components: {
     Footer,
     Header
