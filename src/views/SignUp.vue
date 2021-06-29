@@ -17,7 +17,7 @@
         <p class="mt-5">Please provide the information below to sign up as a user</p>
       </div>
 
-      <div class="mt-5 md:mt-0 ">
+      <div class="mt-5 md:mt-10 md:w-1/2 md:mx-auto">
         <form action="#" method="POST">
           <div class="shadow overflow-hidden rounded-lg border border-gray-200">
             <div class="px-4 py-5 bg-white sm:p-6">
