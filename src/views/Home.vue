@@ -1,7 +1,9 @@
 <template>
-  <Header/>
-  <Main />
-  <Footer />
+  <div class="min-h-screen flex flex-col">
+    <Header/>
+    <Main class="flex-grow"></Main>
+    <Footer />
+  </div>
 </template>
 
 <script>
