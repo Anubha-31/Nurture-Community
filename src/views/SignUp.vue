@@ -88,12 +88,26 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "SignUp",
   data() {
     return {
       user_type: "restaurant"
     }
+  },
+  mounted() {
+    // axios.post('https://jsonplaceholder.typicode.com/posts', {
+    //   title: 'foo',
+    //   body: 'bar',
+    //   userId: 1,
+    // })
+    // .then((response) => {
+    //   console.log(response);
+    // }, (error) => {
+    //   console.log(error);
+    // });
   }
 }
 </script>
