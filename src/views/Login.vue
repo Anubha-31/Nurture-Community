@@ -22,7 +22,7 @@
                   </div>
                 </div>
               </div>
-              <div class="px-4 py-3 bg-gray-50 text-right sm:col-span-1">
+              <div class="px-4 sm:px-6 pt-2 pb-10 bg-gray-50 text-right sm:col-span-1">
                 <button type="submit" class="inline-flex w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Login
                 </button>
