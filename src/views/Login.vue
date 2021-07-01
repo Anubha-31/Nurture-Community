@@ -52,13 +52,12 @@ export default {
   },
   methods: {
     formSubmit: function () {
-      alert('foobar');
-      // axios.post('https://jsonplaceholder.typicode.com/posts', this.user)
-      // .then((response) => {
-      //   console.log(response);
-      // }, (error) => {
-      //   console.log(error);
-      // });
+      axios.post('/users/login', this.user)
+      .then((response) => {
+        console.log(response);
+      }, (error) => {
+        console.log(error);
+      });
     }
   },
   components: {

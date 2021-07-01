@@ -32,56 +32,56 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
-                  <input type="text" name="first_name" id="first_name" autocomplete="given-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <label for="first_name" class="block text-sm font-medium text-gray-700">First name*</label>
+                  <input type="text" name="first_name" id="first_name" autocomplete="given-name" v-model="user.first_name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
-                  <input type="text" name="last_name" id="last_name" autocomplete="family-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <label for="last_name" class="block text-sm font-medium text-gray-700">Last name*</label>
+                  <input type="text" name="last_name" id="last_name" autocomplete="family-name" v-model="user.last_name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
                 <div class="col-span-6">
-                  <label for="email_address" class="block text-sm font-medium text-gray-700">Email address</label>
-                  <input type="email" name="email_address" id="email_address" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <label for="email_address" class="block text-sm font-medium text-gray-700">Email address*</label>
+                  <input type="email" name="email_address" id="email_address" autocomplete="email" v-model="user.email_address" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                  <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                  <input type="password" name="password" id="password" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <label for="password" class="block text-sm font-medium text-gray-700">Password*</label>
+                  <input type="password" name="password" id="password" v-model="user.password" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                  <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                  <input type="password" name="confirm_password" id="confirm_password" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password*</label>
+                  <input type="password" name="confirm_password" id="confirm_password" v-model="user.confirm_password" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
                   <label for="restaurant_name" class="block text-sm font-medium text-gray-700">Restaurant's Name</label>
-                  <input type="text" name="restaurant_name" id="restaurant_name" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <input type="text" name="restaurant_name" id="restaurant_name" v-model="user.restaurant_name" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
-                  <label for="license_number" class="block text-sm font-medium text-gray-700">License Number</label>
-                  <input type="text" name="license_number" id="license_number" autocomplete="license-number" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <label for="license_number" class="block text-sm font-medium text-gray-700">License Number*</label>
+                  <input type="text" name="license_number" id="license_number" v-model="user.license_number" autocomplete="license-number" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
 
                 <div class="col-span-6">
                   <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
                   <div class="flex space-x-1">
                     <input type="text" value="+1" disabled class="w-1/5 mt-1 p-2 bg-gray-100 block shadow-sm sm:text-sm border border-gray-300 rounded-md">
-                    <input type="number" name="phone_number" id="phone_number" class="w-4/5 mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                    <input type="number" name="phone_number" id="phone_number" v-model="user.phone" class="w-4/5 mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                   </div>
                 </div>
 
                 <div class="col-span-6">
                   <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                  <textarea name="address" id="address" cols="30" rows="4" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"></textarea>
+                  <textarea name="address" id="address" cols="30" rows="4" v-model="user.address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"></textarea>
                 </div>
 
                 <div class="col-span-6">
-                  <label for="postal_code" class="block text-sm font-medium text-gray-700">ZIP / Postal</label>
-                  <input type="text" name="postal_code" id="postal_code" autocomplete="postal-code" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <label for="postal_code" class="block text-sm font-medium text-gray-700">ZIP / Postal*</label>
+                  <input type="text" name="postal_code" id="postal_code" v-model="user.zip" autocomplete="postal-code" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
               </div>
             </div>
@@ -111,7 +111,7 @@ export default {
         user_type: "restaurant",
         first_name: "",
         last_name: "",
-        email: "",
+        email_address: "",
         password: "",
         confirm_password: "",
         restaurant_name: "",
@@ -124,13 +124,17 @@ export default {
   },
   methods: {
     formSubmit: function () {
-      alert('foobar');
-      // axios.post('https://jsonplaceholder.typicode.com/posts', this.user)
-      // .then((response) => {
-      //   console.log(response);
-      // }, (error) => {
-      //   console.log(error);
-      // });
+      if(this.user.password === this.user.confirm_password) {
+        axios.post('/users/register', this.user)
+            .then((response) => {
+              console.log(response);
+            }, (error) => {
+              console.log(error);
+            });
+      } else {
+        alert("Passwords should match");
+      }
+
     }
   }
 }
