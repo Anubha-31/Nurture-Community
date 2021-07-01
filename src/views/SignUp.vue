@@ -19,10 +19,13 @@
 
       <div class="mt-5 md:mt-10 md:w-1/2 md:mx-auto">
         <form method="POST" @submit.prevent="formSubmit">
+
           <div class="shadow overflow-hidden rounded-lg border border-gray-200">
             <div class="px-4 py-5 bg-white sm:p-6">
+              <ul v-if="errors.length > 0" class="text-red-500 font-medium mb-5">
+                <li v-for="error in errors">{{ error }}</li>
+              </ul>
               <div class="grid grid-cols-6 gap-6">
-
                 <div class="col-span-6">
                   <label for="user_type" class="block text-sm font-medium text-gray-700">Sign Up As</label>
                   <select id="user_type" name="user_type" autocomplete="user_type" v-model="user.user_type" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -119,11 +122,13 @@ export default {
         phone: "",
         address: "",
         zip: ""
-      }
+      },
+      errors: []
     }
   },
   methods: {
     formSubmit: function () {
+      this.errors = [];
       if(this.user.password === this.user.confirm_password) {
         axios.post('/users/register', this.user)
             .then((response) => {
@@ -132,7 +137,7 @@ export default {
               console.log(error);
             });
       } else {
-        alert("Passwords should match");
+        this.errors.push('Passwords should match')
       }
 
     }
