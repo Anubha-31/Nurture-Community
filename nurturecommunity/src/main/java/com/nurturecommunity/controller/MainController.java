@@ -28,7 +28,7 @@ public class MainController {
 	public List<User> getRequest() throws Exception {
 		return this.getRequest.getLoginresponse();
 	}
-	
+	// testing
 	@GetMapping("/foodlist")
 	public List<Food> getRequestFoodList() throws Exception {
 		return this.getRequest.getFoodList();
