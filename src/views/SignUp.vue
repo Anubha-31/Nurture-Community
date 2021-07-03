@@ -70,8 +70,8 @@
                 </div>
 
                 <div class="col-span-6" v-if="user.user_type === 'restaurant'">
-                  <label for="cover_image" class="block text-sm font-medium text-gray-700">Cover Image of you restaurant (only .png, .gif, jpg or jpeg)</label>
-                  <input type="file" name="cover_image" accept="image/png, image/gif, image/jpeg" id="cover_image" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <label for="cover_image" class="block text-sm font-medium text-gray-700">Cover Image of you restaurant (only .png, .gif, jpg or jpeg of less than size 5MB)</label>
+                  <input type="file" name="cover_image" accept="image/png, image/gif, image/jpeg" id="cover_image" ref="cover_image" @change="onFileUpload" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
 
 
@@ -135,6 +135,7 @@ export default {
         confirm_password: "",
         restaurant_name: "",
         license_number: "",
+        cover_image: "",
         opens_at: "09:00",
         closes_at: "22:00",
         phone: "",
@@ -157,7 +158,15 @@ export default {
       } else {
         this.errors.push('Passwords should match')
       }
-
+    },
+    onFileUpload: function (event) {
+      if(event.target.files[0].size > 5000000) {
+        alert("Please upload a file less than 5MB")
+        this.$refs.cover_image.value = null;
+      } else {
+        console.log(event.target.files[0])
+        this.cover_image = event.target.files[0]
+      }
     }
   }
 }
