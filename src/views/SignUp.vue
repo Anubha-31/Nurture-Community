@@ -69,10 +69,26 @@
                   <input type="text" name="license_number" id="license_number" v-model="user.license_number" autocomplete="license-number" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
 
+                <div class="col-span-6" v-if="user.user_type === 'restaurant'">
+                  <label for="cover_image" class="block text-sm font-medium text-gray-700">Cover Image of you restaurant (only .png, .gif, jpg or jpeg)</label>
+                  <input type="file" name="cover_image" accept="image/png, image/gif, image/jpeg" id="cover_image" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                </div>
+
+
+                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
+                  <label for="opens_at" class="block text-sm font-medium text-gray-700">Opens at</label>
+                  <input type="time" name="opens_at" id="opens_at" v-model="user.opens_at"  autocomplete="opens-at" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                </div>
+
+                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
+                  <label for="closes_at" class="block text-sm font-medium text-gray-700">Closes at</label>
+                  <input type="time" name="closes_at" id="closes_at" v-model="user.closes_at"  autocomplete="closes-at" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                </div>
+
                 <div class="col-span-6">
                   <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
                   <div class="flex space-x-1">
-                    <input type="text" value="+1" disabled class="w-1/5 mt-1 p-2 bg-gray-100 block shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                    <input type="text" value="+1" disabled class="w-1/5 mt-1 p-2 bg-gray-100 block shadow-sm sm:text-sm border border-gray-300 rounded-md text-center">
                     <input type="number" name="phone_number" id="phone_number" v-model="user.phone" class="w-4/5 mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                   </div>
                 </div>
@@ -119,6 +135,8 @@ export default {
         confirm_password: "",
         restaurant_name: "",
         license_number: "",
+        opens_at: "09:00",
+        closes_at: "22:00",
         phone: "",
         address: "",
         zip: ""
