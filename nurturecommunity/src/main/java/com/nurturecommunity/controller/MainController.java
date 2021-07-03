@@ -42,7 +42,7 @@ public class MainController {
 		return this.getRequest.getLoginresponse();
 	}
 	
-	@GetMapping("ListofRestuarants")
+	@GetMapping("/ListofRestuarants")
 	public List<FoodList> getFoodList() throws Exception {
 		return this.getRequest.getFoodresponse();
 	}
