@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nurturecommunity.Dao.AddFoodDetails;
 import com.nurturecommunity.Dao.AppUser;
+import com.nurturecommunity.Dao.FoodList;
 import com.nurturecommunity.Dao.User;
 import com.nurturecommunity.repository.AddFoodDetailsRepository;
 import com.nurturecommunity.repository.UserRepository;
@@ -28,7 +29,7 @@ import com.nurturecommunity.services.GetRequest;
 public class MainController {
 
 	@Autowired
-	private GetRequest getLoginRequest;
+	private GetRequest getRequest;
 	
 	@Autowired
 	AddFoodDetailsRepository addFoodDetailsRepository;
@@ -38,7 +39,12 @@ public class MainController {
 	
 	@GetMapping("/login")
 	public List<User> getRequest() throws Exception {
-		return this.getLoginRequest.getLoginresponse();
+		return this.getRequest.getLoginresponse();
+	}
+	
+	@GetMapping("/ListofRestuarants")
+	public List<FoodList> getFoodList() throws Exception {
+		return this.getRequest.getFoodresponse();
 	}
 
 	@Autowired
@@ -60,6 +66,7 @@ public class MainController {
 		System.out.println("Success!");
 		return ResponseEntity.ok("Registered Successfully");
 	}
+	
 	@PostMapping("/users/login")
 	public ResponseEntity loginUser(@Valid @RequestBody AppUser user) {
 		List<AppUser> users = userRepository.findAll();
@@ -81,29 +88,25 @@ public class MainController {
 	
 	
 	
-	@GetMapping("/ListOfRestaurants")
-	public ResponseEntity<List<AddFoodDetails>> getAllTutorials(@RequestParam(required = false) String restaurantName) {
-		try {
-			List<AddFoodDetails> obj = new ArrayList<AddFoodDetails>();
-
-			if (restaurantName == null)
-				addFoodDetailsRepository.findAll().forEach(obj::add);
-			else
-				addFoodDetailsRepository.findByRestaurantNameContaining(restaurantName).forEach(obj::add);
-
-			if (obj.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-
-			return new ResponseEntity<>(obj, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		
-		
-		
-	}
+//	@GetMapping("/ListOfRestaurants")
+//	public ResponseEntity<List<AddFoodDetails>> getAllTutorials(@RequestParam(required = false) String restaurantName) {
+//		try {
+//			List<AddFoodDetails> obj = new ArrayList<AddFoodDetails>();
+//
+//			if (restaurantName == null)
+//				addFoodDetailsRepository.findAll().forEach(obj::add);
+//			else
+//				addFoodDetailsRepository.findByRestaurantNameContaining(restaurantName).forEach(obj::add);
+//
+//			if (obj.isEmpty()) {
+//				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//			}
+//
+//			return new ResponseEntity<>(obj, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//		}	
+//	}
 	
     
 	@PostMapping("/addFoodDetails")
