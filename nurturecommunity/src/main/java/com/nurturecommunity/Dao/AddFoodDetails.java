@@ -15,7 +15,7 @@ public class AddFoodDetails {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="id")
 	private long id;
 
 	@Column(name="restaurantName")
@@ -38,6 +38,29 @@ public class AddFoodDetails {
 	
 	@Column(name="pickupTime")
 	private String pickupTime;
+	
+	@Column(name="address")
+	private String address;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	@Column(name="foodId")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private String foodDetailId;
+
+	public String getFoodDetailId() {
+		return foodDetailId;
+	}
+
+	public void setFoodDetailId(String foodDetailId) {
+		this.foodDetailId = foodDetailId;
+	}
 
 	public long getId() {
 		return id;
@@ -103,17 +126,21 @@ public class AddFoodDetails {
 		this.pickupTime = pickupTime;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "MainController [id=" + id + ", restaurantName=" + restaurantName + ", itemName=" + itemName
+		return "AddFoodDetails [id=" + id + ", restaurantName=" + restaurantName + ", itemName=" + itemName
 				+ ", itemDescription=" + itemDescription + ", uploadedPicture=" + uploadedPicture + ", numberofPackets="
-				+ numberofPackets + ", locationChange=" + locationChange + ", pickupTime=" + pickupTime + "]";
+				+ numberofPackets + ", locationChange=" + locationChange + ", pickupTime=" + pickupTime + ", address="
+				+ address + ", foodDetailId=" + foodDetailId + "]";
 	}
 
-	public AddFoodDetails(String restaurantName, String itemName, String itemDescription,
-			String uploadedPicture, int numberofPackets, String locationChange, String pickupTime) {
+	
+	public AddFoodDetails(long id, String restaurantName, String itemName, String itemDescription,
+			String uploadedPicture, int numberofPackets, String locationChange, String pickupTime, String address) {
 		super();
-		
+		this.id = id;
 		this.restaurantName = restaurantName;
 		this.itemName = itemName;
 		this.itemDescription = itemDescription;
@@ -121,7 +148,11 @@ public class AddFoodDetails {
 		this.numberofPackets = numberofPackets;
 		this.locationChange = locationChange;
 		this.pickupTime = pickupTime;
+		this.address = address;
 	}
-	
-	
+
+	public AddFoodDetails()
+	{
+		
+	}
 }

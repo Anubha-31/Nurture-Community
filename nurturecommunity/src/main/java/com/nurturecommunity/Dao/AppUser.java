@@ -1,12 +1,11 @@
 package com.nurturecommunity.Dao;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Arrays;
-import java.util.Objects;
 
 @Entity
 @Table(name="users")
@@ -16,7 +15,7 @@ public class AppUser {
 //    private String user_type;
     private String first_name;
     private String last_name;
-    private String email_address;
+    private String emailaddress;
     private String password;
     private String restaurant_name;
     private String license_number;
@@ -60,12 +59,12 @@ public class AppUser {
 		this.last_name = last_name;
 	}
 
-	public String getEmail_address() {
-		return email_address;
+	public String getEmailaddress() {
+		return emailaddress;
 	}
 
-	public void setEmail_address(String email_address) {
-		this.email_address = email_address;
+	public void setEmailaddress(String emailaddress) {
+		this.emailaddress = emailaddress;
 	}
 
 	public String getPassword() {
@@ -150,20 +149,20 @@ public class AppUser {
 
 	@Override
 	public String toString() {
-		return "AppUser [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name + ", email_address="
-				+ email_address + ", password=" + password + ", restaurant_name=" + restaurant_name
+		return "AppUser [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name + ", emailaddress="
+				+ emailaddress + ", password=" + password + ", restaurant_name=" + restaurant_name
 				+ ", license_number=" + license_number + ", address=" + address + ", phone=" + phone + ", zip=" + zip
 				+ ", user_type=" + user_type + ", opens_at=" + opens_at + ", closes_at=" + closes_at + ", loggedin="
 				+ loggedin + "]";
 	}
 
-	public AppUser(String first_name, String last_name, String email_address, String password, String restaurant_name,
+	public AppUser(String first_name, String last_name, String emailaddress, String password, String restaurant_name,
 			String license_number, String address, String phone, String zip, String user_type, String opens_at,
 			String closes_at) {
 		super();
 		this.first_name = first_name;
 		this.last_name = last_name;
-		this.email_address = email_address;
+		this.emailaddress = emailaddress;
 		this.password = password;
 		this.restaurant_name = restaurant_name;
 		this.license_number = license_number;

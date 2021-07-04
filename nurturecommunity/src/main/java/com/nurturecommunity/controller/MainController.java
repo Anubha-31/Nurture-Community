@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nurturecommunity.Dao.AddFoodDetails;
@@ -76,11 +77,11 @@ public class MainController {
 
 		  String Usertype="Failure";
 		for (AppUser other : users) {
-			if (other.getEmail_address().equalsIgnoreCase(user.getEmail_address()) &&
+			if (other.getEmailaddress().equalsIgnoreCase(user.getEmailaddress()) &&
 					other.getPassword().equals(user.getPassword())) {
 				user.setLoggedin(true);
 				// userRepository.save(user);
-				Cookie cookie = new Cookie("EmailId", user.getEmail_address());
+				Cookie cookie = new Cookie("EmailId", user.getEmailaddress());
 				cookie.setMaxAge(7 * 24 * 60 * 60);
 				cookie.setSecure(true);
 				cookie.setHttpOnly(true);
@@ -130,16 +131,21 @@ public class MainController {
 		}
 	
     
-	@PostMapping("/addFoodDetails")
-	public ResponseEntity<AddFoodDetails> createTutorial(@RequestBody AddFoodDetails addFood) {
-		try {
-			AddFoodDetails _addFood = addFoodDetailsRepository
-					.save(new AddFoodDetails(addFood.getRestaurantName(), addFood.getItemName(), addFood.getItemDescription(), addFood.getUploadedPicture(), addFood.getNumberofPackets(), addFood.getLocationChange(), addFood.getPickupTime()));
-			return new ResponseEntity<>(_addFood, HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		@PostMapping("/addFoodDetails")
+		@ResponseStatus(HttpStatus.CREATED)
+		public void AddFood(@RequestBody AddFoodDetails addFood,HttpServletRequest request) {
+			
+			
+			String emailaddress=getCookies(request);
+			
+			List<AppUser> obj=userRepository.findByEmailaddress(emailaddress);
+			//System.out.println(obj);
+			
+			addFoodDetailsRepository.save(new AddFoodDetails(obj.get(0).getId(),obj.get(0).getRestaurant_name(),addFood.getItemName(),addFood.getItemDescription(),addFood.getUploadedPicture(),addFood.getNumberofPackets(),addFood.getLocationChange(),addFood.getPickupTime(), addFood.getAddress()));
+			
+			
+			
 		}
-	}
 	
 	
 }
