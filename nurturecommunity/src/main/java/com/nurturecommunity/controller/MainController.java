@@ -86,7 +86,7 @@ public class MainController {
 				cookie.setHttpOnly(true);
 				cookie.setPath("/");
 				response.addCookie(cookie);
-				Usertype=user.getUser_type();
+				Usertype=other.getUser_type();
 				//System.out.println("Cookies");
 				return ResponseEntity.ok(Usertype);
 
