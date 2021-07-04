@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import SignUp from "@/views/SignUp";
 import Login from "@/views/Login";
 import AddPost from "@/views/AddPost";
+import ContactUs from "@/views/ContactUs"
 import RestaurantList from "@/views/RestaurantList";
 
 const routes = [
@@ -25,6 +26,11 @@ const routes = [
     path: '/post',
     name: 'AddPost',
     component: AddPost
+  },
+  {
+    path: '/ContactUs',
+    name: 'ContactUs',
+    component: ContactUs
   },
    {
     path: '/list',
