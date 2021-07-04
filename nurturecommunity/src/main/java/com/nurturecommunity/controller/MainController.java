@@ -1,8 +1,10 @@
 package com.nurturecommunity.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 //import jdk.internal.org.jline.utils.Status;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nurturecommunity.Dao.AddFoodDetails;
@@ -25,7 +26,7 @@ import com.nurturecommunity.repository.UserRepository;
 import com.nurturecommunity.services.GetRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8060")
+@CrossOrigin(origins = "http://localhost:8060", allowedHeaders = "*",allowCredentials="true")
 public class MainController {
 
 	@Autowired
@@ -58,34 +59,39 @@ public class MainController {
 		for (AppUser user : users) {
 			System.out.println("Registered user: " + newUser.toString());
 			if (user.equals(newUser)) {
-				System.out.println("User Already exists!");
-				return ResponseEntity.ok("User Already exists");
+				//System.out.println("UserAlreadyExists");
+				return ResponseEntity.ok("UserAlreadyExists");
 			}
 		}
-		userRepository.save(newUser);
-		System.out.println("Success!");
-		return ResponseEntity.ok("Registered Successfully");
+		AppUser user = userRepository.save(newUser);
+		
+		if(user!=null && user.getId() !=null)
+			return ResponseEntity.ok("Success");
+		return ResponseEntity.ok("Failure");
 	}
 	
 	@PostMapping("/users/login")
-	public ResponseEntity loginUser(@Valid @RequestBody AppUser user) {
+	synchronized public ResponseEntity loginUser(@Valid @RequestBody AppUser user, HttpServletResponse response) {
 		List<AppUser> users = userRepository.findAll();
+
 		for (AppUser other : users) {
-			if (other.equals(user) ) {
+			if (other.getEmail_address().equalsIgnoreCase(user.getEmail_address()) &&
+					other.getPassword().equals(user.getPassword())) {
 				user.setLoggedin(true);
-//				userRepository.save(user);
-				System.out.println("Woohoo! Logged in");
-				return ResponseEntity.ok("You are now logged in");
+				// userRepository.save(user);
+				Cookie cookie = new Cookie("EmailId", user.getEmail_address());
+				cookie.setMaxAge(7 * 24 * 60 * 60);
+				cookie.setSecure(true);
+				cookie.setHttpOnly(true);
+				cookie.setPath("/");
+				response.addCookie(cookie);
+				//System.out.println("Cookies");
+				return ResponseEntity.ok("Success");
 
 			}
 		}
 		return ResponseEntity.ok("Failure");
 	}
-	
-	
-	
-
-	
 	
 	
 //	@GetMapping("/ListOfRestaurants")
@@ -107,6 +113,19 @@ public class MainController {
 //			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 //		}	
 //	}
+	
+		String getCookies(HttpServletRequest request) {
+		String emailid = null;
+		Cookie[] cookies = request.getCookies();
+
+		 for (Cookie cookie : cookies) {
+		if (cookie.getName().equals("EmailId")) {
+		emailid = cookie.getValue();
+		}
+		}
+		System.out.println(request.getCookies());
+		return emailid;
+		}
 	
     
 	@PostMapping("/addFoodDetails")
