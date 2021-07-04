@@ -149,7 +149,8 @@ export default {
     formSubmit: function () {
       this.errors = [];
       if(this.user.password === this.user.confirm_password) {
-        axios.post('/users/register', this.user)
+        axios.defaults.withCredentials = true
+        axios.post('http://localhost:8080/users/register', this.user)
             .then((response) => {
               console.log(response);
             }, (error) => {
