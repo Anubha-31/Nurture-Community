@@ -10,7 +10,7 @@
     </div>
 
 <div class="flex-container mx-auto px-6 ">
-    <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
+    <div class=" lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
         <h2 class="text-2xl">LOCATION</h2>
         <p>401 Sunset Ave, Windsor, ON N9B 3P4, Canada</p><br>
         <h2 class=" text-2xl">TIME</h2>
