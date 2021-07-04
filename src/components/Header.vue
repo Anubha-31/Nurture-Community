@@ -5,9 +5,10 @@
         <img src="..\assets\images\logo.png" alt="" class="w-36">
       </router-link>
       <nav class=" md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400 flex flex-wrap items-center text-base justify-center">
-        <a class="mr-5 hover:text-gray-900 cursor-pointer">Home Page</a>
+        <router-link tag="li" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/" exact>Home</router-link>
         <router-link tag="li" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/Post" exact>Add Post</router-link>
-       
+        <router-link tag="li" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/list" exact>Restaurant List</router-link>
+
         <a class="mr-5 hover:text-gray-900 cursor-pointer">About Us</a>
         <a class="mr-5 hover:text-gray-900 cursor-pointer">Contact Us</a>
       </nav>
