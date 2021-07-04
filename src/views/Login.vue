@@ -14,7 +14,7 @@
                 <div class="grid grid-cols-1 gap-1">
                   <div class="col-span-6 sm:col-span-1 ">
                     <label for="Email" class="block text-sm font-medium text-gray-700">Email*</label>
-                    <input type="Email" name="Email" v-model="user.email_address" id="Email" autocomplete="Email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                    <input type="Email" name="Email" v-model="user.emailaddress" id="Email" autocomplete="Email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                   </div>
                   <div class="col-span-6 sm:col-span-1">
                     <label for="Password" class="block text-sm font-medium text-gray-700">Password*</label>
@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       user: {
-        email_address: "",
+        emailaddress: "",
         password: "",
       }
     }

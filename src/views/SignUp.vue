@@ -23,7 +23,7 @@
           <div class="shadow overflow-hidden rounded-lg border border-gray-200">
             <div class="px-4 py-5 bg-white sm:p-6">
               <ul v-if="errors.length > 0" class="text-red-500 font-medium mb-5">
-                <li v-for="error in errors">{{ error }}</li>
+                <li v-for="error in errors" :key="error.message">{{ error }}</li>
               </ul>
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6">
@@ -46,7 +46,7 @@
 
                 <div class="col-span-6">
                   <label for="email_address" class="block text-sm font-medium text-gray-700">Email address*</label>
-                  <input type="email" name="email_address" id="email_address" autocomplete="email" v-model="user.email_address" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                  <input type="email" name="email_address" id="email_address" autocomplete="email" v-model="user.emailaddress" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
@@ -130,7 +130,7 @@ export default {
         user_type: "restaurant",
         first_name: "",
         last_name: "",
-        email_address: "",
+        emailaddress: "",
         password: "",
         confirm_password: "",
         restaurant_name: "",
