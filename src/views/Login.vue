@@ -54,7 +54,7 @@ export default {
   methods: {
     formSubmit: function () {
       axios.defaults.withCredentials = true
-      axios.post('http://localhost:8080/nurturecommunity/users/login', this.user)
+      axios.post('http://localhost:8080/users/login', this.user)
       .then((response) => {
         console.log(response);
       }, (error) => {
