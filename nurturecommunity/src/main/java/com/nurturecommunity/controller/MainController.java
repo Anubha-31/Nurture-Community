@@ -74,6 +74,7 @@ public class MainController {
 	synchronized public ResponseEntity loginUser(@Valid @RequestBody AppUser user, HttpServletResponse response) {
 		List<AppUser> users = userRepository.findAll();
 
+		  String Usertype="Failure";
 		for (AppUser other : users) {
 			if (other.getEmail_address().equalsIgnoreCase(user.getEmail_address()) &&
 					other.getPassword().equals(user.getPassword())) {
@@ -85,12 +86,13 @@ public class MainController {
 				cookie.setHttpOnly(true);
 				cookie.setPath("/");
 				response.addCookie(cookie);
+				Usertype=user.getUser_type();
 				//System.out.println("Cookies");
-				return ResponseEntity.ok("Success");
+				return ResponseEntity.ok(Usertype);
 
 			}
 		}
-		return ResponseEntity.ok("Failure");
+		return ResponseEntity.ok(Usertype);
 	}
 	
 	
@@ -138,7 +140,6 @@ public class MainController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
 	
 	
 }
