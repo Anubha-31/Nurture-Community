@@ -40,6 +40,7 @@
 import axios from 'axios'
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header";
+import {path} from './../../deployment.js'
 
 export default {
   name: "Login",
@@ -54,9 +55,11 @@ export default {
   methods: {
     formSubmit: function () {
       axios.defaults.withCredentials = true
-      axios.post('http://localhost:8080/users/login', this.user)
+      axios.post(path + '/users/login', this.user)
       .then((response) => {
         console.log(response);
+        
+        <router-link tag="li" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/list" exact>Restaurant List</router-link>
       }, (error) => {
         console.log(error);
       });
