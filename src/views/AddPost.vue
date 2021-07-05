@@ -241,7 +241,7 @@ export default {
   methods: {
     formSubmit: function() {
       axios.defaults.withCredentials = true
-      axios.post(path+'/addFoodDetails', this.food).then(
+      axios.post('http://40.71.214.107:8080/addFoodDetails', this.food).then(
         (response) => {
           console.log(response);
         },
