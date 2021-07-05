@@ -54,13 +54,10 @@ export default {
   },
   methods: {
     formSubmit: function () {
-      axios.defaults.withCredentials = true
-      axios.post(path+'/users/login', this.user,{
-      headers: {
-        'Access-Control-Allow-Origin:': '*',
-          }
-      })
-      .then((response) => {
+
+      axios.post(path+'/users/login', this.user
+      
+      ).then((response) => {
         console.log(response);
         
         <router-link tag="li" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/list" exact>Restaurant List</router-link>
