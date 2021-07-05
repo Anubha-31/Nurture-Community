@@ -55,7 +55,7 @@ export default {
   methods: {
     formSubmit: function () {
       axios.defaults.withCredentials = true
-      axios.post('http://40.71.214.107:8080/users/login', this.user)
+      axios.post(path+'/users/login', this.user)
       .then((response) => {
         console.log(response);
         
