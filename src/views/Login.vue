@@ -40,7 +40,7 @@
 import axios from 'axios'
 import Footer from "@/components/Footer.vue";
 import Header from "@/components/Header";
-import {path} from './../../deployment.js'
+import {path} from './settings.js'
 
 export default {
   name: "Login",
