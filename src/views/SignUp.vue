@@ -120,6 +120,8 @@
 <script>
 import axios from 'axios'
 import Footer from "@/components/Footer";
+import {path} from './../../deployment.js'
+
 
 export default {
   name: "SignUp",
@@ -150,7 +152,7 @@ export default {
       this.errors = [];
       if(this.user.password === this.user.confirm_password) {
         axios.defaults.withCredentials = true
-        axios.post('http://localhost:8080/users/register', this.user)
+        axios.post(path + '/users/register', this.user)
             .then((response) => {
               console.log(response);
             }, (error) => {

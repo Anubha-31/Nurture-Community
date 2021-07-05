@@ -221,6 +221,7 @@
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+import {path} from './../../deployment.js'
 
 export default {
   name: "AddPost",
@@ -239,7 +240,7 @@ export default {
   },
   methods: {
     formSubmit: function () {
-      axios.post('/users/login', this.user)
+      axios.post(path + '/users/login', this.user)
       .then((response) => {
         console.log(response);
       }, (error) => {
