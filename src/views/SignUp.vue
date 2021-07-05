@@ -15,6 +15,7 @@
       <div class="text-center">
         <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Sign Up</h1>
         <p class="mt-5">Please provide the information below to sign up as a user</p>
+        <p v-if="fileData">{{ fileData }}</p>
       </div>
 
       <div class="mt-5 md:mt-10 md:w-1/2 md:mx-auto">
@@ -71,7 +72,7 @@
 
                 <div class="col-span-6" v-if="user.user_type === 'restaurant'">
                   <label for="cover_image" class="block text-sm font-medium text-gray-700">Cover Image of you restaurant (only .png, .gif, jpg or jpeg of less than size 5MB)</label>
-                  <input type="file" name="cover_image" accept="image/png, image/gif, image/jpeg" id="cover_image" ref="cover_image" @change="onFileUpload" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <input type="file" name="cover_image" accept="image/png, image/gif, image/jpeg" id="cover_image" ref="cover_image" @change="onFileUpload" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
 
@@ -144,20 +145,37 @@ export default {
         address: "",
         zip: ""
       },
+      formData: null,
+      fileData: null,
       errors: []
     }
   },
+  created() {
+    this.formData = new FormData();
+  },
   methods: {
     formSubmit: function () {
+      this.formData = new FormData();
+      this.formData.append("model", this.user);
+      this.formData.append("cover_image", this.user.cover_image)
       this.errors = [];
       if(this.user.password === this.user.confirm_password) {
         axios.defaults.withCredentials = true
-        axios.post(path+'/users/register', this.user)
-            .then((response) => {
-              console.log(response);
-            }, (error) => {
-              console.log(error);
-            });
+        axios({
+          url: path +'/upload',
+          method: 'POST',
+          data: this.formData,
+          headers: {
+            Accept: 'application/json',
+            'Content-type': `multipart/form-data;boundary=--`,
+          }
+        }).then((response) => {
+          if(response.status === 200) {
+            this.fileData = response
+          }
+        }, (error) => {
+          console.log(error);
+        });
       } else {
         this.errors.push('Passwords should match')
       }
@@ -168,7 +186,7 @@ export default {
         this.$refs.cover_image.value = null;
       } else {
         console.log(event.target.files[0])
-        this.cover_image = event.target.files[0]
+        this.user.cover_image = event.target.files[0]
       }
     }
   }

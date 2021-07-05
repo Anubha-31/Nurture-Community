@@ -5,6 +5,7 @@ import Login from "@/views/Login";
 import AddPost from "@/views/AddPost";
 import ContactUs from "@/views/ContactUs"
 import RestaurantList from "@/views/RestaurantList";
+import Upload from "@/views/Upload";
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: '/list',
     name: 'Restaurant List',
     component: RestaurantList
+  },
+  {
+    path: '/upload',
+    name: 'Upload',
+    component: Upload
   },
 ]
 
