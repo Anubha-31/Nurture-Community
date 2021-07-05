@@ -30,7 +30,7 @@ import com.nurturecommunity.repository.UserRepository;
 import com.nurturecommunity.services.GetRequest;
 
 @RestController
-@CrossOrigin(origins = {"${settings.cors_origin}"}, allowedHeaders = "*",allowCredentials="true")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MainController {
 
 	@Autowired
