@@ -240,7 +240,8 @@ export default {
   },
   methods: {
     formSubmit: function() {
-      axios.post(path + "/addFoodDetails", this.food).then(
+      axios.defaults.withCredentials = true
+      axios.post(path+'/addFoodDetails', this.food).then(
         (response) => {
           console.log(response);
         },
