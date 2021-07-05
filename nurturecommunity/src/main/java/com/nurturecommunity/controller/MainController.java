@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -103,10 +104,20 @@ public class MainController {
 //		return String.format("Success %s", multipartfile.getOriginalFilename());
 //	}
 	
+//	@PostMapping(value = "/upload", consumes = "multipart/form-data")
+//	public String createNewObjectWithImage(@RequestParam("model") String model, @RequestParam(value = "cover_image", required = false) MultipartFile multipartfile) {
+//		return String.format("Success %s", multipartfile.getOriginalFilename());
+//	}
+	
 	@PostMapping(value = "/upload", consumes = "multipart/form-data")
-	public String createNewObjectWithImage(@RequestParam("model") String model, @RequestParam(value = "cover_image", required = false) MultipartFile multipartfile) {
+	public String createNewObjectWithImage(@RequestParam("model") List<String> myParams, @RequestParam(value = "cover_image", required = false) MultipartFile multipartfile) {
+		for(int i = 0; i < myParams.size(); i++) {
+            System.out.println(myParams.get(i));
+        }
+		System.out.println(myParams.get(4));
 		return String.format("Success %s", multipartfile.getOriginalFilename());
 	}
+	
 	
 	
 	
