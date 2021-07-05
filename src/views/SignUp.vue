@@ -152,7 +152,7 @@ export default {
       this.errors = [];
       if(this.user.password === this.user.confirm_password) {
         axios.defaults.withCredentials = true
-        axios.post(path + '/users/register', this.user)
+        axios.post('http://40.71.214.107:8080/users/register', this.user)
             .then((response) => {
               console.log(response);
             }, (error) => {
