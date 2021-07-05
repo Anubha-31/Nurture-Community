@@ -79,7 +79,7 @@ export default {
         console.log(event.target.files[0])
         t.formData = new FormData();
         t.formData.append("cover_image", event.target.files[0])
-        t.formData.append("model", "test")
+        t.formData.append("model", JSON.stringify({ x: 5, y: 6 }))
       }
     }
   }

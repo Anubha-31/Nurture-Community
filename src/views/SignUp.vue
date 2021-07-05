@@ -156,7 +156,7 @@ export default {
   methods: {
     formSubmit: function () {
       this.formData = new FormData();
-      this.formData.append("model", this.user);
+      this.formData.append("model", JSON.stringify(this.user));
       this.formData.append("cover_image", this.user.cover_image)
       this.errors = [];
       if(this.user.password === this.user.confirm_password) {
