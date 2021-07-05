@@ -1,4 +1,4 @@
-   <template>
+<template>
   <Header />
   <div>
     <div class="container mx-auto px-1">
@@ -11,7 +11,7 @@
       </div>
 
       <div class="mt-5 md:mt-10 md:w-1/2 md:mx-auto">
-        <form action="#" method="POST">
+        <form method="POST" @submit.prevent="formSubmit">
           <div class="shadow overflow-hidden rounded-lg border border-gray-200">
             <div class="px-4 py-5 bg-white sm:p-6">
               <div class="grid grid-cols-5 gap-10">
@@ -24,6 +24,7 @@
                   <input
                     type="text"
                     name="Item_name"
+                    v-model="food.itemName"
                     id="item_name"
                     autocomplete="item-name"
                     class="
@@ -51,6 +52,7 @@
                     type="text"
                     name="Item_Descrption"
                     id="Item_Descrption"
+                    v-model="food.itemDescription"
                     autocomplete="Item-Descrption"
                     class="
                       mt-1
@@ -75,21 +77,13 @@
                   >
                   <input
                     type="file"
-                    name="Upload_Picture"
-                    id="Upload_picture"
-                    autocomplete="Upload-picture"
-                    class="
-                      mt-1
-                      p-2
-                      focus:ring-indigo-500
-                      focus:border-indigo-500
-                      block
-                      w-full
-                      shadow-sm
-                      sm:text-sm
-                      border border-gray-300
-                      rounded-md
-                    "
+                    name="uploadedPicture"
+                    accept="image/png, image/gif, image/jpeg"
+                    id="uploadedPicture"
+                    ref="uploadedPicture"
+                    @change="onFileUpload"
+                    autocomplete="restaurant-name"
+                    class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
                   />
                 </div>
 
@@ -103,6 +97,7 @@
                     type="text"
                     name="Quantity"
                     id="Quantity"
+                    v-model="food.numberofPackets"
                     autocomplete="Quantity"
                     class="
                       mt-1
@@ -130,7 +125,7 @@
                     id="pick_up_location"
                     name="pick_up_location"
                     autocomplete="pick_up_location"
-                    v-model="pick_up_location"
+                    v-model="food.locationChange"
                     class="
                       mt-1
                       block
@@ -162,6 +157,7 @@
                     name="address"
                     id="address"
                     cols="30"
+                    v-model="food.address"
                     rows="4"
                     class="
                       mt-1
@@ -184,9 +180,10 @@
                     >Pick Up time
                   </label>
                   <input
-                    type="text"
+                    type="time"
                     name="pick_up_time"
                     id="pick_up_time"
+                    v-model="food.pickupTime"
                     autocomplete="pick_up_time"
                     class="
                       mt-1
@@ -204,8 +201,11 @@
                 </div>
               </div>
               <div class="pt-4 text-right">
-                <button type="submit" class="inline-flex w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  Sign Up
+                <button
+                  type="submit"
+                  class="inline-flex w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Submit
                 </button>
               </div>
             </div>
@@ -217,37 +217,48 @@
   <Footer />
 </template>
 
-
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+import axios from 'axios'
 import {path} from './../../deployment.js'
 
 export default {
   name: "AddPost",
   data() {
     return {
-      Food: {
-        food_name: "item_name",
-        item_description: "item_description",
-        upload_picture:"Upload_picture",
-        quantity:"Quantity",
-        pickup_location:"pick_up_location",
-        address:"address",
-        pickup_time:"pick_up_time"
-      }
-    }
+      food: {
+        itemName: "",
+        itemDescription: "",
+        uploadedPicture: "",
+        numberofPackets: "",
+        locationChange: "",
+        address: "",
+        pickupTime: "09:00",
+      },
+    };
   },
   methods: {
-    formSubmit: function () {
-      axios.post(path + '/users/login', this.user)
-      .then((response) => {
-        console.log(response);
-      }, (error) => {
-        console.log(error);
-      });
-    }
+    formSubmit: function() {
+      axios.post(path + "/addFoodDetails", this.food).then(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
   },
+  onFileUpload: function (event) {
+      if(event.target.files[0].size > 5000000) {
+        alert("Please upload a file less than 5MB")
+        this.$refs.uploadedPicture.value = null;
+      } else {
+        console.log(event.target.files[0])
+        this.uploadedPicture = event.target.files[0]
+      }
+    },
   components: {
     Header,
     Footer,
@@ -255,5 +266,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
