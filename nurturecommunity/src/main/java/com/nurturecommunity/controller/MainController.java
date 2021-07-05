@@ -11,15 +11,12 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.nurturecommunity.Dao.AddFoodDetails;
 import com.nurturecommunity.Dao.AppUser;
@@ -30,7 +27,7 @@ import com.nurturecommunity.repository.UserRepository;
 import com.nurturecommunity.services.GetRequest;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = {"${settings.cors_origin}"}, allowedHeaders = "*",allowCredentials="true")
 public class MainController {
 
 	@Autowired
@@ -98,27 +95,6 @@ public class MainController {
 		}
 		return ResponseEntity.ok(Usertype);
 	}
-	
-//	@PostMapping(value = "/upload", consumes = "multipart/form-data")
-//	public String upload(@RequestParam("cover_image") MultipartFile multipartfile) {
-//		return String.format("Success %s", multipartfile.getOriginalFilename());
-//	}
-	
-//	@PostMapping(value = "/upload", consumes = "multipart/form-data")
-//	public String createNewObjectWithImage(@RequestParam("model") String model, @RequestParam(value = "cover_image", required = false) MultipartFile multipartfile) {
-//		return String.format("Success %s", multipartfile.getOriginalFilename());
-//	}
-	
-	@PostMapping(value = "/upload", consumes = "multipart/form-data")
-	public String createNewObjectWithImage(@RequestParam("model") List<String> myParams, @RequestParam(value = "cover_image", required = false) MultipartFile multipartfile) {
-		for(int i = 0; i < myParams.size(); i++) {
-            System.out.println(myParams.get(i));
-        }
-		System.out.println(myParams.get(4));
-		return String.format("Success %s", multipartfile.getOriginalFilename());
-	}
-	
-	
 	
 	
 //	@GetMapping("/ListOfRestaurants")
