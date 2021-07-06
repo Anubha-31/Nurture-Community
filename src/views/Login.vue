@@ -55,7 +55,7 @@ export default {
   methods: {
     formSubmit: function () {
 
-      axios.post(path+'/users/login', this.user
+      axios.post(path+'users/login', this.user
       
       ).then((response) => {
         console.log(response);

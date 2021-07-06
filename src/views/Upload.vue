@@ -55,7 +55,7 @@ export default {
       this.errors = [];
         axios.defaults.withCredentials = true
         axios({
-          url: path + '/upload',
+          url: path+'/upload',
           method: 'POST',
           data: this.formData,
           headers: {
