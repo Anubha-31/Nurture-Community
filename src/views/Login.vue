@@ -59,8 +59,13 @@ export default {
       
       ).then((response) => {
         console.log(response);
-        
-        <router-link tag="li" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/list" exact>Restaurant List</router-link>
+        if(response.status === 200) {
+          if(response.data === "restaurant") {
+            window.location.href = "/list";
+          } else {
+            window.location.href = "/post";
+          }
+        }
       }, (error) => {
         console.log(error);
       });
