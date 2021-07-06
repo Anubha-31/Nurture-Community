@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.nurturecommunity.Dao.AddFoodDetails;
 import com.nurturecommunity.Dao.AppUser;
 import com.nurturecommunity.Dao.FoodList;
 import com.nurturecommunity.Dao.User;
@@ -185,20 +186,50 @@ public class MainController {
 		}
 	
     
-		@PostMapping(value = "/addFoodDetails",consumes = "multipart/form-data")
+		@PostMapping(value = "/addFoodDetails", consumes = "multipart/form-data")
 		@ResponseStatus(HttpStatus.CREATED)
-		public void AddFood(@RequestParam("model") String myParams,
-				@RequestParam(value = "uploadedImage", required = false) MultipartFile multipartfile, HttpServletRequest request) {
+		public ResponseEntity AddFood(@RequestParam("model") String myParams,
+				@RequestParam(value = "uploadedImage", required = false) MultipartFile multipartfile,
+				HttpServletRequest request) {
+
+			String emailaddress = getCookies(request);
+			
+			AddFoodDetails foodDetails = new AddFoodDetails();
+			List<AppUser> users = userRepository.findByEmailaddress(emailaddress);
+			
+			JsonParser jsonParser = new JsonParser();
+			JsonObject object = (JsonObject)jsonParser.parse(myParams);
 			
 			
-			String emailaddress=getCookies(request);
-			
-			List<AppUser> obj=userRepository.findByEmailaddress(emailaddress);
-			//System.out.println(obj);
-			
-			//addFoodDetailsRepository.save(new AddFoodDetails(obj.get(0).getId(),obj.get(0).getRestaurant_name(),addFood.getItemName(),addFood.getItemDescription(),addFood.getUploadedPicture(),addFood.getNumberofPackets(),addFood.getLocationChange(),addFood.getPickupTime(), addFood.getAddress()));
-			
-			
+			foodDetails.setItemName(object.get("itemName").getAsString());
+			foodDetails.setItemDescription(object.get("itemDescription").getAsString());
+			foodDetails.setNumberofPackets(object.get("numberofPackets").getAsInt());
+			foodDetails.setLocationChange(object.get("locationChange").getAsString());
+			foodDetails.setAddress1(object.get("address1").getAsString());
+			foodDetails.setAddress2(object.get("address2").getAsString());
+			foodDetails.setCity(object.get("city").getAsString());
+			foodDetails.setProvince(object.get("province").getAsString());
+			foodDetails.setCountry(object.get("country").getAsString());
+			foodDetails.setPickupTime(object.get("pickupTime").getAsString());
+			foodDetails.setId(users.get(0).getId());
+			foodDetails.setRestaurantName(users.get(0).getRestaurant_name());
+			AddFoodDetails newfoodDetails = addFoodDetailsRepository.save(foodDetails);
+					
+			if(newfoodDetails != null && multipartfile !=null) {
+				saveFooddata(newfoodDetails,multipartfile);				
+			}
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+
+		private void saveFooddata(AddFoodDetails newfoodDetails, MultipartFile multipartfile) {
+			try {
+				jdbcTemplate.update(Queries.AddFoodFiles, newfoodDetails.getFoodDetailId(), multipartfile.getName(),
+						multipartfile.getBytes());
+
+			} catch (DataAccessException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 	

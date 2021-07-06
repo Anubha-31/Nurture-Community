@@ -9,12 +9,9 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="FoodDetails")
+@Table(name="Food_Details")
 public class AddFoodDetails {
 
-	
-	
-	@Id
 	@Column(name="id")
 	private long id;
 
@@ -39,20 +36,64 @@ public class AddFoodDetails {
 	@Column(name="pickupTime")
 	private String pickupTime;
 	
-	@Column(name="address")
-	private String address;
+	@Column(name="address1")
+	private String address1;
+	@Column(name="address2")
+	private String address2;
+	
+	@Column(name="city")
+	private String city;
+	
+	@Column(name="province")
+	private String province;
+	
+	@Column(name="country")
+	private String country;
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
+	@Id
 	@Column(name="foodId")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String foodDetailId;
+
+	public String getAddress1() {
+		return address1;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
 
 	public String getFoodDetailId() {
 		return foodDetailId;
@@ -133,7 +174,7 @@ public class AddFoodDetails {
 		return "AddFoodDetails [id=" + id + ", restaurantName=" + restaurantName + ", itemName=" + itemName
 				+ ", itemDescription=" + itemDescription + ", uploadedPicture=" + uploadedPicture + ", numberofPackets="
 				+ numberofPackets + ", locationChange=" + locationChange + ", pickupTime=" + pickupTime + ", address="
-				+ address + ", foodDetailId=" + foodDetailId + "]";
+				+ address1 + ", foodDetailId=" + foodDetailId + "]";
 	}
 
 	
@@ -148,7 +189,7 @@ public class AddFoodDetails {
 		this.numberofPackets = numberofPackets;
 		this.locationChange = locationChange;
 		this.pickupTime = pickupTime;
-		this.address = address;
+		this.address1 = address;
 	}
 
 	public AddFoodDetails()
