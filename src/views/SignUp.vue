@@ -60,6 +60,11 @@
                 </div>
 
                 <div v-if="capsOn" class="col-span-6 text-red-500 font-medium">Capslock in on!</div>
+                <div v-if="passwordValidation.length > 0" class="col-span-6">
+                  <ul>
+                    <li class="text-xs text-red-500 font-medium" v-for="error in passwordValidation" :key="error.key">{{ error }}</li>
+                  </ul>
+                </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
                   <label for="restaurant_name" class="block text-sm font-medium text-gray-700">Restaurant's Name</label>
@@ -149,7 +154,8 @@ export default {
       formData: null,
       fileData: null,
       capsOn: false,
-      errors: []
+      errors: [],
+      passwordValidation: []
     }
   },
   created() {
@@ -161,6 +167,7 @@ export default {
       this.formData.append("model", JSON.stringify(this.user));
       this.formData.append("cover_image", this.user.cover_image)
       this.errors = [];
+      this.validatePassword();
       if(this.user.password === this.user.confirm_password) {
         axios.defaults.withCredentials = true
         axios({
@@ -198,12 +205,30 @@ export default {
       }
     },
     keyMonitor: function (event) {
-      console.log(event);
+      // console.log(event);
       if(event.getModifierState("CapsLock")) {
         this.capsOn = true
       } else {
         this.capsOn = false
       }
+    },
+    validatePassword: function () {
+      let p = this.user.password;
+
+      if (p.length < 8) {
+        this.passwordValidation.push("Your password must be at least 8 characters");
+      }
+      if (p.search(/[a-z]/i) < 0) {
+        this.passwordValidation.push("Your password must contain at least one letter.");
+      }
+      if (p.search(/[0-9]/) < 0) {
+        this.passwordValidation.push("Your password must contain at least one digit.");
+      }
+      if (this.passwordValidation.length > 0) {
+        this.passwordValidation.join("\n");
+        return false;
+      }
+      return true;
     }
   }
 }
