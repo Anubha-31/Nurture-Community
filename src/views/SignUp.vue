@@ -51,13 +51,15 @@
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
                   <label for="password" class="block text-sm font-medium text-gray-700">Password*</label>
-                  <input type="password" name="password" id="password" v-model="user.password" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                  <input type="password" name="password" id="password" v-on:keyup="keyMonitor" v-model="user.password" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
                   <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password*</label>
-                  <input type="password" name="confirm_password" id="confirm_password" v-model="user.confirm_password" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                  <input type="password" name="confirm_password" id="confirm_password" v-on:keyup="keyMonitor" v-model="user.confirm_password" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
+
+                <div v-if="capsOn" class="col-span-6 text-red-500 font-medium">Capslock in on!</div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
                   <label for="restaurant_name" class="block text-sm font-medium text-gray-700">Restaurant's Name</label>
@@ -146,6 +148,7 @@ export default {
       },
       formData: null,
       fileData: null,
+      capsOn: false,
       errors: []
     }
   },
@@ -192,6 +195,14 @@ export default {
       } else {
         console.log(event.target.files[0])
         this.user.cover_image = event.target.files[0]
+      }
+    },
+    keyMonitor: function (event) {
+      console.log(event);
+      if(event.getModifierState("CapsLock")) {
+        this.capsOn = true
+      } else {
+        this.capsOn = false
       }
     }
   }
