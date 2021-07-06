@@ -251,7 +251,7 @@ export default {
       this.formData.append("model", JSON.stringify(this.food));
       this.formData.append("uploadedPicture", this.food.uploadedPicture)
       axios.defaults.withCredentials = true;
-      axios.post({
+      axios({
           url: path+'/addFoodDetails',
           method: 'POST',
           data: this.formData,
