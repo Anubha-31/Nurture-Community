@@ -8,4 +8,4 @@
         image: "cranifax/nodetest:{{DOCKER_TAG}}"
         state: started
         published_ports:
-          - 0.0.0.0:8060:80
+          - 40.71.214.107:8060:80
