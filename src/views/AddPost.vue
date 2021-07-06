@@ -149,6 +149,7 @@
 
                 <div class="col-span-6">
                   <label
+                    v-if="food.locationChange === 'No'"
                     for="address"
                     class="block text-sm font-medium text-gray-700"
                     >Address</label
@@ -157,6 +158,7 @@
                     name="address"
                     id="address"
                     cols="30"
+                    v-if="food.locationChange === 'No'"
                     v-model="food.address"
                     rows="4"
                     class="
@@ -200,7 +202,7 @@
                   />
                 </div>
               </div>
-              <div class="pt-4 text-right">
+              <div class=" pt-4 text-right">
                 <button
                   type="submit"
                   class="inline-flex w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -220,8 +222,9 @@
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import axios from 'axios'
+import axios from "axios"
 import {path} from './settings.js'
+
 
 export default {
   name: "AddPost",
@@ -232,16 +235,31 @@ export default {
         itemDescription: "",
         uploadedPicture: "",
         numberofPackets: "",
-        locationChange: "",
+        locationChange: "No",
         address: "",
         pickupTime: "09:00",
       },
-    };
+      formData: null,
+    }
+  },
+  created() {
+    this.formData = new FormData();
   },
   methods: {
     formSubmit: function() {
-      axios.defaults.withCredentials = true
-      axios.post(path+'/addFoodDetails', this.food).then(
+      this.formData = new FormData();
+      this.formData.append("model", JSON.stringify(this.food));
+      this.formData.append("uploadedPicture", this.food.uploadedPicture)
+      axios.defaults.withCredentials = true;
+      axios.post({
+          url: path+'/addFoodDetails',
+          method: 'POST',
+          data: this.formData,
+          headers: {
+            Accept: 'application/json',
+            'Content-type': `multipart/form-data;boundary=--`,
+          }
+        }).then(
         (response) => {
           console.log(response);
         },
@@ -250,16 +268,17 @@ export default {
         }
       );
     },
-  },
-  onFileUpload: function (event) {
-      if(event.target.files[0].size > 5000000) {
-        alert("Please upload a file less than 5MB")
+
+    onFileUpload: function(event) {
+      if (event.target.files[0].size > 5000000) {
+        alert("Please upload a file less than 5MB");
         this.$refs.uploadedPicture.value = null;
       } else {
-        console.log(event.target.files[0])
-        this.uploadedPicture = event.target.files[0]
+        console.log(event.target.files[0]);
+        this.uploadedPicture = event.target.files[0];
       }
     },
+  },
   components: {
     Header,
     Footer,
