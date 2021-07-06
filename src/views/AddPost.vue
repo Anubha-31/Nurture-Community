@@ -147,22 +147,22 @@
                   </select>
                 </div>
 
-                <div class="col-span-6">
+                <div class="col-span-6" v-if="food.locationChange === 'No'">
                   <label
-                    v-if="food.locationChange === 'No'"
-                    for="address"
+                    for="address1"
                     class="block text-sm font-medium text-gray-700"
-                    >Address</label
+                    >Address Line 1</label
                   >
-                  <textarea
-                    name="address"
-                    id="address"
+                  <input
+                    type="text"
+                    name="address1"
+                    id="address1"
                     cols="30"
-                    v-if="food.locationChange === 'No'"
-                    v-model="food.address"
+                    v-model="food.address1"
                     rows="4"
                     class="
                       mt-1
+                      p-2
                       focus:ring-indigo-500
                       focus:border-indigo-500
                       block
@@ -172,10 +172,120 @@
                       border border-gray-300
                       rounded-md
                     "
-                  ></textarea>
+                  />
                 </div>
 
-                <div class="col-span-6">
+                <div class="col-span-6" v-if="food.locationChange === 'No'">
+                  <label
+                    for="address2"
+                    class="block text-sm font-medium text-gray-700"
+                    >Address Line 2</label
+                  >
+                  <input
+                    type="text"
+                    name="address2"
+                    id="address2"
+                    cols="30"
+                    v-model="food.address2"
+                    rows="4"
+                    class="
+                      mt-1
+                      p-2
+                      focus:ring-indigo-500
+                      focus:border-indigo-500
+                      block
+                      w-full
+                      shadow-sm
+                      sm:text-sm
+                      border border-gray-300
+                      rounded-md
+                    "
+                  />
+                </div>
+
+                <div class="col-span-3" v-if="food.locationChange === 'No'">
+                  <label
+                    for="city"
+                    class="block text-sm font-medium text-gray-700"
+                    >City</label
+                  >
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    cols="30"
+                    v-model="food.city"
+                    rows="4"
+                    class="
+                      mt-1
+                      p-2
+                      focus:ring-indigo-500
+                      focus:border-indigo-500
+                      block
+                      w-full
+                      shadow-sm
+                      sm:text-sm
+                      border border-gray-300
+                      rounded-md
+                    "
+                  />
+                </div>
+                <div class="col-span-6 sm:col-span-3" v-if="food.locationChange === 'No'">
+                  <label
+                    for="province"
+                    class="block text-sm font-medium text-gray-700"
+                    >Province</label
+                  >
+                  <input
+                    type="text"
+                    name="province"
+                    id="province"
+                    cols="30"
+                    v-model="food.province"
+                    rows="4"
+                    class="
+                      mt-1
+                      p-2
+                      focus:ring-indigo-500
+                      focus:border-indigo-500
+                      block
+                      w-full
+                      shadow-sm
+                      sm:text-sm
+                      border border-gray-300
+                      rounded-md
+                    "
+                  />
+                </div>
+                <div class="col-span-3" v-if="food.locationChange === 'No'">
+                  <label
+                    for="country"
+                    class="block text-sm font-medium text-gray-700"
+                    >Country</label
+                  >
+                  <input
+                    type="text"
+                    name="country"
+                    id="country"
+                    cols="30"
+                    v-model="food.country"
+                    rows="4"
+                    class="
+                      mt-1
+                      p-2
+                      focus:ring-indigo-500
+                      focus:border-indigo-500
+                      block
+                      w-full
+                      shadow-sm
+                      sm:text-sm
+                      border border-gray-300
+                      rounded-md
+                    "
+                  />
+                </div>
+                <br>
+                <div class="col-span-3">
                   <label
                     for="pick_up_time"
                     class="block text-sm font-medium text-gray-700"
@@ -222,9 +332,8 @@
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import axios from "axios"
-import {path} from './settings.js'
-
+import axios from "axios";
+import { path } from "./settings.js";
 
 export default {
   name: "AddPost",
@@ -236,11 +345,15 @@ export default {
         uploadedPicture: "",
         numberofPackets: "",
         locationChange: "No",
-        address: "",
+        address1: "",
+        address2: "",
+        city:"",
+        province:"",
+        country:"",
         pickupTime: "09:00",
       },
       formData: null,
-    }
+    };
   },
   created() {
     this.formData = new FormData();
@@ -249,21 +362,21 @@ export default {
     formSubmit: function() {
       this.formData = new FormData();
       this.formData.append("model", JSON.stringify(this.food));
-      this.formData.append("uploadedPicture", this.food.uploadedPicture)
+      this.formData.append("uploadedPicture", this.food.uploadedPicture);
       axios.defaults.withCredentials = true;
       axios({
-          url: path+'/addFoodDetails',
-          method: 'POST',
-          data: this.formData,
-          headers: {
-            Accept: 'application/json',
-            'Content-type': `multipart/form-data;boundary=--`,
-          }
-        }).then(
+        url: path + "/addFoodDetails",
+        method: "POST",
+        data: this.formData,
+        headers: {
+          Accept: "application/json",
+          "Content-type": `multipart/form-data;boundary=--`,
+        },
+      }).then(
         (response) => {
           console.log(response);
-          if(response.status === 200) {
-            alert("Post Added!")
+          if (response.status === 200) {
+            alert("Post Added!");
           }
         },
         (error) => {
