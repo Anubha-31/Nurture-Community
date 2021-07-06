@@ -109,6 +109,11 @@
                   <label for="postal_code" class="block text-sm font-medium text-gray-700">ZIP / Postal*</label>
                   <input type="text" name="postal_code" id="postal_code" v-model="user.zip" autocomplete="postal-code" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
+                <div v-if="zipValidation.length > 0" class="col-span-6">
+                  <ul>
+                    <li class="text-xs text-red-500 font-medium" v-for="error in zipValidation" :key="error.key">{{ error }}</li>
+                  </ul>
+                </div>
               </div>
             </div>
             <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -155,7 +160,8 @@ export default {
       fileData: null,
       capsOn: false,
       errors: [],
-      passwordValidation: []
+      passwordValidation: [],
+      zipValidation: []
     }
   },
   created() {
@@ -168,6 +174,7 @@ export default {
       this.formData.append("cover_image", this.user.cover_image)
       this.errors = [];
       this.validatePassword();
+      this.validateZip();
       if(this.user.password === this.user.confirm_password) {
         axios.defaults.withCredentials = true
         axios({
@@ -226,6 +233,21 @@ export default {
       }
       if (this.passwordValidation.length > 0) {
         this.passwordValidation.join("\n");
+        return false;
+      }
+      return true;
+    },
+    validateZip: function () {
+      let p = this.user.zip;
+
+      if (p.length < 6) {
+        this.zipValidation.push("Zip code must be 6 characters long");
+      }
+      if (/\s/g.test(p)) {
+        this.zipValidation.push("It should not contain any space");
+      }
+      if (this.zipValidation.length > 0) {
+        this.zipValidation.join("\n");
         return false;
       }
       return true;
