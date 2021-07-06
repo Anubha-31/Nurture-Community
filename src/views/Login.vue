@@ -18,9 +18,10 @@
                   </div>
                   <div class="col-span-6 sm:col-span-1">
                     <label for="Password" class="block text-sm font-medium text-gray-700">Password*</label>
-                    <input type="Password" name="Password" v-model="user.password" id="Password" autocomplete="Password" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                    <input type="Password" name="Password" v-model="user.password" id="Password" autocomplete="Password" v-on:keyup="keyMonitor" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                   </div>
                 </div>
+                <div v-if="capsOn" class="col-span-6 text-red-500 font-medium">Capslock in on!</div>
               </div>
               <div class="px-4 sm:px-6 pt-2 pb-10 bg-gray-50 text-right sm:col-span-1">
                 <button type="submit" class="inline-flex w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -49,7 +50,8 @@ export default {
       user: {
         emailaddress: "",
         password: "",
-      }
+      },
+      capsOn: false
     }
   },
   methods: {
@@ -69,6 +71,14 @@ export default {
       }, (error) => {
         console.log(error);
       });
+    },
+    keyMonitor: function (event) {
+      console.log(event);
+      if(event.getModifierState("CapsLock")) {
+        this.capsOn = true
+      } else {
+        this.capsOn = false
+      }
     }
   },
   components: {
