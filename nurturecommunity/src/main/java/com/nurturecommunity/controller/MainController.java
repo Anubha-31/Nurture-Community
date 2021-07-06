@@ -80,7 +80,7 @@ public class MainController {
 	
 	@PostMapping("/users/login")
 	synchronized public ResponseEntity loginUser(@Valid @RequestBody AppUser user, HttpServletResponse response) {
-		List<AppUser> users = userRepository.findAll();
+		List<AppUser> users = userRepository.findByEmailaddress(user.getEmailaddress());
 
 		  String Usertype="Failure";
 		for (AppUser other : users) {
@@ -95,12 +95,11 @@ public class MainController {
 				cookie.setPath("/");
 				response.addCookie(cookie);
 				Usertype=other.getUser_type();
-				//System.out.println("Cookies");
-				return ResponseEntity.ok(Usertype);
-
+				
+				return new ResponseEntity<>(Usertype,HttpStatus.OK);
 			}
 		}
-		return ResponseEntity.ok(Usertype);
+		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
 	
@@ -113,18 +112,18 @@ public class MainController {
 		AppUser user = new AppUser();
 		
 		
-		 user.setFirst_name(object.get("first_name").toString());
-		 user.setLast_name(object.get("last_name").toString());
-		 user.setAddress(object.get("address").toString());
-		 user.setEmailaddress(object.get("emailaddress").toString());
-		 user.setPassword(object.get("password").toString());
-		 user.setRestaurant_name(object.get("restaurant_name").toString());
-		 user.setLicense_number(object.get("license_number").toString());
-		 user.setOpens_at(object.get("opens_at").toString());
-		 user.setCloses_at(object.get("closes_at").toString());
-		 user.setPhone(object.get("phone").toString());
-		 user.setZip(object.get("zip").toString());
-		 user.setUser_type(object.get("user_type").toString());
+		 user.setFirst_name(object.get("first_name").getAsString());
+		 user.setLast_name(object.get("last_name").getAsString());
+		 user.setAddress(object.get("address").getAsString());
+		 user.setEmailaddress(object.get("emailaddress").getAsString());
+		 user.setPassword(object.get("password").getAsString());
+		 user.setRestaurant_name(object.get("restaurant_name").getAsString());
+		 user.setLicense_number(object.get("license_number").getAsString());
+		 user.setOpens_at(object.get("opens_at").getAsString());
+		 user.setCloses_at(object.get("closes_at").getAsString());
+		 user.setPhone(object.get("phone").getAsString());
+		 user.setZip(object.get("zip").getAsString());
+		 user.setUser_type(object.get("user_type").getAsString());
 		 
 		 List<AppUser> users = userRepository.findByEmailaddress(user.getEmailaddress());
 		 
