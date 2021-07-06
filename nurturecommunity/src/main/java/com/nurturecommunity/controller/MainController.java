@@ -87,16 +87,20 @@ public class MainController {
 		for (AppUser other : users) {
 			if (other.getEmailaddress().equalsIgnoreCase(user.getEmailaddress()) &&
 					other.getPassword().equals(user.getPassword())) {
-				user.setLoggedin(true);
-				// userRepository.save(user);
-				Cookie cookie = new Cookie("EmailId", user.getEmailaddress());
+				Cookie cookie = new Cookie("EmailId", other.getEmailaddress());
+				Cookie cookie1 = new Cookie("UserType", other.getUser_type());
+				
 				cookie.setMaxAge(7 * 24 * 60 * 60);
 				cookie.setSecure(true);
 				cookie.setHttpOnly(true);
 				cookie.setPath("/");
+				cookie1.setMaxAge(7 * 24 * 60 * 60);
+				cookie1.setSecure(true);
+				cookie1.setHttpOnly(true);
+				cookie1.setPath("/");
 				response.addCookie(cookie);
-				Usertype=other.getUser_type();
-				
+				response.addCookie(cookie1);
+				Usertype = other.getUser_type();
 				return new ResponseEntity<>(Usertype,HttpStatus.OK);
 			}
 		}
