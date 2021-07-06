@@ -7,4 +7,5 @@ public class Queries {
 	public static String AddMultipartFiles = "insert into signUpFiles (userId, multipartFileName, multipartFile) values(?,?,?)";
 	
 	public static String AddFoodFiles = "insert into foodImages (foodid, multipartFileName, multipartFile) values(?,?,?)";
+
 }
