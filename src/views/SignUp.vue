@@ -162,7 +162,7 @@ export default {
       if(this.user.password === this.user.confirm_password) {
         axios.defaults.withCredentials = true
         axios({
-          url: path +'/upload',
+          url: path +'/users/register',
           method: 'POST',
           data: this.formData,
           headers: {
