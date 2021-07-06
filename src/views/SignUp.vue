@@ -15,7 +15,6 @@
       <div class="text-center">
         <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Sign Up</h1>
         <p class="mt-5">Please provide the information below to sign up as a user</p>
-        <p v-if="fileData">{{ fileData }}</p>
       </div>
 
       <div class="mt-5 md:mt-10 md:w-1/2 md:mx-auto">
@@ -170,11 +169,17 @@ export default {
             'Content-type': `multipart/form-data;boundary=--`,
           }
         }).then((response) => {
+          console.log(response.status)
           if(response.status === 200) {
             this.fileData = response
+            alert("Signed Up successfully")
+          } else if (response.status === 409) {
+            alert("You have already registered with this email address")
           }
         }, (error) => {
-          console.log(error);
+          if(error.request.status === 409) {
+            alert("User with given email already exist!")
+          }
         });
       } else {
         this.errors.push('Passwords should match')
