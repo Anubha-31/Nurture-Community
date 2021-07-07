@@ -1,6 +1,7 @@
 package com.nurturecommunity.controller;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -25,6 +26,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -96,24 +98,28 @@ public class MainController {
 		List<AppUser> users = userRepository.findByEmailaddress(user.getEmailaddress());
 
 		  String Usertype="Failure";
+		 
 		for (AppUser other : users) {
-			if (other.getEmailaddress().equalsIgnoreCase(user.getEmailaddress()) &&
-					other.getPassword().equals(user.getPassword())) {
-				Cookie cookie = new Cookie("EmailId", other.getEmailaddress());
-				Cookie cookie1 = new Cookie("UserType", other.getusertype());
-				
-				cookie.setMaxAge(7 * 24 * 60 * 60);
-				cookie.setSecure(true);
-				cookie.setHttpOnly(true);
-				cookie.setPath("/");
-				cookie1.setMaxAge(7 * 24 * 60 * 60);
-				cookie1.setSecure(true);
-				cookie1.setHttpOnly(true);
-				cookie1.setPath("/");
-				response.addCookie(cookie);
-				response.addCookie(cookie1);
-				Usertype = other.getusertype();
-				return new ResponseEntity<>(Usertype,HttpStatus.OK);
+			if (other.getEmailaddress().equalsIgnoreCase(user.getEmailaddress())) {
+				int strength = 10;
+				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(strength);
+				boolean isMatched = encoder.matches(user.getPassword(), other.getPassword());
+				if (isMatched) {
+					Cookie cookie = new Cookie("EmailId", other.getEmailaddress());
+					Cookie cookie1 = new Cookie("UserType", other.getusertype());
+
+					cookie.setMaxAge(7 * 24 * 60 * 60);
+					cookie.setSecure(true);
+					cookie.setHttpOnly(true);
+					cookie.setPath("/");
+					cookie1.setMaxAge(7 * 24 * 60 * 60);
+					cookie1.setSecure(true);
+					cookie1.setPath("/");
+					response.addCookie(cookie);
+					response.addCookie(cookie1);
+					Usertype = other.getusertype();
+					return new ResponseEntity<>(Usertype, HttpStatus.OK);
+				}
 			}
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -128,12 +134,13 @@ public class MainController {
 		JsonObject object = (JsonObject)jsonParser.parse(myParams);
 		AppUser user = new AppUser();
 		
+		 String password = encryptPassword(object.get("password").getAsString());
 		
 		 user.setFirst_name(object.get("first_name").getAsString());
 		 user.setLast_name(object.get("last_name").getAsString());
 		 user.setAddress(object.get("address").getAsString());
 		 user.setEmailaddress(object.get("emailaddress").getAsString());
-		 user.setPassword(object.get("password").getAsString());
+		 user.setPassword(password);
 		 user.setRestaurant_name(object.get("restaurant_name").getAsString());
 		 user.setLicense_number(object.get("license_number").getAsString());
 		 user.setOpens_at(object.get("opens_at").getAsString());
@@ -154,6 +161,14 @@ public class MainController {
 		 }
 		 
 	}
+	
+	  private String encryptPassword(String password) {
+		  int strength = 10;
+		  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(strength);
+		  String encodedPassword = encoder.encode(password);
+		 // boolean isMatched = encoder.matches("anubha@123", "$2a$10$P3O8kPYtYrg98f7NdpvFfeKl.D0/68xt/wDqMNWtJUNvVc0NM5m4q");
+		  return encodedPassword;	  
+	  }
 	
 	private void sendEmail(AppUser newuser) {
 		Properties props = new Properties();
