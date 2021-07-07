@@ -2,9 +2,7 @@ package com.nurturecommunity.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import java.util.Date;
-
 import java.util.List;
 import java.util.Properties;
 
@@ -160,7 +158,10 @@ public class MainController {
 		 user.setZip(object.get("zip").getAsString());
 		 user.setusertype(object.get("user_type").getAsString());
 		 try {
+			 if(multipartfile!=null)
+			 {
 			user.setPicture(multipartfile.getBytes());
+			 }
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -261,10 +262,16 @@ public class MainController {
 	@ResponseBody
 	public ResponseEntity<List<AppUser>> getByZipCode(@RequestBody String zip) {
 	try {
-		List<AppUser> usersByzip = userRepository.findByZip(zip);
+		JsonParser jsonParser = new JsonParser();
+		JsonObject object = (JsonObject)jsonParser.parse(zip);
+		
+		
+		zip =object.get("search").getAsString();
+		List<AppUser> usersByzip = new ArrayList<AppUser>();
+		userRepository.findAllByusertype("restaurant").forEach(usersByzip::add);
 		List<AppUser> data = new ArrayList<AppUser>();
 		for(AppUser obj : usersByzip){
-			if (obj.getusertype().equals("restaurant")) {
+			if (obj.getZip().equals(zip)) {
 				data.add(obj);
 			}
 		}
