@@ -29,4 +29,5 @@ public class GetServiceImpl implements GetRequest{
 		return getFList.getFoodList(Cookie);
 	}
 
+
 }
