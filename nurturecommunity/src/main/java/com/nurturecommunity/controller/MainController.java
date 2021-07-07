@@ -57,7 +57,7 @@ public class MainController {
 	
 	@GetMapping("/ListofRestuarants")
 	synchronized public List<FoodList> getFoodList(HttpServletRequest request) throws Exception {
-		String Cookie = "test@gmail.com";
+		String Cookie = getCookies(request);
 		return this.getRequest.getFoodresponse(Cookie);
 	}
 
