@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -72,7 +73,7 @@ public class MainController {
 	
 	
 	
-	@GetMapping("/ListofRestuarants")
+	@GetMapping("/Listoffooditems")
 	synchronized public List<FoodList> getFoodList(HttpServletRequest request) throws Exception {
 		String Cookie = getCookies(request);
 		
@@ -232,12 +233,21 @@ public class MainController {
 		
 	}
 
+	@PostMapping("/ListOfRestaurantzip")
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	public List<AddFoodDetails> getTutorialsByZipCode(@RequestBody String zip) {
+		List<AppUser> usersByzip = userRepository.findByZip(zip);
+		String restName = usersByzip.get(0).getRestaurant_name();
+		return addFoodDetailsRepository.findByRestaurantName(restName);
+	}
+
 	@GetMapping("/ListOfRestaurants")
 	public ResponseEntity<List<AppUser>> getAllResturants(HttpServletRequest request) {
 		try {
 			List<AppUser> obj = new ArrayList<AppUser>();
 			
-			userRepository.findByUsertype("restaurant").forEach(obj::add);
+			userRepository.findAllByusertype("restaurant").forEach(obj::add);
 			
 			if (obj.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
