@@ -150,6 +150,12 @@ public class MainController {
 		 user.setPhone(object.get("phone").getAsString());
 		 user.setZip(object.get("zip").getAsString());
 		 user.setusertype(object.get("usertype").getAsString());
+		 try {
+			user.setPicture(multipartfile.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		 
 		 List<AppUser> users = userRepository.findByEmailaddress(user.getEmailaddress());
 		 
@@ -158,7 +164,7 @@ public class MainController {
 		 }else {
 			 AppUser newuser = userRepository.save(user);
 			 sendEmail(newuser);
-			savedata(newuser,multipartfile);
+			//savedata(newuser,multipartfile);
 			 return new ResponseEntity<>(HttpStatus.OK);
 		 }
 		 
