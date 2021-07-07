@@ -38,6 +38,7 @@ public class AddFoodDetails {
 	
 	@Column(name="address1")
 	private String address1;
+	
 	@Column(name="address2")
 	private String address2;
 	

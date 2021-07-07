@@ -21,7 +21,11 @@ public class AppUser {
     private String password;
     private String restaurant_name;
     private String license_number;
-    private String address;
+    private String address1;
+	private String address2;
+	private String city;
+	private String province;
+	private String country;
     private String phone;
     private String zip;
     public byte[] getPicture() {
@@ -60,6 +64,56 @@ public class AppUser {
 
 	public void setFirst_name(String first_name) {
 		this.first_name = first_name;
+	}
+	
+	
+
+	public String getAddress1() {
+		return address1;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getUsertype() {
+		return usertype;
+	}
+
+	public void setUsertype(String usertype) {
+		this.usertype = usertype;
 	}
 
 	public String getLast_name() {
@@ -100,14 +154,6 @@ public class AppUser {
 
 	public void setLicense_number(String license_number) {
 		this.license_number = license_number;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public String getPhone() {
@@ -160,18 +206,10 @@ public class AppUser {
 		this.loggedin = loggedin;
 	}
 
-	@Override
-	public String toString() {
-		return "AppUser [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name + ", emailaddress="
-				+ emailaddress + ", password=" + password + ", restaurant_name=" + restaurant_name + ", license_number="
-				+ license_number + ", address=" + address + ", phone=" + phone + ", zip=" + zip + ", usertype="
-				+ usertype + ", opens_at=" + opens_at + ", closes_at=" + closes_at + ", loggedin=" + loggedin
-				+ ", picture=" + Arrays.toString(picture) + "]";
-	}
-
 	public AppUser(String first_name, String last_name, String emailaddress, String password, String restaurant_name,
-			String license_number, String address, String phone, String zip, String usertype, String opens_at,
-			String closes_at, @NotBlank boolean loggedin, byte[] picture) {
+			String license_number, String address1, String address2, String city, String province, String country,
+			String phone, String zip, String usertype, String opens_at, String closes_at, @NotBlank boolean loggedin,
+			byte[] picture) {
 		super();
 		this.first_name = first_name;
 		this.last_name = last_name;
@@ -179,7 +217,11 @@ public class AppUser {
 		this.password = password;
 		this.restaurant_name = restaurant_name;
 		this.license_number = license_number;
-		this.address = address;
+		this.address1 = address1;
+		this.address2 = address2;
+		this.city = city;
+		this.province = province;
+		this.country = country;
 		this.phone = phone;
 		this.zip = zip;
 		this.usertype = usertype;
@@ -189,10 +231,14 @@ public class AppUser {
 		this.picture = picture;
 	}
 
+	@Override
+	public String toString() {
+		return "AppUser [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name + ", emailaddress="
+				+ emailaddress + ", password=" + password + ", restaurant_name=" + restaurant_name + ", license_number="
+				+ license_number + ", address1=" + address1 + ", address2=" + address2 + ", city=" + city
+				+ ", province=" + province + ", country=" + country + ", phone=" + phone + ", zip=" + zip
+				+ ", usertype=" + usertype + ", opens_at=" + opens_at + ", closes_at=" + closes_at + ", loggedin="
+				+ loggedin + ", picture=" + Arrays.toString(picture) + "]";
+	}
 
-
-	
-
-	
-	
 }

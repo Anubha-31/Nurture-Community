@@ -145,7 +145,11 @@ public class MainController {
 		
 		 user.setFirst_name(object.get("first_name").getAsString());
 		 user.setLast_name(object.get("last_name").getAsString());
-		 user.setAddress(object.get("address").getAsString());
+		 user.setAddress1(object.get("address1").getAsString());
+		 user.setAddress2(object.get("address2").getAsString());
+		 user.setCity(object.get("city").getAsString());
+		 user.setProvince(object.get("province").getAsString());
+		 user.setCountry(object.get("country").getAsString());
 		 user.setEmailaddress(object.get("emailaddress").getAsString());
 		 user.setPassword(password);
 		 user.setRestaurant_name(object.get("restaurant_name").getAsString());
@@ -154,7 +158,7 @@ public class MainController {
 		 user.setCloses_at(object.get("closes_at").getAsString());
 		 user.setPhone(object.get("phone").getAsString());
 		 user.setZip(object.get("zip").getAsString());
-		 user.setusertype(object.get("usertype").getAsString());
+		 user.setusertype(object.get("user_type").getAsString());
 		 try {
 			user.setPicture(multipartfile.getBytes());
 		} catch (IOException e) {
