@@ -247,7 +247,7 @@ public class MainController {
 		List<AppUser> usersByzip = userRepository.findByZip(zip);
 		List<AppUser> data = new ArrayList<AppUser>();
 		for(AppUser obj : usersByzip){
-			if (obj.getusertype().equals("resturant")) {
+			if (obj.getusertype().equals("restaurant")) {
 				data.add(obj);
 			}
 		}
@@ -255,7 +255,7 @@ public class MainController {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 
-				return new ResponseEntity<>(data, HttpStatus.OK);
+			return new ResponseEntity<>(data, HttpStatus.OK);
 		} catch (Exception e) {
 				
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
