@@ -1,8 +1,19 @@
 package com.nurturecommunity.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -137,12 +148,68 @@ public class MainController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);//409
 		 }else {
 			 AppUser newuser = userRepository.save(user);
-			 savedata(newuser,multipartfile);
+			 sendEmail(newuser);
+			savedata(newuser,multipartfile);
 			 return new ResponseEntity<>(HttpStatus.OK);
 		 }
 		 
 	}
 	
+	private void sendEmail(AppUser newuser) {
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props);
+
+		Message msg = new MimeMessage(session);
+		try {
+			msg.setFrom(new InternetAddress("nurturecommunityp13@gmail.com", false));
+
+			String html = "<!DOCTYPE html>\r\n"
+					+ "<html lang=\"en\">\r\n"
+					+ "  <head>\r\n"
+					+ "    <meta charset=\"UTF-8\" />\r\n"
+					+ "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n"
+					+ "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n"
+					+ "    <title>Monument</title>\r\n"
+					+ "  </head>\r\n"
+					+ "  <body>\r\n"
+					+ "    <h1>Welcome to Nurture community</h1>\r\n"
+					+ "    <h3>\r\n"
+					+ "      Our organisation has pleadged to revome food wastage and hunger from the\r\n"
+					+ "      canadian community\r\n"
+					+ "    </h3>\r\n"
+					+ "    \r\n"
+					+ "    <h4>Please click on below link to verify the email\r\n"
+					+ "    <a href=\"http://localhost:8060\">Verify Email</a></h4>\r\n"
+					+ "\r\n"
+					+ "    <p>Happy Browsing!</p>\r\n"
+					+ "    <p>Thanks and Regads,</p>\r\n"
+					+ "    <p>Nurture Community</p>\r\n"
+					+ "  </body>\r\n"
+					+ "</html>";
+			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(newuser.getEmailaddress()));
+			msg.setSubject("Welcome to Nurture Community | Do not reply on this email");
+			msg.setContent("Welcome to Nurture Community", "text/html");
+			msg.setSentDate(new Date());
+			Multipart multipart = new MimeMultipart();
+			MimeBodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setContent(html, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+
+			msg.setContent(multipart);
+			Transport.send(msg, "nurturecommunityp13@gmail.com", "nurture@123!");
+
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 
 
 	private void savedata(AppUser newuser, MultipartFile multipartfile) {
