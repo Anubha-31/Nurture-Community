@@ -56,8 +56,9 @@ public class MainController {
 	}
 	
 	@GetMapping("/ListofRestuarants")
-	public List<FoodList> getFoodList() throws Exception {
-		return this.getRequest.getFoodresponse();
+	public List<FoodList> getFoodList(HttpServletRequest request) throws Exception {
+		String Cookie = getCookies(request);
+		return this.getRequest.getFoodresponse(Cookie);
 	}
 
 	@Autowired
@@ -177,16 +178,16 @@ public class MainController {
 //	}
 	
 		String getCookies(HttpServletRequest request) {
-		String emailid = null;
-		Cookie[] cookies = request.getCookies();
+			String emailid = null;
+			Cookie[] cookies = request.getCookies();
 
-		 for (Cookie cookie : cookies) {
-		if (cookie.getName().equals("EmailId")) {
-		emailid = cookie.getValue();
-		}
-		}
-		System.out.println(request.getCookies());
-		return emailid;
+			for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("EmailId")) {
+							emailid = cookie.getValue();
+						}
+				}
+					System.out.println(request.getCookies());
+			return emailid;
 		}
 	
     

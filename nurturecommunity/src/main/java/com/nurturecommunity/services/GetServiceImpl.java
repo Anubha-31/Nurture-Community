@@ -25,8 +25,8 @@ public class GetServiceImpl implements GetRequest{
 	}
 
 	@Override
-	public List<FoodList> getFoodresponse() throws Exception {
-		return getFList.getFoodList();
+	public List<FoodList> getFoodresponse(String Cookie) throws Exception {
+		return getFList.getFoodList(Cookie);
 	}
 
 }

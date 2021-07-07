@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.nurturecommunity.Dao.FoodList;
 import com.nurturecommunity.constant.Queries;
+import com.nuturecommunity.mapper.ResturantMapper;
 
 @Component
 public class GetFoodList {
@@ -21,30 +22,13 @@ public class GetFoodList {
 	
 	
 	
-	public List<FoodList> getFoodList() throws Exception {
-		
-		
-		List<FoodList> list = new ArrayList<FoodList>();  
-		 return (List<FoodList>) jdbcTemplate.query(Queries.FoodListsql,new ResultSetExtractor<List<FoodList>>(){  
-			    public List<FoodList> extractData(ResultSet rs) throws SQLException,  
-			            DataAccessException {  
-			      
-			        
-			        while(rs.next()){  
-			        FoodList e = new FoodList();
-			        e.setId(rs.getLong(1));
-			        e.setRestaurantName(rs.getString(7));
-			        e.setItemName(rs.getString(3));
-			        e.setItemDescription(rs.getString(2));
-			        e.setUploadedPicture(rs.getString(8));
-			        e.setNumberofPackets( rs.getInt(5));
-			        e.setLocationChange(rs.getString(4));
-			        e.setPickupTime(rs.getString(6));
-			        list.add(e);  
-			        }  
-			        return list;
-			    	}
-			     });
+
+	public List<FoodList> getFoodList(String Cookie) throws Exception {
+		List<FoodList> list =   jdbcTemplate.query(
+                				Queries.foodListsql,
+                				new ResturantMapper(),new Object[] { Cookie });
+		 
+		return list;
 
 	
 		 }

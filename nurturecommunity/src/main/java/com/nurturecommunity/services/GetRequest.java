@@ -8,5 +8,5 @@ import com.nurturecommunity.Dao.FoodList;
 public interface GetRequest {
 
 	public List<User> getLoginresponse() throws Exception;
-	public List<FoodList> getFoodresponse() throws Exception;
+	public List<FoodList> getFoodresponse(String Cookie) throws Exception;
 }

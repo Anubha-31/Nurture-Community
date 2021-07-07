@@ -3,63 +3,64 @@ package com.nurturecommunity.Dao;
 
 public class FoodList {
 
-	private long id;
-	private String restaurantName;
-	private String itemName;
-	private String itemDescription;
-	private String uploadedPicture;
-	private int numberofPackets;
-	private String locationChange;
+	private String address;
+	private String license;
+	private String restaurant_name;
+	private String item_name;
+	private String item_description;
+	private int number_of_packets;
 	private String pickupTime;
-	
+	private String uploaded_picture;
+
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getLicense() {
+		return license;
+	}
+	public void setLicense(String license) {
+		this.license = license;
+	}
+	public String getRestaurant_name() {
+		return restaurant_name;
+	}
+	public void setRestaurant_name(String restaurant_name) {
+		this.restaurant_name = restaurant_name;
+	}
+	public String getItem_name() {
+		return item_name;
+	}
+	public void setItem_name(String item_name) {
+		this.item_name = item_name;
+	}
+	public String getItem_description() {
+		return item_description;
+	}
+	public void setItem_description(String item_description) {
+		this.item_description = item_description;
+	}
+	public int getNumber_of_packets() {
+		return number_of_packets;
+	}
+	public void setNumber_of_packets(int number_of_packets) {
+		this.number_of_packets = number_of_packets;
+	}
 	public String getPickupTime() {
 		return pickupTime;
 	}
 	public void setPickupTime(String pickupTime) {
 		this.pickupTime = pickupTime;
 	}
-	public String getLocationChange() {
-		return locationChange;
+	public String getUploaded_picture() {
+		return uploaded_picture;
 	}
-	public void setLocationChange(String locationChange) {
-		this.locationChange = locationChange;
+	public void setUploaded_picture(String uploaded_picture) {
+		this.uploaded_picture = uploaded_picture;
 	}
-	public int getNumberofPackets() {
-		return numberofPackets;
-	}
-	public void setNumberofPackets(int numberofPackets) {
-		this.numberofPackets = numberofPackets;
-	}
-	public String getUploadedPicture() {
-		return uploadedPicture;
-	}
-	public void setUploadedPicture(String uploadedPicture) {
-		this.uploadedPicture = uploadedPicture;
-	}
-	public String getItemDescription() {
-		return itemDescription;
-	}
-	public void setItemDescription(String itemDescription) {
-		this.itemDescription = itemDescription;
-	}
-	public String getRestaurantName() {
-		return restaurantName;
-	}
-	public void setRestaurantName(String restaurantName) {
-		this.restaurantName = restaurantName;
-	}
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public String getItemName() {
-		return itemName;
-	}
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
+	
 
 
 }
