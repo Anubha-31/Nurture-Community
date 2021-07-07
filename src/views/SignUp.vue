@@ -28,7 +28,7 @@
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6">
                   <label for="user_type" class="block text-sm font-medium text-gray-700">Sign Up As</label>
-                  <select id="user_type" name="user_type" autocomplete="user_type" v-model="user.user_type" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                  <select id="user_type" name="user_type" autocomplete="user_type" v-model="user.usertype" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <option value="restaurant">Restaurant Representative</option>
                     <option value="client">Client</option>
                   </select>
@@ -66,28 +66,28 @@
                   </ul>
                 </div>
 
-                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
+                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.usertype === 'restaurant'">
                   <label for="restaurant_name" class="block text-sm font-medium text-gray-700">Restaurant's Name</label>
                   <input type="text" name="restaurant_name" id="restaurant_name" v-model="user.restaurant_name" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
 
-                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
+                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.usertype === 'restaurant'">
                   <label for="license_number" class="block text-sm font-medium text-gray-700">License Number*</label>
                   <input type="text" name="license_number" id="license_number" v-model="user.license_number" autocomplete="license-number" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
 
-                <div class="col-span-6" v-if="user.user_type === 'restaurant'">
+                <div class="col-span-6" v-if="user.usertype === 'restaurant'">
                   <label for="cover_image" class="block text-sm font-medium text-gray-700">Cover Image of you restaurant (only .png, .gif, jpg or jpeg of less than size 5MB)</label>
                   <input type="file" name="cover_image" accept="image/png, image/gif, image/jpeg" id="cover_image" ref="cover_image" @change="onFileUpload" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
 
-                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
+                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.usertype === 'restaurant'">
                   <label for="opens_at" class="block text-sm font-medium text-gray-700">Opens at</label>
                   <input type="time" name="opens_at" id="opens_at" v-model="user.opens_at"  autocomplete="opens-at" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
 
-                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
+                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.usertype === 'restaurant'">
                   <label for="closes_at" class="block text-sm font-medium text-gray-700">Closes at</label>
                   <input type="time" name="closes_at" id="closes_at" v-model="user.closes_at"  autocomplete="closes-at" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
@@ -141,7 +141,7 @@ export default {
   data() {
     return {
       user: {
-        user_type: "restaurant",
+        usertype: "restaurant",
         first_name: "",
         last_name: "",
         emailaddress: "",
