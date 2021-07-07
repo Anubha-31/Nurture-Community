@@ -1,6 +1,7 @@
 package com.nurturecommunity.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -55,10 +56,14 @@ public class MainController {
 		return this.getRequest.getLoginresponse();
 	}
 	
+	
+	
 	@GetMapping("/ListofRestuarants")
 	synchronized public List<FoodList> getFoodList(HttpServletRequest request) throws Exception {
 		String Cookie = getCookies(request);
+		
 		return this.getRequest.getFoodresponse(Cookie);
+		
 	}
 
 	@Autowired
@@ -157,25 +162,22 @@ public class MainController {
 		
 	}
 
-//	@GetMapping("/ListOfRestaurants")
-//	public ResponseEntity<List<AddFoodDetails>> getAllTutorials(@RequestParam(required = false) String restaurantName) {
-//		try {
-//			List<AddFoodDetails> obj = new ArrayList<AddFoodDetails>();
-//
-//			if (restaurantName == null)
-//				addFoodDetailsRepository.findAll().forEach(obj::add);
-//			else
-//				addFoodDetailsRepository.findByRestaurantNameContaining(restaurantName).forEach(obj::add);
-//
-//			if (obj.isEmpty()) {
-//				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//			}
-//
-//			return new ResponseEntity<>(obj, HttpStatus.OK);
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}	
-//	}
+	@GetMapping("/ListOfRestaurants")
+	public ResponseEntity<List<AppUser>> getAllResturants(HttpServletRequest request) {
+		try {
+			List<AppUser> obj = new ArrayList<AppUser>();
+			
+			userRepository.findByUsertype("restaurant").forEach(obj::add);
+			
+			if (obj.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(obj, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
+	}
 	
 		String getCookies(HttpServletRequest request) {
 			String emailid = null;

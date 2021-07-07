@@ -22,7 +22,7 @@ public class AppUser {
     private String address;
     private String phone;
     private String zip;
-    private String user_type;
+    private String usertype;
     private String opens_at;
     private String closes_at;
     private @NotBlank boolean loggedin;
@@ -116,11 +116,11 @@ public class AppUser {
 	}
 
 	public String getUser_type() {
-		return user_type;
+		return usertype;
 	}
 
 	public void setUser_type(String user_type) {
-		this.user_type = user_type;
+		this.usertype = usertype;
 	}
 
 	public String getOpens_at() {
@@ -152,7 +152,7 @@ public class AppUser {
 		return "AppUser [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name + ", emailaddress="
 				+ emailaddress + ", password=" + password + ", restaurant_name=" + restaurant_name
 				+ ", license_number=" + license_number + ", address=" + address + ", phone=" + phone + ", zip=" + zip
-				+ ", user_type=" + user_type + ", opens_at=" + opens_at + ", closes_at=" + closes_at + ", loggedin="
+				+ ", user_type=" + usertype + ", opens_at=" + opens_at + ", closes_at=" + closes_at + ", loggedin="
 				+ loggedin + "]";
 	}
 
@@ -169,7 +169,7 @@ public class AppUser {
 		this.address = address;
 		this.phone = phone;
 		this.zip = zip;
-		this.user_type = user_type;
+		this.usertype = user_type;
 		this.opens_at = opens_at;
 		this.closes_at = closes_at;
 	}
