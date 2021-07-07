@@ -1,5 +1,5 @@
 package com.nurturecommunity.Dao;
-
+import javax.mail.Multipart;
 
 public class FoodList {
 	
@@ -12,6 +12,7 @@ public class FoodList {
 	private int number_of_packets;
 	private String pickupTime;
 	private String uploaded_picture;
+	private Multipart multi;
 
 	public String getAddress() {
 		return address;
@@ -66,6 +67,12 @@ public class FoodList {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public Multipart getMulti() {
+		return multi;
+	}
+	public void setMulti(Multipart multi) {
+		this.multi = multi;
 	}
 	
 

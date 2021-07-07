@@ -236,10 +236,26 @@ public class MainController {
 	@PostMapping("/ListOfRestaurantzip")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public List<AddFoodDetails> getTutorialsByZipCode(@RequestBody String zip) {
+	public ResponseEntity<List<AppUser>> getByZipCode(@RequestBody String zip) {
+	try {
 		List<AppUser> usersByzip = userRepository.findByZip(zip);
-		String restName = usersByzip.get(0).getRestaurant_name();
-		return addFoodDetailsRepository.findByRestaurantName(restName);
+		List<AppUser> data = new ArrayList<AppUser>();
+		for(AppUser obj : usersByzip){
+			if (obj.getusertype().equals("resturant")) {
+				data.add(obj);
+			}
+		}
+		if (data.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+
+				return new ResponseEntity<>(data, HttpStatus.OK);
+		} catch (Exception e) {
+				
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
+		
+		
 	}
 
 	@GetMapping("/ListOfRestaurants")
