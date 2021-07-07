@@ -100,7 +100,7 @@ public class MainController {
 			if (other.getEmailaddress().equalsIgnoreCase(user.getEmailaddress()) &&
 					other.getPassword().equals(user.getPassword())) {
 				Cookie cookie = new Cookie("EmailId", other.getEmailaddress());
-				Cookie cookie1 = new Cookie("UserType", other.getUser_type());
+				Cookie cookie1 = new Cookie("UserType", other.getusertype());
 				
 				cookie.setMaxAge(7 * 24 * 60 * 60);
 				cookie.setSecure(true);
@@ -112,7 +112,7 @@ public class MainController {
 				cookie1.setPath("/");
 				response.addCookie(cookie);
 				response.addCookie(cookie1);
-				Usertype = other.getUser_type();
+				Usertype = other.getusertype();
 				return new ResponseEntity<>(Usertype,HttpStatus.OK);
 			}
 		}
@@ -140,7 +140,7 @@ public class MainController {
 		 user.setCloses_at(object.get("closes_at").getAsString());
 		 user.setPhone(object.get("phone").getAsString());
 		 user.setZip(object.get("zip").getAsString());
-		 user.setUser_type(object.get("user_type").getAsString());
+		 user.setusertype(object.get("usertype").getAsString());
 		 
 		 List<AppUser> users = userRepository.findByEmailaddress(user.getEmailaddress());
 		 

@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 public class AppUser {
     private @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
-//    private String user_type;
+//    private String usertype;
     private String first_name;
     private String last_name;
     private String emailaddress;
@@ -22,7 +22,7 @@ public class AppUser {
     private String address;
     private String phone;
     private String zip;
-    private String user_type;
+    private String usertype;
     private String opens_at;
     private String closes_at;
     private @NotBlank boolean loggedin;
@@ -115,12 +115,12 @@ public class AppUser {
 		this.zip = zip;
 	}
 
-	public String getUser_type() {
-		return user_type;
+	public String getusertype() {
+		return usertype;
 	}
 
-	public void setUser_type(String user_type) {
-		this.user_type = user_type;
+	public void setusertype(String usertype) {
+		this.usertype = usertype;
 	}
 
 	public String getOpens_at() {
@@ -152,12 +152,12 @@ public class AppUser {
 		return "AppUser [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name + ", emailaddress="
 				+ emailaddress + ", password=" + password + ", restaurant_name=" + restaurant_name
 				+ ", license_number=" + license_number + ", address=" + address + ", phone=" + phone + ", zip=" + zip
-				+ ", user_type=" + user_type + ", opens_at=" + opens_at + ", closes_at=" + closes_at + ", loggedin="
+				+ ", usertype=" + usertype + ", opens_at=" + opens_at + ", closes_at=" + closes_at + ", loggedin="
 				+ loggedin + "]";
 	}
 
 	public AppUser(String first_name, String last_name, String emailaddress, String password, String restaurant_name,
-			String license_number, String address, String phone, String zip, String user_type, String opens_at,
+			String license_number, String address, String phone, String zip, String usertype, String opens_at,
 			String closes_at) {
 		super();
 		this.first_name = first_name;
@@ -169,7 +169,7 @@ public class AppUser {
 		this.address = address;
 		this.phone = phone;
 		this.zip = zip;
-		this.user_type = user_type;
+		this.usertype = usertype;
 		this.opens_at = opens_at;
 		this.closes_at = closes_at;
 	}
