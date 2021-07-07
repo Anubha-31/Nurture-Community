@@ -73,7 +73,7 @@ export default {
       });
     },
     keyMonitor: function (event) {
-      console.log(event);
+      // console.log(event);
       if(event.getModifierState("CapsLock")) {
         this.capsOn = true
       } else {
