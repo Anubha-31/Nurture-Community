@@ -111,7 +111,7 @@ public class MainController {
 				boolean isMatched = encoder.matches(user.getPassword(), other.getPassword());
 				if (isMatched) {
 					Cookie cookie = new Cookie("EmailId", other.getEmailaddress());
-					Cookie cookie1 = new Cookie("UserType", other.getusertype());
+					Cookie cookie1 = new Cookie("UserType", other.getUsertype());
 
 					cookie.setMaxAge(7 * 24 * 60 * 60);
 					cookie.setSecure(true);
@@ -122,7 +122,7 @@ public class MainController {
 					cookie1.setPath("/");
 					response.addCookie(cookie);
 					response.addCookie(cookie1);
-					Usertype = other.getusertype();
+					Usertype = other.getUsertype();
 					return new ResponseEntity<>(Usertype, HttpStatus.OK);
 				}
 			}
@@ -156,7 +156,7 @@ public class MainController {
 		 user.setCloses_at(object.get("closes_at").getAsString());
 		 user.setPhone(object.get("phone").getAsString());
 		 user.setZip(object.get("zip").getAsString());
-		 user.setusertype(object.get("user_type").getAsString());
+		 user.setUsertype(object.get("user_type").getAsString());
 		 try {
 			 if(multipartfile!=null)
 			 {

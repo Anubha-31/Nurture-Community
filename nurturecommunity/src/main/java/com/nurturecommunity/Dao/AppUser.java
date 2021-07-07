@@ -172,16 +172,6 @@ public class AppUser {
 		this.zip = zip;
 	}
 
-
-	public String getusertype() {
-		return usertype;
-	}
-
-	public void setusertype(String usertype) {
-
-		this.usertype = usertype;
-	}
-
 	public String getOpens_at() {
 		return opens_at;
 	}
