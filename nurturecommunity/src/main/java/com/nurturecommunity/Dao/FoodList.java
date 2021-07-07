@@ -2,7 +2,8 @@ package com.nurturecommunity.Dao;
 
 
 public class FoodList {
-
+	
+	private int id;
 	private String address;
 	private String license;
 	private String restaurant_name;
@@ -59,6 +60,12 @@ public class FoodList {
 	}
 	public void setUploaded_picture(String uploaded_picture) {
 		this.uploaded_picture = uploaded_picture;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 

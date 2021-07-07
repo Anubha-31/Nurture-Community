@@ -30,7 +30,7 @@ public class ResturantMapper implements RowMapper<FoodList> {
 	        e.setNumber_of_packets(rs.getInt(8));
 	        e.setPickupTime(rs.getString(9));
 	        e.setUploaded_picture(rs.getString(10));
-	        
+	        e.setId(rs.getInt(11));
    
  
 		
