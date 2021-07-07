@@ -1,5 +1,7 @@
 package com.nurturecommunity.Dao;
 
+import java.util.Arrays;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,11 +24,20 @@ public class AppUser {
     private String address;
     private String phone;
     private String zip;
-    private String usertype;
+    public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+
+	private String usertype;
     private String opens_at;
     private String closes_at;
     private @NotBlank boolean loggedin;
 	
+    private byte[] picture ;
 	// @Lob private byte[] cover_image;
 	 
    // private MultipartFile file;
@@ -115,11 +126,13 @@ public class AppUser {
 		this.zip = zip;
 	}
 
+
 	public String getusertype() {
 		return usertype;
 	}
 
 	public void setusertype(String usertype) {
+
 		this.usertype = usertype;
 	}
 
@@ -150,15 +163,15 @@ public class AppUser {
 	@Override
 	public String toString() {
 		return "AppUser [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name + ", emailaddress="
-				+ emailaddress + ", password=" + password + ", restaurant_name=" + restaurant_name
-				+ ", license_number=" + license_number + ", address=" + address + ", phone=" + phone + ", zip=" + zip
-				+ ", usertype=" + usertype + ", opens_at=" + opens_at + ", closes_at=" + closes_at + ", loggedin="
-				+ loggedin + "]";
+				+ emailaddress + ", password=" + password + ", restaurant_name=" + restaurant_name + ", license_number="
+				+ license_number + ", address=" + address + ", phone=" + phone + ", zip=" + zip + ", usertype="
+				+ usertype + ", opens_at=" + opens_at + ", closes_at=" + closes_at + ", loggedin=" + loggedin
+				+ ", picture=" + Arrays.toString(picture) + "]";
 	}
 
 	public AppUser(String first_name, String last_name, String emailaddress, String password, String restaurant_name,
 			String license_number, String address, String phone, String zip, String usertype, String opens_at,
-			String closes_at) {
+			String closes_at, @NotBlank boolean loggedin, byte[] picture) {
 		super();
 		this.first_name = first_name;
 		this.last_name = last_name;
@@ -172,7 +185,13 @@ public class AppUser {
 		this.usertype = usertype;
 		this.opens_at = opens_at;
 		this.closes_at = closes_at;
+		this.loggedin = loggedin;
+		this.picture = picture;
 	}
+
+
+
+	
 
 	
 	

@@ -1,7 +1,7 @@
 package com.nurturecommunity.controller;
 
 import java.io.IOException;
-import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,10 +69,14 @@ public class MainController {
 		return this.getRequest.getLoginresponse();
 	}
 	
-	@GetMapping("/ListofRestuarants")
+	
+	
+	@GetMapping("/Listoffooditems")
 	synchronized public List<FoodList> getFoodList(HttpServletRequest request) throws Exception {
 		String Cookie = getCookies(request);
+		
 		return this.getRequest.getFoodresponse(Cookie);
+		
 	}
 
 	@Autowired
@@ -148,6 +153,12 @@ public class MainController {
 		 user.setPhone(object.get("phone").getAsString());
 		 user.setZip(object.get("zip").getAsString());
 		 user.setusertype(object.get("usertype").getAsString());
+		 try {
+			user.setPicture(multipartfile.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		 
 		 List<AppUser> users = userRepository.findByEmailaddress(user.getEmailaddress());
 		 
@@ -156,7 +167,7 @@ public class MainController {
 		 }else {
 			 AppUser newuser = userRepository.save(user);
 			 sendEmail(newuser);
-			savedata(newuser,multipartfile);
+			//savedata(newuser,multipartfile);
 			 return new ResponseEntity<>(HttpStatus.OK);
 		 }
 		 
@@ -239,25 +250,47 @@ public class MainController {
 		
 	}
 
-//	@GetMapping("/ListOfRestaurants")
-//	public ResponseEntity<List<AddFoodDetails>> getAllTutorials(@RequestParam(required = false) String restaurantName) {
-//		try {
-//			List<AddFoodDetails> obj = new ArrayList<AddFoodDetails>();
-//
-//			if (restaurantName == null)
-//				addFoodDetailsRepository.findAll().forEach(obj::add);
-//			else
-//				addFoodDetailsRepository.findByRestaurantNameContaining(restaurantName).forEach(obj::add);
-//
-//			if (obj.isEmpty()) {
-//				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//			}
-//
-//			return new ResponseEntity<>(obj, HttpStatus.OK);
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}	
-//	}
+	@PostMapping("/ListOfRestaurantzip")
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	public ResponseEntity<List<AppUser>> getByZipCode(@RequestBody String zip) {
+	try {
+		List<AppUser> usersByzip = userRepository.findByZip(zip);
+		List<AppUser> data = new ArrayList<AppUser>();
+		for(AppUser obj : usersByzip){
+			if (obj.getusertype().equals("restaurant")) {
+				data.add(obj);
+			}
+		}
+		if (data.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+
+			return new ResponseEntity<>(data, HttpStatus.OK);
+		} catch (Exception e) {
+				
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
+		
+		
+	}
+
+	@GetMapping("/ListOfRestaurants")
+	public ResponseEntity<List<AppUser>> getAllResturants(HttpServletRequest request) {
+		try {
+			List<AppUser> obj = new ArrayList<AppUser>();
+			
+			userRepository.findAllByusertype("restaurant").forEach(obj::add);
+			
+			if (obj.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(obj, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
+	}
 	
 		String getCookies(HttpServletRequest request) {
 			String emailid = null;
