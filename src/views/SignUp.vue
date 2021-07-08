@@ -112,12 +112,12 @@
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
                   <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                  <input name="city" id="City" cols="30" rows="4" v-model="user.city" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
+                  <input name="city" id="city" cols="30" rows="4" v-model="user.city" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
                   <label for="province" class="block text-sm font-medium text-gray-700">Province</label>
-                  <input name="province" id="address2" cols="30" rows="4" v-model="user.province" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
+                  <input name="province" id="province" cols="30" rows="4" v-model="user.province" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" >

@@ -9,7 +9,7 @@
         </div>
         <div class="mt-1 md:mt-10 md:w-1/2 md:mx-auto">
           <form method="POST" @submit.prevent="formSubmit">
-            <div class="shadow overflow-hidden rounded-lg border border-gray-200">
+            <div class="shadow overflow-hidden rounded-lg border border-gray-200">  
               <div class="px-4 py-5 bg-white sm:p-6">
                 <div class="grid grid-cols-1 gap-1">
                   <div class="col-span-6 sm:col-span-1 ">
@@ -60,16 +60,19 @@ export default {
       axios.post(path+'/users/login', this.user
       
       ).then((response) => {
-        console.log(response);
+        //console.log(response)
         if(response.status === 200) {
           if(response.data === "restaurant") {
             window.location.href = "/post";
           } else {
             window.location.href = "/list";
           }
-        }
+        }   
       }, (error) => {
         console.log(error);
+        if(error.response.status === 401) {
+            alert("Please enter the correct password!!")
+          }
       });
     },
     keyMonitor: function (event) {

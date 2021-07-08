@@ -100,7 +100,9 @@ export default {
       
       ).then((response) => {
         console.log(response);
-        //do something
+         (this.contents = response.data)
+       this.length = response.data.length
+      
       }, (error) => {
         console.log(error);
       });
