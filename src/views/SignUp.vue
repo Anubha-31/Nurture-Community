@@ -17,6 +17,8 @@
         <p class="mt-5">Please provide the information below to sign up as a user</p>
       </div>
 
+      <pre>{{ errors }}</pre>
+
       <div class="mt-5 md:mt-10 md:w-1/2 md:mx-auto">
         <form method="POST" @submit.prevent="formSubmit">
 
@@ -52,7 +54,7 @@
                 <div class="col-span-6 sm:col-span-3">
                   <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number <small>e.g. 780-569-8900</small></label>
                   <div class="flex space-x-1">
-                    <input type="text" name="phone_number" id="phone_number" v-model="user.phone" @blur="blurEventHandler($event)" class="w-4/5 mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                    <input type="text" name="phone_number" id="phone_number" v-model="user.phone" @blur="blurEventHandler" class="w-4/5 mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
                   </div>
                   <div v-if="errors.phone" class="col-span-6 mt-1">
                     <ul>
@@ -63,7 +65,7 @@
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
                   <label for="password" class="block text-sm font-medium text-gray-700">Password*</label>
-                  <input type="password" name="password" id="password" @keyup="keyMonitor" v-model="user.password" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                  <input type="password" name="password" id="password" @keyup="keyMonitor" @blur="validatePassword" v-model="user.password" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                   <div v-if="errors.password" class="col-span-6 mt-1">
                     <ul>
                       <li class="text-xs text-red-500 font-medium" v-for="(error, index) in errors.password" :key="index">{{ error }}</li>
@@ -73,10 +75,8 @@
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
                   <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password*</label>
-                  <input type="password" name="confirm_password" id="confirm_password" v-on:keyup="keyMonitor" v-model="user.confirm_password" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                  <input type="password" name="confirm_password" id="confirm_password" v-on:keyup="keyMonitor" @blur="validatePassword" v-model="user.confirm_password" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
-
-
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
                   <label for="restaurant_name" class="block text-sm font-medium text-gray-700">Restaurant's Name*</label>
@@ -93,7 +93,6 @@
                   <input type="file" name="cover_image" accept="image/png, image/gif, image/jpeg" id="cover_image" ref="cover_image" @change="onFileUpload" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
-
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
                   <label for="opens_at" class="block text-sm font-medium text-gray-700">Opens at</label>
                   <input type="time" name="opens_at" id="opens_at" v-model="user.opens_at"  autocomplete="opens-at" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
@@ -106,12 +105,12 @@
 
                 <div class="col-span-6">
                   <label for="address1" class="block text-sm font-medium text-gray-700">Address Line 1</label>
-                  <input name="address1" id="address1" cols="30" rows="4" v-model="user.address1" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
+                  <input name="address1" id="address1" v-model="user.address1" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
                 </div>
 
                 <div class="col-span-6">
                   <label for="address2" class="block text-sm font-medium text-gray-700">Address Line 2</label>
-                  <input name="address2" id="address2" cols="30" rows="4" v-model="user.address2" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
+                  <input name="address2" id="address2" v-model="user.address2" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
@@ -132,13 +131,14 @@
 
                 <div class="col-span-6 sm:col-span-3">
                   <label for="postal_code" class="block text-sm font-medium text-gray-700">ZIP / Postal*</label>
-                  <input type="text" name="postal_code" id="postal_code" v-model="user.zip" autocomplete="postal-code" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                  <input type="text" name="postal_code" id="postal_code" v-model="user.zip" @blur="validateZip" autocomplete="postal-code" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                  <div v-if="errors.zip_code" class="col-span-6 sm:col-span-3 mt-1">
+                    <ul>
+                      <li class="text-xs text-red-500 font-medium">{{ errors.zip_code }}</li>
+                    </ul>
+                  </div>
                 </div>
-                <div v-if="zipValidation.length > 0" class="col-span-6">
-                  <ul>
-                    <li class="text-xs text-red-500 font-medium" v-for="error in zipValidation" :key="error.key">{{ error }}</li>
-                  </ul>
-                </div>
+
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" >
                   <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
@@ -166,6 +166,7 @@ import canada from 'canada'
 import phone from 'phone'
 import _ from 'lodash'
 import Footer from "@/components/Footer";
+import postalCodes from 'postal-codes-js';
 import {path} from './settings.js'
 
 export default {
@@ -196,7 +197,7 @@ export default {
       formData: null,
       fileData: null,
       capsOn: false,
-      errors: [],
+      errors: {},
       passwordValidation: [],
       zipValidation: [],
       provinces: [],
@@ -207,7 +208,6 @@ export default {
     this.formData = new FormData();
     this.provinces = canada.provinces
     this.debouncedPhoneValidation = _.debounce(this.validatePhone, 500)
-    // console.log(phone('780-569-8900'))
 
   },
   watch: {
@@ -225,10 +225,10 @@ export default {
       this.formData = new FormData();
       this.formData.append("model", JSON.stringify(this.user));
       this.formData.append("cover_image", this.user.cover_image)
-      this.errors = [];
-      this.validatePassword();
-      this.validateZip();
-      if(this.user.password === this.user.confirm_password) {
+      if(this.errors.password.length === 0) {
+        delete this.errors.password
+      }
+      if(!_.isEmpty(this.errors)) {
         axios.defaults.withCredentials = true
         axios({
           url: path +'/users/register',
@@ -252,7 +252,7 @@ export default {
           }
         });
       } else {
-        this.errors.push('Passwords should match')
+        this.errors.push('You have errors in your form')
       }
     },
     onFileUpload: function (event) {
@@ -265,44 +265,61 @@ export default {
       }
     },
     keyMonitor: function (event) {
-      this.passwordValidation.splice(this.passwordValidation.indexOf("Capslock is on", 1))
+      let index = this.passwordValidation.indexOf("Capslock is on");
+      if (index > -1) {
+        this.passwordValidation.splice(index, 1);
+      }
+      // this.passwordValidation.splice(this.passwordValidation.indexOf("Capslock is on"), 1)
       if(event.getModifierState("CapsLock")) {
         this.passwordValidation.push("Capslock is on");
+        this.errors.password = this.passwordValidation
       }
-      this.errors.password = this.passwordValidation
+      // console.log(this.passwordValidation)
+
     },
     validatePassword: function () {
-      let p = this.user.password;
+      let errors = [
+        "Password must be at least 8 characters",
+        "Password must contain at least one letter.",
+        "Password must be contain least one digit",
+        "Password must contain at least one special character",
+        "Passwords should match"
+      ]
 
-      if (p.length < 8) {
-        this.passwordValidation.push("Your password must be at least 8 characters");
+      let index = null
+
+      errors.map(error => {
+        index = this.passwordValidation.indexOf(error);
+        if (index > -1) {
+          this.passwordValidation.splice(index, 1);
+        }
+      })
+
+      if (this.user.password.length < 8) {
+        this.passwordValidation.push(errors[0]);
       }
-      if (p.search(/[a-z]/i) < 0) {
-        this.passwordValidation.push("Your password must contain at least one letter.");
+      if (this.user.password.search(/[a-z]/i) < 0) {
+        this.passwordValidation.push(errors[1]);
       }
-      if (p.search(/[0-9]/) < 0) {
-        this.passwordValidation.push("Your password must contain at least one digit.");
+      if (this.user.password.search(/[0-9]/) < 0) {
+        this.passwordValidation.push(errors[2]);
       }
-      if (this.passwordValidation.length > 0) {
-        this.passwordValidation.join("\n");
-        return false;
+      if (this.user.password.search(/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/) < 0) {
+        this.passwordValidation.push(errors[3]);
       }
-      return true;
+      if (this.user.confirm_password.length > 0 && (this.user.password !== this.user.confirm_password)) {
+        this.passwordValidation.push(errors[4]);
+      }
+
+      this.errors.password = this.passwordValidation
+
     },
     validateZip: function () {
-      let p = this.user.zip;
-
-      if (p.length < 6) {
-        this.zipValidation.push("Zip code must be 6 characters long");
+      if(postalCodes.validate("CAN", this.user.zip) !== true) {
+        this.errors.zip_code = "Invalid zip code"
+      } else {
+        delete this.errors.zip_code
       }
-      if (/\s/g.test(p)) {
-        this.zipValidation.push("It should not contain any space");
-      }
-      if (this.zipValidation.length > 0) {
-        this.zipValidation.join("\n");
-        return false;
-      }
-      return true;
     },
     validatePhone: function () {
 
@@ -312,11 +329,10 @@ export default {
       // console.log(this.user.phone)
       // console.log(phone(this.user.phone, "CAN"))
       if(phone(this.user.phone, "CAN").length === 0) {
-        this.errors["phone"]= "Please enter a valid Canadian phone number"
+        this.errors.phone= "Please enter a valid Canadian phone number"
       } else {
         delete this.errors.phone
       }
-      // console.log(this.errors)
     },
   },
 }
