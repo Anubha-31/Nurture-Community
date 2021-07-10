@@ -63,7 +63,12 @@
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
                   <label for="password" class="block text-sm font-medium text-gray-700">Password*</label>
-                  <input type="password" name="password" id="password" v-on:keyup="keyMonitor" v-model="user.password" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                  <input type="password" name="password" id="password" @keyup="keyMonitor" v-model="user.password" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                  <div v-if="errors.password" class="col-span-6 mt-1">
+                    <ul>
+                      <li class="text-xs text-red-500 font-medium" v-for="(error, index) in errors.password" :key="index">{{ error }}</li>
+                    </ul>
+                  </div>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
@@ -71,12 +76,7 @@
                   <input type="password" name="confirm_password" id="confirm_password" v-on:keyup="keyMonitor" v-model="user.confirm_password" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
-                <div v-if="capsOn" class="col-span-6 text-red-500 font-medium">Capslock in on!</div>
-                <div v-if="passwordValidation.length > 0" class="col-span-6">
-                  <ul>
-                    <li class="text-xs text-red-500 font-medium" v-for="error in passwordValidation" :key="error.key">{{ error }}</li>
-                  </ul>
-                </div>
+
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
                   <label for="restaurant_name" class="block text-sm font-medium text-gray-700">Restaurant's Name*</label>
@@ -265,11 +265,11 @@ export default {
       }
     },
     keyMonitor: function (event) {
+      this.passwordValidation.splice(this.passwordValidation.indexOf("Capslock is on", 1))
       if(event.getModifierState("CapsLock")) {
-        this.capsOn = true
-      } else {
-        this.capsOn = false
+        this.passwordValidation.push("Capslock is on");
       }
+      this.errors.password = this.passwordValidation
     },
     validatePassword: function () {
       let p = this.user.password;
@@ -309,14 +309,14 @@ export default {
     },
     blurEventHandler: function (e) {
       const name = e.target.value;
-      console.log(this.user.phone)
-      console.log(phone(this.user.phone, "CAN"))
+      // console.log(this.user.phone)
+      // console.log(phone(this.user.phone, "CAN"))
       if(phone(this.user.phone, "CAN").length === 0) {
         this.errors["phone"]= "Please enter a valid Canadian phone number"
       } else {
         delete this.errors.phone
       }
-      console.log(this.errors)
+      // console.log(this.errors)
     },
   },
 }
