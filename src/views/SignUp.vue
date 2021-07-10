@@ -111,18 +111,16 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                  <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                  <input name="city" id="city" cols="30" rows="4" v-model="user.city" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
+                  <label for="province" class="block text-sm font-medium text-gray-700">Province*</label>
+                  <select name="province" id="province" v-model="user.province" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                    <option disabled value="">Please select one</option>
+                    <option v-for="(province, index) in provinces" :key="index">{{ province }}</option>
+                  </select>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                  <label for="province" class="block text-sm font-medium text-gray-700">Province</label>
-                  <input name="province" id="province" cols="30" rows="4" v-model="user.province" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
-                </div>
-
-                <div class="col-span-6 sm:col-span-3 lg:col-span-3" >
-                  <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
-                  <input name="country" id="country" cols="30" rows="4" v-model="user.country" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
+                  <label for="city" class="block text-sm font-medium text-gray-700">City*</label>
+                  <input name="city" id="city" cols="30" rows="4" v-model="user.city" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required/>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
@@ -134,6 +132,12 @@
                     <li class="text-xs text-red-500 font-medium" v-for="error in zipValidation" :key="error.key">{{ error }}</li>
                   </ul>
                 </div>
+
+                <div class="col-span-6 sm:col-span-3 lg:col-span-3" >
+                  <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+                  <input name="country" id="country" cols="30" rows="4" v-model="user.country" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" disabled/>
+                </div>
+
               </div>
             </div>
             <div class="px-4 py-3 bg-gray-50 text-right sm:pt-6 sm:pb-8">
@@ -177,7 +181,7 @@ export default {
         address2: "",
         city:"",
         province:"",
-        country:"",
+        country:"Canada",
         zip: ""
       },
       formData: null,
@@ -185,7 +189,22 @@ export default {
       capsOn: false,
       errors: [],
       passwordValidation: [],
-      zipValidation: []
+      zipValidation: [],
+      provinces: [
+        "Alberta",
+        "British Columbia",
+        "Manitoba",
+        "New Brunswick",
+        "Newfoundland and Labrador",
+        "Northwest Territories",
+        "Nova Scotia",
+        "Nunavut",
+        "Ontario",
+        "Prince Edward Island",
+        "Quebec",
+        "Saskatchewan",
+        "Yukon"
+      ]
     }
   },
   created() {
