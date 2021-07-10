@@ -73,7 +73,7 @@
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
                   <label for="license_number" class="block text-sm font-medium text-gray-700">License Number*</label>
-                  <input type="text" name="license_number" id="license_number" v-model="user.license_number" autocomplete="license-number" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <input type="text" name="license_number" id="license_number" v-model="user.license_number" autocomplete="license-number" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
                 <div class="col-span-6" v-if="user.user_type === 'restaurant'">
@@ -101,12 +101,12 @@
                 </div>
 
                 <div class="col-span-6">
-                  <label for="address1" class="block text-sm font-medium text-gray-700">Address1</label>
+                  <label for="address1" class="block text-sm font-medium text-gray-700">Address Line 1</label>
                   <input name="address1" id="address1" cols="30" rows="4" v-model="user.address1" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
                 </div>
 
                 <div class="col-span-6">
-                  <label for="address2" class="block text-sm font-medium text-gray-700">Address2</label>
+                  <label for="address2" class="block text-sm font-medium text-gray-700">Address Line 2</label>
                   <input name="address2" id="address2" cols="30" rows="4" v-model="user.address2" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
                 </div>
 
