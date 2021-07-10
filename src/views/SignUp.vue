@@ -30,7 +30,7 @@
                   <label for="user_type" class="block text-sm font-medium text-gray-700">Sign Up As</label>
                   <select id="user_type" name="user_type" autocomplete="user_type" v-model="user.user_type" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <option value="restaurant">Restaurant Representative</option>
-                    <option value="client">Client</option>
+                    <option value="customer">Customer</option>
                   </select>
                 </div>
 
@@ -50,10 +50,14 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
-                  <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                  <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number <small>e.g. 780-569-8900</small></label>
                   <div class="flex space-x-1">
-                    <input type="text" value="+1" disabled class="w-1/5 mt-1 p-2 bg-gray-100 block shadow-sm sm:text-sm border border-gray-300 rounded-md text-center">
-                    <input type="number" name="phone_number" id="phone_number" v-model="user.phone" class="w-4/5 mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                    <input type="text" name="phone_number" id="phone_number" v-model="user.phone" @blur="blurEventHandler($event)" class="w-4/5 mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  </div>
+                  <div v-if="errors.phone" class="col-span-6 mt-1">
+                    <ul>
+                      <li class="text-xs text-red-500 font-medium">{{ errors.phone }}</li>
+                    </ul>
                   </div>
                 </div>
 
@@ -114,13 +118,16 @@
                   <label for="province" class="block text-sm font-medium text-gray-700">Province*</label>
                   <select name="province" id="province" v-model="user.province" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                     <option disabled value="">Please select one</option>
-                    <option v-for="(province, index) in provinces" :key="index">{{ province }}</option>
+                    <option v-for="(province, index) in provinces" :key="index" :value="index">{{ province }}</option>
                   </select>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3">
                   <label for="city" class="block text-sm font-medium text-gray-700">City*</label>
-                  <input name="city" id="city" cols="30" rows="4" v-model="user.city" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required/>
+                  <select name="city" id="city" v-model="user.city" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                    <option disabled value="">Please select one</option>
+                    <option v-for="(city, index) in cities" :key="index" :value="index">{{ city[0] }}</option>
+                  </select>
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
@@ -155,9 +162,11 @@
 
 <script>
 import axios from 'axios'
+import canada from 'canada'
+import phone from 'phone'
+import _ from 'lodash'
 import Footer from "@/components/Footer";
 import {path} from './settings.js'
-
 
 export default {
   name: "SignUp",
@@ -190,25 +199,26 @@ export default {
       errors: [],
       passwordValidation: [],
       zipValidation: [],
-      provinces: [
-        "Alberta",
-        "British Columbia",
-        "Manitoba",
-        "New Brunswick",
-        "Newfoundland and Labrador",
-        "Northwest Territories",
-        "Nova Scotia",
-        "Nunavut",
-        "Ontario",
-        "Prince Edward Island",
-        "Quebec",
-        "Saskatchewan",
-        "Yukon"
-      ]
+      provinces: [],
+      cities: []
     }
   },
   created() {
     this.formData = new FormData();
+    this.provinces = canada.provinces
+    this.debouncedPhoneValidation = _.debounce(this.validatePhone, 500)
+    // console.log(phone('780-569-8900'))
+
+  },
+  watch: {
+    'user.province': function (val) {
+        this.cities = canada.cities.filter(city => {
+          return city[1] === val
+        })
+    },
+    // 'user.phone': function (val) {
+    //   this.debouncedPhoneValidation()
+    // }
   },
   methods: {
     formSubmit: function () {
@@ -255,7 +265,6 @@ export default {
       }
     },
     keyMonitor: function (event) {
-      // console.log(event);
       if(event.getModifierState("CapsLock")) {
         this.capsOn = true
       } else {
@@ -294,8 +303,22 @@ export default {
         return false;
       }
       return true;
-    }
-  }
+    },
+    validatePhone: function () {
+
+    },
+    blurEventHandler: function (e) {
+      const name = e.target.value;
+      console.log(this.user.phone)
+      console.log(phone(this.user.phone, "CAN"))
+      if(phone(this.user.phone, "CAN").length === 0) {
+        this.errors["phone"]= "Please enter a valid Canadian phone number"
+      } else {
+        delete this.errors.phone
+      }
+      console.log(this.errors)
+    },
+  },
 }
 </script>
 
