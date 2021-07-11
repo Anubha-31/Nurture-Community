@@ -16,17 +16,11 @@
         <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Sign Up</h1>
         <p class="mt-5">Please provide the information below to sign up as a user</p>
       </div>
-
-      <pre>{{ errors }}</pre>
-
-      <div class="mt-5 md:mt-10 md:w-1/2 md:mx-auto">
+      <div class="mt-5 md:mt-6 md:w-1/2 md:mx-auto">
         <form method="POST" @submit.prevent="formSubmit">
-
+          <p class="text-center pb-2 text-red-500 font-medium" v-if="errorExist || duplicateEmail">You have some errors on form!</p>
           <div class="shadow overflow-hidden rounded-lg border border-gray-200">
             <div class="px-4 py-5 bg-white sm:p-6">
-              <ul v-if="errors.length > 0" class="text-red-500 font-medium mb-5">
-                <li v-for="error in errors" :key="error.message">{{ error }}</li>
-              </ul>
               <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6">
                   <label for="user_type" class="block text-sm font-medium text-gray-700">Sign Up As</label>
@@ -48,8 +42,14 @@
 
                 <div class="col-span-6 sm:col-span-3">
                   <label for="email_address" class="block text-sm font-medium text-gray-700">Email address*</label>
-                  <input type="email" name="email_address" id="email_address" autocomplete="email" v-model="user.emailaddress" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                  <input type="email" name="email_address" id="email_address" autocomplete="email" v-model="user.emailaddress" @blur="resetDuplicateError" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                  <div v-if="duplicateEmail" class="col-span-6 mt-1">
+                    <ul>
+                      <li class="text-xs text-red-500 font-medium">User with this email already exists</li>
+                    </ul>
+                  </div>
                 </div>
+
 
                 <div class="col-span-6 sm:col-span-3">
                   <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number <small>e.g. 780-569-8900</small></label>
@@ -201,34 +201,32 @@ export default {
       passwordValidation: [],
       zipValidation: [],
       provinces: [],
-      cities: []
+      cities: [],
+      errorExist: false,
+      duplicateEmail: false
     }
   },
   created() {
-    this.formData = new FormData();
     this.provinces = canada.provinces
-    this.debouncedPhoneValidation = _.debounce(this.validatePhone, 500)
-
   },
   watch: {
     'user.province': function (val) {
         this.cities = canada.cities.filter(city => {
           return city[1] === val
         })
-    },
-    // 'user.phone': function (val) {
-    //   this.debouncedPhoneValidation()
-    // }
+    }
   },
   methods: {
     formSubmit: function () {
       this.formData = new FormData();
       this.formData.append("model", JSON.stringify(this.user));
       this.formData.append("cover_image", this.user.cover_image)
-      if(this.errors.password.length === 0) {
+      if(_.isEmpty(this.errors.password)) {
         delete this.errors.password
       }
-      if(!_.isEmpty(this.errors)) {
+      this.errorExist = false;
+      this.errorExist = !_.isEmpty(this.errors);
+      if(!this.errorExist) {
         axios.defaults.withCredentials = true
         axios({
           url: path +'/users/register',
@@ -243,16 +241,15 @@ export default {
           if(response.status === 200) {
             this.fileData = response
             alert("Signed Up successfully")
-          } else if (response.status === 409) {
-            alert("You have already registered with this email address")
           }
         }, (error) => {
           if(error.request.status === 409) {
-            alert("User with given email already exist!")
+            this.duplicateEmail = true
+            window.scrollTo(0, 0);
           }
         });
       } else {
-        this.errors.push('You have errors in your form')
+        window.scrollTo(0, 0);
       }
     },
     onFileUpload: function (event) {
@@ -269,13 +266,10 @@ export default {
       if (index > -1) {
         this.passwordValidation.splice(index, 1);
       }
-      // this.passwordValidation.splice(this.passwordValidation.indexOf("Capslock is on"), 1)
       if(event.getModifierState("CapsLock")) {
         this.passwordValidation.push("Capslock is on");
         this.errors.password = this.passwordValidation
       }
-      // console.log(this.passwordValidation)
-
     },
     validatePassword: function () {
       let errors = [
@@ -321,19 +315,16 @@ export default {
         delete this.errors.zip_code
       }
     },
-    validatePhone: function () {
-
-    },
     blurEventHandler: function (e) {
-      const name = e.target.value;
-      // console.log(this.user.phone)
-      // console.log(phone(this.user.phone, "CAN"))
       if(phone(this.user.phone, "CAN").length === 0) {
         this.errors.phone= "Please enter a valid Canadian phone number"
       } else {
         delete this.errors.phone
       }
     },
+    resetDuplicateError: function () {
+      this.duplicateEmail = (this.duplicateEmail) ? false : '';
+    }
   },
 }
 </script>
