@@ -50,7 +50,6 @@
                   </div>
                 </div>
 
-
                 <div class="col-span-6 sm:col-span-3">
                   <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number <small>e.g. 780-569-8900</small></label>
                   <div class="flex space-x-1">
@@ -139,12 +138,10 @@
                   </div>
                 </div>
 
-
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" >
                   <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
                   <input name="country" id="country" cols="30" rows="4" v-model="user.country" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" disabled/>
                 </div>
-
               </div>
             </div>
             <div class="px-4 py-3 bg-gray-50 text-right sm:pt-6 sm:pb-8">
