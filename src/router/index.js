@@ -29,7 +29,7 @@ const routes = [
     component: AddPost
   },
   {
-    path: '/ContactUs',
+    path: '/contact-us',
     name: 'ContactUs',
     component: ContactUs
   },
