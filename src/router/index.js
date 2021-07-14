@@ -2,10 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import SignUp from "@/views/SignUp";
 import Login from "@/views/Login";
-import CreateFoodItem from "@/views/CreateFoodItem";
+import CreateFoodItem from "@/views/FoodItem/CreateFoodItem";
 import ContactUs from "@/views/ContactUs"
 import RestaurantList from "@/views/RestaurantList";
 import Upload from "@/views/Upload";
+import EditFoodItem from "@/views/FoodItem/EditFoodItem";
 
 const routes = [
   {
@@ -27,6 +28,12 @@ const routes = [
     path: '/food-item/create',
     name: 'CreateFoodItem',
     component: CreateFoodItem
+  },
+  {
+    path: '/food-item/:id/edit',
+    name: 'EditFoodItem',
+    component: EditFoodItem,
+    props: true
   },
   {
     path: '/contact-us',

@@ -333,7 +333,7 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
-import { path } from "./settings.js";
+import { path } from "../settings.js";
 
 export default {
   name: "CreateFoodItem",
