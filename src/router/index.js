@@ -34,7 +34,7 @@ const routes = [
     component: ContactUs
   },
    {
-    path: '/list',
+    path: '/restaurant',
     name: 'Restaurant List',
     component: RestaurantList
   },
