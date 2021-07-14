@@ -92,6 +92,10 @@
                   <input type="file" name="cover_image" accept="image/png, image/gif, image/jpeg" id="cover_image" ref="cover_image" @change="onFileUpload" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
+                <div class="col-span-6 flex justify-center" v-if="user.user_type === 'restaurant'">
+                  <img :src="placeholderImage" alt="cover image" class="w-1/2 border rounded-md" ref="placeholder_image"/>
+                </div>
+
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
                   <label for="opens_at" class="block text-sm font-medium text-gray-700">Opens at</label>
                   <input type="time" name="opens_at" id="opens_at" v-model="user.opens_at"  autocomplete="opens-at" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md">
@@ -200,7 +204,8 @@ export default {
       provinces: [],
       cities: [],
       errorExist: false,
-      duplicateEmail: false
+      duplicateEmail: false,
+      placeholderImage: '/img/placeholder-image.8057445e.png'
     }
   },
   created() {
@@ -250,11 +255,14 @@ export default {
       }
     },
     onFileUpload: function (event) {
+      this.$refs.placeholder_image.src = this.placeholderImage
+
       if(event.target.files[0].size > 5000000) {
         alert("Please upload a file less than 5MB")
         this.$refs.cover_image.value = null;
       } else {
         console.log(event.target.files[0])
+        this.$refs.placeholder_image.src = URL.createObjectURL(event.target.files[0])
         this.user.cover_image = event.target.files[0]
       }
     },
