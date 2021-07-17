@@ -63,9 +63,9 @@ export default {
         //console.log(response)
         if(response.status === 200) {
           if(response.data === "restaurant") {
-            window.location.href = "/post";
+            window.location.href = "/food-tem";
           } else {
-            window.location.href = "/list";
+            window.location.href = "/restaurant";
           }
         }   
       }, (error) => {

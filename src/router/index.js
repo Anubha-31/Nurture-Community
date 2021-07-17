@@ -25,6 +25,11 @@ const routes = [
     component: Login
   },
   {
+    path: '/food-items',
+    name: 'FoodItem',
+    component: FoodItem
+  },
+  {
     path: '/food-item/create',
     name: 'CreateFoodItem',
     component: CreateFoodItem
