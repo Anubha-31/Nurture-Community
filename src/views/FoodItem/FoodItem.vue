@@ -2,32 +2,36 @@
   <Header/>
   debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}
   <h1 class="text-3xl md:text-5xl text-center">List of posted food items</h1>
-  <div class="min-h-screen w-2/3 mx-auto bg-white mt-2 md:mt-5">
+  <p class="text-center mt-2">Below are the list of items that you have posted</p>
+  <div class="min-h-screen w-2/3 mx-auto bg-white mt-1 md:mt-5">
     <div class="col-span-12">
       <div class="overflow-auto lg:overflow-visible ">
         <table class="table w-full text-gray-400 border-separate space-y-6 text-sm">
           <thead class="bg-gray-200 text-gray-500">
           <tr>
-            <th colspan="4" class="p-3 text-left cursor-pointer" @click="sort('name')">Item name</th>
-            <th class="p-3 text-left cursor-pointer" @click="sort('age')">Quantity</th>
-            <th class="p-3 text-left">Action</th>
-            <th class="p-3 text-left">Action</th>
+            <th class="p-3 w-96 text-left cursor-pointer" @click="sort('name')">Item name <i class="fas fa-exchange-alt transform rotate-90"></i></th>
+            <th class="p-3 w-16 text-left cursor-pointer" @click="sort('age')">Quantity <i class="fas fa-exchange-alt transform rotate-90"></i></th>
+            <th class="p-3 w-12 text-center">Action</th>
+            <th class="p-3 w-12 text-center">Action</th>
 <!--            <th class="p-3 text-left" @click="sort('gender')">Gender</th>-->
           </tr>
           </thead>
           <tbody>
           <tr class="bg-gray-100 text-gray-800" v-for="cat in sortedCats">
-            <td colspan="4" class="p-3">{{cat.name}}</td>
-            <td class="p-3">{{cat.age}}</td>
-            <td class="p-3">edit</td>
-            <td class="p-3">delete</td>
+            <td class="p-3 w-96">{{cat.name}}</td>
+            <td class="p-3 w-16">{{cat.age}}</td>
+            <td class="p-3 w-12 text-center cursor-pointer"><i class="fas fa-edit"></i></td>
+            <td class="p-3 w-12 text-center cursor-pointer"><i class="fas fa-trash-alt"></i></td>
 <!--            <td class="p-3">{{cat.gender}}</td>-->
           </tr>
           </tbody>
         </table>
-        <p class="flex justify-end space-x-1">
-          <button @click="prevPage" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-900 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Previous</button>
-          <button @click="nextPage" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-900 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Next</button>
+        <p class="flex justify-end space-x-1 mt-1">
+          <button @click="prevPage" class="inline-flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-900 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <i class="fas fa-angle-double-left pr-2 mt-1"></i> Previous
+          </button>
+          <button @click="nextPage" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-900 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Next<i class="fas fa-angle-double-right pl-2 mt-1"></i></button>
         </p>
       </div>
     </div>
