@@ -108,7 +108,7 @@
 
                 <div class="col-span-6">
                   <label for="address1" class="block text-sm font-medium text-gray-700">Address Line 1</label>
-                  <input name="address1" id="address1" v-model="user.address1" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"/>
+                  <input name="address1" id="address1" v-model="user.address1" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required/>
                 </div>
 
                 <div class="col-span-6">
