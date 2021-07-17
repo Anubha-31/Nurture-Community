@@ -20,8 +20,8 @@
           <tr class="bg-gray-100 text-gray-800" v-for="cat in sortedCats">
             <td class="p-3 w-96">{{cat.name}}</td>
             <td class="p-3 w-16">{{cat.age}}</td>
-            <td class="p-3 w-12 text-center cursor-pointer"><i class="fas fa-edit"></i></td>
-            <td class="p-3 w-12 text-center cursor-pointer"><i class="fas fa-trash-alt"></i></td>
+            <td class="p-3 w-12 text-center cursor-pointer"><i class="fas fa-edit text-blue-700"></i></td>
+            <td class="p-3 w-12 text-center cursor-pointer"><i class="fas fa-trash-alt text-red-700"></i></td>
 <!--            <td class="p-3">{{cat.gender}}</td>-->
           </tr>
           </tbody>
