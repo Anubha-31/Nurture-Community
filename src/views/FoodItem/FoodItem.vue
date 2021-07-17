@@ -1,7 +1,8 @@
 <template>
   <Header/>
   debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}
-  <div class="min-h-screen w-2/3 mx-auto bg-white">
+  <h1 class="text-3xl md:text-5xl text-center">List of posted food items</h1>
+  <div class="min-h-screen w-2/3 mx-auto bg-white mt-2 md:mt-5">
     <div class="col-span-12">
       <div class="overflow-auto lg:overflow-visible ">
         <table class="table w-full text-gray-400 border-separate space-y-6 text-sm">
@@ -25,7 +26,7 @@
           </tbody>
         </table>
         <p class="flex justify-end space-x-1">
-          <button @click="prevPage" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Previous</button>
+          <button @click="prevPage" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-900 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Previous</button>
           <button @click="nextPage" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-900 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Next</button>
         </p>
       </div>
