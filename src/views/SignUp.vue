@@ -16,6 +16,7 @@
         <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Sign Up</h1>
         <p class="mt-5">Please provide the information below to sign up as a user</p>
       </div>
+<!--      <pre>{{user}}</pre>-->
       <div class="mt-5 md:mt-6 md:w-1/2 md:mx-auto">
         <form method="POST" @submit.prevent="formSubmit">
           <p class="text-center pb-2 text-red-500 font-medium" v-if="errorExist || duplicateEmail">You have some errors on form!</p>
@@ -128,7 +129,7 @@
                   <label for="city" class="block text-sm font-medium text-gray-700">City*</label>
                   <select name="city" id="city" v-model="user.city" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                     <option disabled value="">Please select one</option>
-                    <option v-for="(city, index) in cities" :key="index" :value="index">{{ city[0] }}</option>
+                    <option v-for="(city, index) in cities" :key="index" :value="city[0]">{{ city[0] }}</option>
                   </select>
                 </div>
 
