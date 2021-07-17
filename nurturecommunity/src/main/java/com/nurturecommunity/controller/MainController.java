@@ -266,12 +266,12 @@ public class MainController {
 		JsonObject object = (JsonObject)jsonParser.parse(zip);
 		
 		
-		zip =object.get("search").getAsString();
+		zip =object.get("city").getAsString();
 		List<AppUser> usersByzip = new ArrayList<AppUser>();
 		userRepository.findAllByusertype("restaurant").forEach(usersByzip::add);
 		List<AppUser> data = new ArrayList<AppUser>();
 		for(AppUser obj : usersByzip){
-			if (obj.getZip().equals(zip)) {
+			if (obj.getCity().equals(zip)) {
 				data.add(obj);
 			}
 		}
