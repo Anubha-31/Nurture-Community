@@ -143,7 +143,7 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" >
-                  <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+                  <label for="country" class="block text-sm font-medium text-gray-700">Country*</label>
                   <input name="country" id="country" cols="30" rows="4" v-model="user.country" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" disabled/>
                 </div>
               </div>
