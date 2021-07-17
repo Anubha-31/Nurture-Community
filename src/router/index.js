@@ -6,6 +6,8 @@ import CreateFoodItem from "@/views/FoodItem/CreateFoodItem";
 import ContactUs from "@/views/ContactUs"
 import RestaurantList from "@/views/RestaurantList";
 import Upload from "@/views/Upload";
+
+import FoodItem from "@/views/FoodItem/FoodItem";
 import EditFoodItem from "@/views/FoodItem/EditFoodItem";
 
 const routes = [
