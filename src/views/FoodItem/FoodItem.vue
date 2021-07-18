@@ -34,10 +34,16 @@
           </tbody>
         </table>
         <p class="flex justify-end space-x-1 mt-1">
-          <button @click="prevPage" class="inline-flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-900 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button
+              @click="prevPage"
+              :class="currentPage > 1 ? 'bg-purple-900 hover:bg-purple-700' : 'bg-gray-200 cursor-not-allowed'"
+              class="inline-flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <i class="fas fa-angle-double-left pr-2 mt-1"></i> Previous
           </button>
-          <button @click="nextPage" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-900 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <button
+              @click="nextPage"
+              :class="(currentPage*pageSize) < cats.length ? 'bg-purple-900 hover:bg-purple-700' : 'bg-gray-200 cursor-not-allowed'"
+              class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Next<i class="fas fa-angle-double-right pl-2 mt-1"></i></button>
         </p>
         <edit-food-item-modal v-show="isEditModalVisible" @close="closeEditModal" :food-item="editInfo" />
@@ -62,7 +68,7 @@ export default {
       cats:[],
       currentSort:'name',
       currentSortDir:'asc',
-      pageSize:3,
+      pageSize:8,
       currentPage:1,
       isEditModalVisible: false,
       isDeleteModalVisible: false,
