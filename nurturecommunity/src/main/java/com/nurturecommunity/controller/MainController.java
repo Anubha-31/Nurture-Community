@@ -49,7 +49,7 @@ import com.nurturecommunity.repository.UserRepository;
 import com.nurturecommunity.services.GetRequest;
 
 @RestController
-@CrossOrigin(origins = "http://locahost:8060/", allowedHeaders = "*",allowCredentials="true")
+@CrossOrigin(origins = "http://localhost:8060/", allowedHeaders = "*",allowCredentials="true")
 public class MainController {
 
 	@Autowired
