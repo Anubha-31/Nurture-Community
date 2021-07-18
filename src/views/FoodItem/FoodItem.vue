@@ -1,6 +1,6 @@
 <template>
   <Header/>
-  debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}
+<!--  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>-->
   <h1 class="text-3xl md:text-5xl text-center">List of posted food items</h1>
   <p class="text-center mt-2">Below are the list of items that you have posted</p>
   <div class="min-h-screen w-2/3 mx-auto bg-white mt-1 md:mt-5">
@@ -11,18 +11,24 @@
           <tr>
             <th class="p-3 w-96 text-left cursor-pointer" @click="sort('name')">Item name <i class="fas fa-exchange-alt transform rotate-90"></i></th>
             <th class="p-3 w-16 text-left cursor-pointer" @click="sort('age')">Quantity <i class="fas fa-exchange-alt transform rotate-90"></i></th>
-            <th class="p-3 w-12 text-center">Action</th>
-            <th class="p-3 w-12 text-center">Action</th>
-<!--            <th class="p-3 text-left" @click="sort('gender')">Gender</th>-->
+            <th class="p-3 w-12 text-center">Edit</th>
+            <th class="p-3 w-12 text-center">Delete</th>
           </tr>
           </thead>
           <tbody>
-          <tr class="bg-gray-100 text-gray-800" v-for="cat in sortedCats">
+          <tr class="bg-gray-100 text-gray-800" v-for="(cat, index) in sortedCats" :key="index">
             <td class="p-3 w-96">{{cat.name}}</td>
             <td class="p-3 w-16">{{cat.age}}</td>
-            <td class="p-3 w-12 text-center cursor-pointer"><i class="fas fa-edit text-blue-700"></i></td>
-            <td class="p-3 w-12 text-center cursor-pointer"><i class="fas fa-trash-alt text-red-700"></i></td>
-<!--            <td class="p-3">{{cat.gender}}</td>-->
+            <td class="p-3 w-12 text-center cursor-pointer">
+              <button type="button" class="btn" @click="showEditModal(index, cat.age)">
+                <i class="fas fa-edit text-blue-700"></i>
+              </button>
+            </td>
+            <td class="p-3 w-12 text-center cursor-pointer">
+              <button type="button" class="btn" @click="showDeleteModal(index)">
+                <i class="fas fa-trash-alt text-red-700"></i>
+              </button>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -33,6 +39,8 @@
           <button @click="nextPage" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-900 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Next<i class="fas fa-angle-double-right pl-2 mt-1"></i></button>
         </p>
+        <edit-food-item-modal v-show="isEditModalVisible" @close="closeEditModal" :food-item="editInfo" />
+        <delete-food-item-modal v-show="isDeleteModalVisible" @close="closeDeleteModal" :food-id="deleteInfo" />
       </div>
     </div>
   </div>
@@ -41,6 +49,8 @@
 <script>
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import EditFoodItemModal from "@/components/EditFoodItemModal";
+import DeleteFoodItemModal from "@/components/DeleteFoodItemModal";
 import axios from 'axios'
 
 export default {
@@ -51,7 +61,11 @@ export default {
       currentSort:'name',
       currentSortDir:'asc',
       pageSize:3,
-      currentPage:1
+      currentPage:1,
+      isEditModalVisible: false,
+      isDeleteModalVisible: false,
+      editInfo: {},
+      deleteInfo: null,
     }
   },
   created() {
@@ -75,8 +89,21 @@ export default {
     },
     prevPage:function() {
       if(this.currentPage > 1) this.currentPage--;
+    },
+    showEditModal(id, quantity) {
+      this.editInfo = { id: id, quantity: quantity };
+      this.isEditModalVisible = true;
+    },
+    showDeleteModal(id) {
+      this.deleteInfo = id;
+      this.isDeleteModalVisible = true;
+    },
+    closeEditModal() {
+      this.isEditModalVisible = false;
+    },
+    closeDeleteModal() {
+      this.isDeleteModalVisible = false;
     }
-
   },
   computed:{
     sortedCats:function() {
@@ -93,7 +120,12 @@ export default {
       });
     }
   },
-  components: {Header, Footer}
+  components: {
+    Header,
+    Footer,
+    EditFoodItemModal,
+    DeleteFoodItemModal
+  }
 }
 </script>
 <style scoped>
