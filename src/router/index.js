@@ -43,7 +43,7 @@ const routes = [
     props: true
   },
   {
-    path: '/contact-us',
+    path: '/ContactUs',
     name: 'ContactUs',
     component: ContactUs
   },
