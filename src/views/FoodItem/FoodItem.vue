@@ -1,6 +1,7 @@
 <template>
   <Header/>
 <!--  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>-->
+  <pre>{{id}}</pre>
   <h1 class="text-3xl md:text-5xl text-center">List of posted food items</h1>
   <p class="text-center mt-2">Below are the list of items that you have posted</p>
   <div class="min-h-screen w-2/3 mx-auto bg-white mt-1 md:mt-5">
@@ -55,6 +56,7 @@ import axios from 'axios'
 
 export default {
   name: "FoodItem",
+  props: ['id'],
   data () {
     return {
       cats:[],

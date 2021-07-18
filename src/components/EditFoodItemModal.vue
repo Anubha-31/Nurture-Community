@@ -63,13 +63,13 @@ export default {
     },
     editFoodQuantity: function () {
       console.log(this.item)
-      // axios.post(path + '/updateFood', this.item)
-      //   .then(response => {
-      //     console.log(response.data)
-      //   })
-      //   .catch(error => {
-      //     console.log(error.data)
-      //   })
+      axios.post(path + '/updateFood', this.item)
+        .then(response => {
+          console.log(response.data)
+        })
+        .catch(error => {
+          console.log(error.data)
+        })
     }
   }
 }
