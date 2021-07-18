@@ -3,7 +3,7 @@
 
 <div x-data="{ cartOpen: false , isOpen: false }" class="bg-white">
 
-    <!-- Search Box -->
+    <!-- Search Box -->    
     <header>
         <form method="POST" @submit.prevent="formSubmit">
         <div class="container mx-auto px-6 py-3">
@@ -26,11 +26,14 @@
                   <label for="city" class="block text-sm font-medium text-gray-700">City*</label>
                   <select name="city" id="city" v-model="user.city" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                     <option disabled value="">Please select one</option>
-                  <option v-for="(city, index) in cities" :key="index" :value="index">{{ city[0] }}</option>
+                  <option v-for="(city, index) in cities" :key="index" :value="city[0]">{{ city[0] }}</option>
                   </select>
                 </div>
              <button type="submit" class="flex items-center m-auto w-24 mt-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Search
+                </button>
+                 <button type="Reset" v-on:click="reset" class="flex items-center m-auto w-24 mt-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Reset Filter
                 </button>
         </div>
         </form>
@@ -91,7 +94,8 @@ export default {
     contents: null ,
     length: '0',
     user: {
-        city: null
+        city: null,
+        provinces: "Please select one",
       },
     }
   },
@@ -133,6 +137,21 @@ export default {
         console.log(error);
       });
     },
+    reset: function()
+    {
+      this.provinces = canada.provinces
+      this.cities=""
+            axios.defaults.withCredentials = true
+    axios.get(path+'/ListOfRestaurants', this.user)
+      .then((response) => {
+        console.log(response.data);
+       (this.contents = response.data)
+       this.length = response.data.length
+
+      }, (error) => {
+        console.log(error);
+      });
+    }
    },
   
 };
