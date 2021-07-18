@@ -54,7 +54,7 @@ public class AddFoodDetails {
 	@Id
 	@Column(name="foodId")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String foodDetailId;
+	private int foodDetailId;
 
 	public String getAddress1() {
 		return address1;
@@ -96,11 +96,11 @@ public class AddFoodDetails {
 		this.country = country;
 	}
 
-	public String getFoodDetailId() {
+	public int getFoodDetailId() {
 		return foodDetailId;
 	}
 
-	public void setFoodDetailId(String foodDetailId) {
+	public void setFoodDetailId(int foodDetailId) {
 		this.foodDetailId = foodDetailId;
 	}
 

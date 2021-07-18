@@ -49,7 +49,7 @@ import com.nurturecommunity.repository.UserRepository;
 import com.nurturecommunity.services.GetRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8060", allowedHeaders = "*",allowCredentials="true")
+@CrossOrigin(origins = "http://locahost:8060/", allowedHeaders = "*",allowCredentials="true")
 public class MainController {
 
 	@Autowired
@@ -353,6 +353,41 @@ public class MainController {
 			}
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
+		
+		@PostMapping(value = "/updateFood")
+		@ResponseStatus(HttpStatus.CREATED)
+		public ResponseEntity updateFood(@RequestBody String myParams,
+				HttpServletRequest request) throws IOException {
+
+			//String emailaddress = getCookies(request);
+			
+			AddFoodDetails foodDetails = new AddFoodDetails();
+			
+			JsonParser jsonParser = new JsonParser();
+			JsonObject object = (JsonObject)jsonParser.parse(myParams);
+			
+			
+			foodDetails.setNumberofPackets(object.get("numberofPackets").getAsInt());
+			foodDetails.setFoodDetailId(object.get("id").getAsInt());
+			AddFoodDetails newfoodDetails = addFoodDetailsRepository.save(foodDetails);
+					
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		@PostMapping(value = "/deleteFood")
+		@ResponseStatus(HttpStatus.CREATED)
+		public ResponseEntity deleteFood(@RequestBody String myParams,
+				HttpServletRequest request) throws IOException {
+
+			//String emailaddress = getCookies(request);
+			
+			AddFoodDetails foodDetails = new AddFoodDetails();
+			
+			JsonParser jsonParser = new JsonParser();
+			JsonObject object = (JsonObject)jsonParser.parse(myParams);
+			foodDetails.setFoodDetailId(object.get("id").getAsInt());
+			addFoodDetailsRepository.delete(foodDetails);				
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
 
 		private void saveFooddata(AddFoodDetails newfoodDetails, MultipartFile multipartfile) {
 			try {
@@ -360,6 +395,16 @@ public class MainController {
 						multipartfile.getBytes());
 
 			} catch (DataAccessException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		private void saveUpdateFood(AddFoodDetails newfoodDetails) throws IOException {
+			try {
+				jdbcTemplate.update(Queries.updateFood, newfoodDetails.getNumberofPackets(),newfoodDetails.getId());
+
+			} catch (DataAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
