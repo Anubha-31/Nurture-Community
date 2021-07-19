@@ -41,10 +41,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.nurturecommunity.Dao.AddFoodDetails;
 import com.nurturecommunity.Dao.AppUser;
+import com.nurturecommunity.Dao.ContactUsDetails;
 import com.nurturecommunity.Dao.FoodList;
 import com.nurturecommunity.Dao.User;
 import com.nurturecommunity.constant.Queries;
 import com.nurturecommunity.repository.AddFoodDetailsRepository;
+import com.nurturecommunity.repository.ContactUsRepository;
 import com.nurturecommunity.repository.UserRepository;
 import com.nurturecommunity.services.GetRequest;
 
@@ -63,6 +65,9 @@ public class MainController {
 	
 	@Autowired
 	private com.nurturecommunity.model.LoginDetails Login;
+	
+	@Autowired
+	ContactUsRepository contactUsrepo;
 	
 	@GetMapping("/login")
 	public List<User> getRequest() throws Exception {
@@ -294,6 +299,7 @@ public class MainController {
 	}
 
 
+
 	@GetMapping("/ListOfRestaurants")
 	public ResponseEntity<List<AppUser>> getAllResturants(HttpServletRequest request) {
 		try {
@@ -311,7 +317,9 @@ public class MainController {
 		}	
 	}
 	
-	String getCookies(HttpServletRequest request) {
+
+		String getCookies(HttpServletRequest request) {
+
 			String emailid = null;
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null){
@@ -326,6 +334,7 @@ public class MainController {
 			}
 		}
 	
+		
     
 		@PostMapping(value = "/addFoodDetails", consumes = "multipart/form-data")
 		@ResponseStatus(HttpStatus.CREATED)
@@ -359,6 +368,16 @@ public class MainController {
 			if(newfoodDetails != null && multipartfile !=null) {
 				saveFooddata(newfoodDetails,multipartfile);				
 			}
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		
+
+		
+		@PostMapping(value = "/ContactUs")
+		@ResponseStatus(HttpStatus.CREATED)
+		public ResponseEntity saveQueries(@Valid @RequestBody ContactUsDetails user, HttpServletResponse response) {
+			System.out.println("bla bla");
+			contactUsrepo.save(user);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		
