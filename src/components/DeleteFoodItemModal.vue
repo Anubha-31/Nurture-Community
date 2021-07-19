@@ -13,7 +13,7 @@
           <section class="modal-body">
             <slot name="body">
               <h2 class="pt-5">Are you sure you want to delete this item?</h2>
-              <input type="hidden" v-model="id">
+              <input type="hidden" v-model="item.id">
             </slot>
           </section>
 
@@ -37,6 +37,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import {path} from '../views/settings'
+
 export default {
   name: "DeleteFoodItemModal",
   props: {
@@ -44,12 +47,14 @@ export default {
   },
   data() {
     return {
-      id: this.foodId
+      item: {
+        id: this.foodId
+      }
     }
   },
   watch: {
     foodId: function(val){
-      this.id = val;
+      this.item.id = val;
     }
   },
   methods: {
@@ -57,14 +62,15 @@ export default {
       this.$emit('close');
     },
     deleteFoodQuantity: function () {
-      console.log(this.id)
-      // axios.post(path + '/updateFood', this.item)
-      //   .then(response => {
-      //     console.log(response.data)
-      //   })
-      //   .catch(error => {
-      //     console.log(error.data)
-      //   })
+      console.log(this.item.id)
+      axios.post(path + '/deleteFood', this.item)
+        .then(response => {
+          console.log(response.data)
+          location.reload();
+        })
+        .catch(error => {
+          console.log(error.data)
+        })
     }
   }
 }

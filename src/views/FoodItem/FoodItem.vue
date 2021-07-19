@@ -1,12 +1,17 @@
 <template>
   <Header/>
 <!--  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>-->
-  <pre>{{id}}</pre>
+  <pre>{{foodItems}}</pre>
+
+
   <h1 class="text-3xl md:text-5xl text-center">List of posted food items</h1>
   <p class="text-center mt-2">Below are the list of items that you have posted</p>
-  <div class="min-h-screen w-2/3 mx-auto bg-white mt-1 md:mt-5">
+  <div class="min-h-screen w-full px-6 md:px-0 md:w-2/3 mx-auto bg-white mt-1 md:mt-5">
+    <router-link to="/food-item/create" class="flex justify-end title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+      <button class="inline-flex text-white bg-yellow-500 border-0 py-1 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg">Add Item</button>
+    </router-link>
     <div class="col-span-12">
-      <div class="overflow-auto lg:overflow-visible ">
+      <div class="overflow-auto lg:overflow-visible">
         <table class="table w-full text-gray-400 border-separate space-y-6 text-sm">
           <thead class="bg-gray-200 text-gray-500">
           <tr>
@@ -17,16 +22,16 @@
           </tr>
           </thead>
           <tbody>
-          <tr class="bg-gray-100 text-gray-800" v-for="(cat, index) in sortedCats" :key="index">
-            <td class="p-3 w-96">{{cat.name}}</td>
-            <td class="p-3 w-16">{{cat.age}}</td>
+          <tr class="bg-gray-100 text-gray-800" v-for="(item, index) in foodItems" :key="index">
+            <td class="p-3 w-96">{{item.item_name}}</td>
+            <td class="p-3 w-16">{{item.number_of_packets}}</td>
             <td class="p-3 w-12 text-center cursor-pointer">
-              <button type="button" class="btn" @click="showEditModal(index, cat.age)">
+              <button type="button" class="btn" @click="showEditModal(item.id, item.number_of_packets)">
                 <i class="fas fa-edit text-blue-700"></i>
               </button>
             </td>
             <td class="p-3 w-12 text-center cursor-pointer">
-              <button type="button" class="btn" @click="showDeleteModal(index)">
+              <button type="button" class="btn" @click="showDeleteModal(item.id)">
                 <i class="fas fa-trash-alt text-red-700"></i>
               </button>
             </td>
@@ -42,7 +47,7 @@
           </button>
           <button
               @click="nextPage"
-              :class="(currentPage*pageSize) < cats.length ? 'bg-purple-900 hover:bg-purple-700' : 'bg-gray-200 cursor-not-allowed'"
+              :class="(currentPage*pageSize) < foodItems.length ? 'bg-purple-900 hover:bg-purple-700' : 'bg-gray-200 cursor-not-allowed'"
               class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Next<i class="fas fa-angle-double-right pl-2 mt-1"></i></button>
         </p>
@@ -59,13 +64,14 @@ import Header from "@/components/Header";
 import EditFoodItemModal from "@/components/EditFoodItemModal";
 import DeleteFoodItemModal from "@/components/DeleteFoodItemModal";
 import axios from 'axios'
+import {path} from '../settings'
 
 export default {
   name: "FoodItem",
   props: ['id'],
   data () {
     return {
-      cats:[],
+      foodItems:[],
       currentSort:'name',
       currentSortDir:'asc',
       pageSize:8,
@@ -77,12 +83,23 @@ export default {
     }
   },
   created() {
-    axios.get('https://www.raymondcamden.com/.netlify/functions/get-cats')
+    axios.defaults.withCredentials = true
+    axios.get(path + '/Listoffooditems')
         .then(response => {
-          this.cats = response.data
+          console.log(response.data)
+          this.foodItems = response.data
         }).catch(error => {
       console.log(error.data)
     })
+
+
+    // axios.get('http://localhost:8080/Listoffooditems')
+    //     .then(response => {
+    //       console.log(response)
+    //     }).catch(error => {
+    //   console.log(error.data)
+    // })
+
   },
   methods:{
     sort:function(s) {
@@ -93,7 +110,7 @@ export default {
       this.currentSort = s;
     },
     nextPage:function() {
-      if((this.currentPage*this.pageSize) < this.cats.length) this.currentPage++;
+      if((this.currentPage*this.pageSize) < this.foodItems.length) this.currentPage++;
     },
     prevPage:function() {
       if(this.currentPage > 1) this.currentPage--;
@@ -115,7 +132,7 @@ export default {
   },
   computed:{
     sortedCats:function() {
-      return this.cats.sort((a,b) => {
+      return this.foodItems.sort((a,b) => {
         let modifier = 1;
         if(this.currentSortDir === 'desc') modifier = -1;
         if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
