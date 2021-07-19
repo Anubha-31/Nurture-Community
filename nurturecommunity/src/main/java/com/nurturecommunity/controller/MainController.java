@@ -41,10 +41,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.nurturecommunity.Dao.AddFoodDetails;
 import com.nurturecommunity.Dao.AppUser;
+import com.nurturecommunity.Dao.ContactUsDetails;
 import com.nurturecommunity.Dao.FoodList;
 import com.nurturecommunity.Dao.User;
 import com.nurturecommunity.constant.Queries;
 import com.nurturecommunity.repository.AddFoodDetailsRepository;
+import com.nurturecommunity.repository.ContactUsRepository;
 import com.nurturecommunity.repository.UserRepository;
 import com.nurturecommunity.services.GetRequest;
 
@@ -63,6 +65,9 @@ public class MainController {
 	
 	@Autowired
 	private com.nurturecommunity.model.LoginDetails Login;
+	
+	@Autowired
+	ContactUsRepository contactUsrepo;
 	
 	@GetMapping("/login")
 	public List<User> getRequest() throws Exception {
@@ -303,6 +308,7 @@ public class MainController {
 			return emailid;
 		}
 	
+		
     
 		@PostMapping(value = "/addFoodDetails", consumes = "multipart/form-data")
 		@ResponseStatus(HttpStatus.CREATED)
@@ -336,6 +342,31 @@ public class MainController {
 			if(newfoodDetails != null && multipartfile !=null) {
 				saveFooddata(newfoodDetails,multipartfile);				
 			}
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		
+		@GetMapping("/ListOfRestaurants")
+		public ResponseEntity<List<AppUser>> getAllResturants(HttpServletRequest request) {
+			try {
+				List<AppUser> obj = new ArrayList<AppUser>();
+				
+				userRepository.findAllByusertype("restaurant").forEach(obj::add);
+				
+				if (obj.isEmpty()) {
+					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				}
+
+				return new ResponseEntity<>(obj, HttpStatus.OK);
+			} catch (Exception e) {
+				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			}	
+		}
+		
+		@PostMapping(value = "/ContactUs")
+		@ResponseStatus(HttpStatus.CREATED)
+		public ResponseEntity saveQueries(@Valid @RequestBody ContactUsDetails user, HttpServletResponse response) {
+			System.out.println("bla bla");
+			contactUsrepo.save(user);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		
