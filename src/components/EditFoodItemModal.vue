@@ -14,7 +14,7 @@
               <slot name="body">
                 <div class="flex justify-center items-center space-x-4">
                   <label for="quantity">Quantity</label>
-                  <input type="number" id="quantity" v-model="item.quantity" class="mt-1 p-2 text-center focus:ring-indigo-500 focus:border-indigo-500 w-16 shadow-sm sm:text-sm border border-gray-300 rounded-md">
+                  <input type="number" id="quantity" v-model="item.numberofPackets" class="mt-1 p-2 text-center focus:ring-indigo-500 focus:border-indigo-500 w-16 shadow-sm sm:text-sm border border-gray-300 rounded-md">
                 </div>
               </slot>
             </section>
@@ -49,12 +49,16 @@ export default {
   },
   data() {
     return {
-      item: this.foodItem
+      item: {
+        id: this.foodItem.id,
+        numberofPackets: this.foodItem.quantity
+      }
     }
   },
   watch: {
     foodItem: function(val){
-      this.item = val;
+      this.item.id = val.id;
+      this.item.numberofPackets = val.quantity;
     }
   },
   methods: {
@@ -63,9 +67,11 @@ export default {
     },
     editFoodQuantity: function () {
       console.log(this.item)
+      axios.defaults.withCredentials = true
       axios.post(path + '/updateFood', this.item)
         .then(response => {
           console.log(response.data)
+          location.reload();
         })
         .catch(error => {
           console.log(error.data)

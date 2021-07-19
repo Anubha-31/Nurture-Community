@@ -1,7 +1,7 @@
 <template>
   <Header/>
 <!--  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>-->
-<!--  <pre>{{foodItems}}</pre>-->
+  <pre>{{foodItems}}</pre>
 
 
   <h1 class="text-3xl md:text-5xl text-center">List of posted food items</h1>
@@ -26,12 +26,12 @@
             <td class="p-3 w-96">{{item.item_name}}</td>
             <td class="p-3 w-16">{{item.number_of_packets}}</td>
             <td class="p-3 w-12 text-center cursor-pointer">
-              <button type="button" class="btn" @click="showEditModal(index, item.number_of_packets)">
+              <button type="button" class="btn" @click="showEditModal(item.id, item.number_of_packets)">
                 <i class="fas fa-edit text-blue-700"></i>
               </button>
             </td>
             <td class="p-3 w-12 text-center cursor-pointer">
-              <button type="button" class="btn" @click="showDeleteModal(index)">
+              <button type="button" class="btn" @click="showDeleteModal(item.id)">
                 <i class="fas fa-trash-alt text-red-700"></i>
               </button>
             </td>
@@ -86,6 +86,7 @@ export default {
     axios.defaults.withCredentials = true
     axios.get(path + '/Listoffooditems')
         .then(response => {
+          console.log(response.data)
           this.foodItems = response.data
         }).catch(error => {
       console.log(error.data)
