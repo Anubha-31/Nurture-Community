@@ -15,4 +15,5 @@ public interface AddFoodDetailsRepository extends JpaRepository<AddFoodDetails, 
 	
 	
 	
+	
 }
