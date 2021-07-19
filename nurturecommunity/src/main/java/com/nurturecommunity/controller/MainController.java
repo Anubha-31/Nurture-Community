@@ -107,7 +107,7 @@ public class MainController {
 	synchronized public ResponseEntity loginUser(@Valid @RequestBody AppUser user, HttpServletResponse response) {
 		List<AppUser> users = userRepository.findByEmailaddress(user.getEmailaddress());
 
-		  String Usertype="Failure";
+		String Usertype="Failure";
 		 
 		for (AppUser other : users) {
 			if (other.getEmailaddress().equalsIgnoreCase(user.getEmailaddress())) {
@@ -310,7 +310,8 @@ public class MainController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}	
 	}
-		String getCookies(HttpServletRequest request) {
+	
+	String getCookies(HttpServletRequest request) {
 			String emailid = null;
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null){
