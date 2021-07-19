@@ -72,10 +72,15 @@ public class MainController {
 	
 	
 	@GetMapping("/Listoffooditems")
-	synchronized public List<FoodList> getFoodList(HttpServletRequest request) throws Exception {
+	synchronized public ResponseEntity<List<FoodList>> getFoodList(HttpServletRequest request) throws Exception {
+
 		String Cookie = getCookies(request);
 		
-		return this.getRequest.getFoodresponse(Cookie);
+		if (Cookie != null){
+			return new ResponseEntity<>(this.getRequest.getFoodresponse(Cookie), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 		
 	}
 
@@ -293,14 +298,16 @@ public class MainController {
 		String getCookies(HttpServletRequest request) {
 			String emailid = null;
 			Cookie[] cookies = request.getCookies();
-
-			for (Cookie cookie : cookies) {
+			if (cookies != null){
+				for (Cookie cookie : cookies) {
 					if (cookie.getName().equals("EmailId")) {
 							emailid = cookie.getValue();
 						}
 				}
-					System.out.println(request.getCookies());
-			return emailid;
+				return emailid;
+			}else {
+				return null;
+			}
 		}
 	
     
