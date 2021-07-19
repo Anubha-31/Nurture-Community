@@ -388,18 +388,17 @@ public class MainController {
 
 			//String emailaddress = getCookies(request);
 			
-			AddFoodDetails foodDetails = new AddFoodDetails();
 			
 			JsonParser jsonParser = new JsonParser();
 			JsonObject object = (JsonObject)jsonParser.parse(myParams);
 			
-			
+			AddFoodDetails foodDetails = addFoodDetailsRepository.findByfoodDetailId(object.get("id").getAsInt());
 			foodDetails.setNumberofPackets(object.get("numberofPackets").getAsInt());
-			foodDetails.setFoodDetailId(object.get("id").getAsInt());
-			AddFoodDetails newfoodDetails = addFoodDetailsRepository.save(foodDetails);
+			addFoodDetailsRepository.save(foodDetails);
 					
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
+		
 		@PostMapping(value = "/deleteFood")
 		@ResponseStatus(HttpStatus.CREATED)
 		public ResponseEntity deleteFood(@RequestBody String myParams,

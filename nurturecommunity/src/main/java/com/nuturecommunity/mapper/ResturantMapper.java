@@ -13,32 +13,31 @@ public class ResturantMapper implements RowMapper<FoodList> {
 	public FoodList mapRow(ResultSet rs, int rowNum) throws SQLException {
 		
 		FoodList e = new FoodList();
-		if (rs.getString(1) != null) {
-			e.setId(rs.getInt(1));
-			if (rs.getString(2) != null && rs.getString(8).equals("Yes")) {
+
+		e.setId(rs.getInt(1));
+		if (rs.getString(2) != null && rs.getString(8).equals("Yes")) {
       	
-        	e.setAddress(rs.getString(3));
+				e.setAddress(rs.getString(3));
         	
 			}else {
         	
-        	e.setAddress(rs.getString(2));
+				e.setAddress(rs.getString(2));
         	
 		}	
         
-			e.setCity(rs.getString(4));
-			e.setCountry(rs.getString(5));
-			e.setItem_description(rs.getString(6));
-			e.setItem_name(rs.getString(7));
-			e.setNumber_of_packets(rs.getInt(9));
-			e.setPickupTime(rs.getString(10));
-			e.setUploaded_picture(rs.getString(11));
+		e.setCity(rs.getString(4));
+		e.setCountry(rs.getString(5));
+		e.setItem_description(rs.getString(6));
+		e.setItem_name(rs.getString(7));
+		e.setNumber_of_packets(rs.getInt(9));
+		e.setPickupTime(rs.getString(10));
+		e.setUploaded_picture(rs.getString(11));
    
  
 		
 			return e;
-		}else {
-			return e;
-		}
+		
+
 		
 	}
 
