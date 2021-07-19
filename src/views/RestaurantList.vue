@@ -5,6 +5,7 @@
 
     <!-- Search Box -->    
     <header>
+      <!-- <pre>{{ user }}</pre> -->
         <form method="POST" @submit.prevent="formSubmit">
         <div class="container mx-auto px-6 py-3">
             <!-- <div class="relative mt-6 max-w-lg mx-auto">
@@ -32,7 +33,7 @@
              <button type="submit" class="flex items-center m-auto w-24 mt-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Search
                 </button>
-                 <button type="Reset" v-on:click="reset" class="flex items-center m-auto w-24 mt-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                 <button type="button" v-on:click="reset" class="flex items-center m-auto w-24 mt-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Reset Filter
                 </button>
         </div>
@@ -48,7 +49,9 @@
 
                 <!-- Common restaurant card starts below -->
                 <div v-for="content in contents" :key="content.id" class="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-                    <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('https://source.unsplash.com/720x600/?cafe?sig-1')">
+                    <div class="flex items-end justify-end h-56 w-full bg-cover image-holder">
+                      <img class="img-fluid" :src="'data:image/jpg;base64,'+content.picture" alt="" />
+                    <!-- <img id="qr" :src="qrImg" /> -->
                         <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
                             <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         </button>
@@ -92,10 +95,11 @@ export default {
   data() {
         return{
     contents: null ,
+    image:null,
     length: '0',
     user: {
         city: null,
-        provinces: "Please select one",
+        provinces: null,
       },
     }
   },
@@ -114,9 +118,10 @@ export default {
       axios.defaults.withCredentials = true
     axios.get(path+'/ListOfRestaurants', this.user)
       .then((response) => {
-        console.log(response.data);
-       (this.contents = response.data)
+        
+       this.contents = response.data
        this.length = response.data.length
+         
 
       }, (error) => {
         console.log(error);
@@ -125,6 +130,7 @@ export default {
 
    methods: {
     formSubmit: function () {
+    
      axios.defaults.withCredentials = true
       axios.post(path+'/ListOfRestaurantzip', this.user
       
@@ -140,7 +146,11 @@ export default {
     reset: function()
     {
       this.provinces = canada.provinces
-      this.cities=""
+      this.user.city=""
+      this.user.province = ""
+      this.user.cities=""
+
+
             axios.defaults.withCredentials = true
     axios.get(path+'/ListOfRestaurants', this.user)
       .then((response) => {
@@ -151,9 +161,10 @@ export default {
       }, (error) => {
         console.log(error);
       });
+      console.log(this.user.provinces)
     }
-   },
-  
+        
+   },  
 };
 </script>
 
