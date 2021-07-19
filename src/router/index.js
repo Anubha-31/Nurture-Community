@@ -27,9 +27,10 @@ const routes = [
     component: Login
   },
   {
-    path: '/food-items',
+    path: '/restaurant/:id/food-items',
     name: 'FoodItem',
-    component: FoodItem
+    component: FoodItem,
+    props: true
   },
   {
     path: '/food-item/create',
@@ -43,7 +44,7 @@ const routes = [
     props: true
   },
   {
-    path: '/contact-us',
+    path: '/ContactUs',
     name: 'ContactUs',
     component: ContactUs
   },
