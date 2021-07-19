@@ -297,24 +297,6 @@ public class MainController {
 		
 		
 	}
-
-
-	@GetMapping("/ListOfRestaurants")
-	public ResponseEntity<List<AppUser>> getAllResturants(HttpServletRequest request) {
-		try {
-			List<AppUser> obj = new ArrayList<AppUser>();
-			
-			userRepository.findAllByusertype("restaurant").forEach(obj::add);
-			
-			if (obj.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-
-			return new ResponseEntity<>(obj, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}	
-	}
 		String getCookies(HttpServletRequest request) {
 			String emailid = null;
 			Cookie[] cookies = request.getCookies();
