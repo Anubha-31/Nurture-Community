@@ -52,7 +52,7 @@
             Next<i class="fas fa-angle-double-right pl-2 mt-1"></i></button>
         </p>
         <edit-food-item-modal v-show="isEditModalVisible" @close="closeEditModal" :food-item="editInfo" />
-        <delete-food-item-modal v-show="isDeleteModalVisible" @close="closeDeleteModal" :food-id="deleteInfo" />
+        <delete-food-item-modal v-show="isDeleteModalVisible" @close="closeDeleteModal" :food-id="deleteInfo" @reload="getFoodItems" />
       </div>
     </div>
   </div>

@@ -66,7 +66,8 @@ export default {
       axios.post(path + '/deleteFood', this.item)
         .then(response => {
           console.log(response.data)
-          location.reload();
+          this.$emit('reload')
+          this.$emit('close');
         })
         .catch(error => {
           console.log(error.data)
