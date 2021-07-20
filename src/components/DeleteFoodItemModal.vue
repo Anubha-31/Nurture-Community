@@ -62,7 +62,7 @@ export default {
       this.$emit('close');
     },
     deleteFoodQuantity: function () {
-      console.log(this.item.id)
+      // console.log(this.item.id)
       axios.post(path + '/deleteFood', this.item)
         .then(response => {
           console.log(response.data)

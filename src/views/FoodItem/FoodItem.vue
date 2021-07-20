@@ -7,9 +7,11 @@
   <h1 class="text-3xl md:text-5xl text-center">List of posted food items</h1>
   <p class="text-center mt-2">Below are the list of items that you have posted</p>
   <div class="min-h-screen w-full px-6 md:px-0 md:w-2/3 mx-auto bg-white mt-1 md:mt-5">
-    <router-link to="/food-item/create" class="flex justify-end title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-      <button class="inline-flex text-white bg-yellow-500 border-0 py-1 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg">Add Item</button>
-    </router-link>
+    <div class="flex justify-end">
+      <router-link to="/food-item/create" class="title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+        <button class="inline-flex text-white bg-yellow-500 border-0 py-1 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg">Add Item</button>
+      </router-link>
+    </div>
     <div class="col-span-12">
       <div class="overflow-auto lg:overflow-visible">
         <table class="table w-full text-gray-400 border-separate space-y-6 text-sm">
@@ -51,7 +53,7 @@
               class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Next<i class="fas fa-angle-double-right pl-2 mt-1"></i></button>
         </p>
-        <edit-food-item-modal v-show="isEditModalVisible" @close="closeEditModal" :food-item="editInfo" />
+        <edit-food-item-modal v-show="isEditModalVisible" @close="closeEditModal" :food-item="editInfo" @reload="getFoodItems"/>
         <delete-food-item-modal v-show="isDeleteModalVisible" @close="closeDeleteModal" :food-id="deleteInfo" @reload="getFoodItems" />
       </div>
     </div>
