@@ -83,25 +83,19 @@ export default {
     }
   },
   created() {
-    axios.defaults.withCredentials = true
-    axios.get(path + '/Listoffooditems')
-        .then(response => {
-          console.log(response.data)
-          this.foodItems = response.data
-        }).catch(error => {
-      console.log(error.data)
-    })
-
-
-    // axios.get('http://localhost:8080/Listoffooditems')
-    //     .then(response => {
-    //       console.log(response)
-    //     }).catch(error => {
-    //   console.log(error.data)
-    // })
-
+    this.getFoodItems()
   },
   methods:{
+    getFoodItems: function () {
+      axios.defaults.withCredentials = true
+      axios.get(path + '/Listoffooditems')
+          .then(response => {
+            console.log(response.data)
+            this.foodItems = response.data
+          }).catch(error => {
+        console.log(error.data)
+      })
+    },
     sort:function(s) {
       //if s == current sort, reverse
       if(s === this.currentSort) {
