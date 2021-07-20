@@ -23,12 +23,42 @@
           </svg>
         </button>
       </router-link>
+        <!-- <button  v-on:click="ClearCookies" class="inline-flex text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg" stroke-linecap="round" stroke-linejoin="round">
+          Sign out
+           <svg fill="none"  class="w-4 h-4 ml-1" viewBox="0 0 24 24" >
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>
+        </button> -->
     </div>
   </header>
 </template>
 
 <script>
+
+import axios from 'axios';
+// import VueCookies from 'vue-cookies';
+// import Vue from 'vue';
+// Vue.use(VueCookies);
+
   export default {
     name: "Header",
-  };
+//     Cookie:"",
+
+//    created() 
+//     {
+//       var myCookie = document.cookie
+//  let a = `; ${document.cookie}`.match(`;\\s*${"UserType"}=([^;]+)`);
+   
+//  this.Cookie=     a ? a[1] : '';
+   
+//     },
+//    methods: {
+//     ClearCookies: function () {
+//       var mydate = new Date();
+// mydate.setTime(mydate.getTime() - 1)
+//        document.cookie = "UserType"+"=;expires=Thu, 01 Jan 1970 00:00:00 GMT;"; 
+//        console.log(document.cookie)
+//     },
+  //  }
+  }
 </script>
