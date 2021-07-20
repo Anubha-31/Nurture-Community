@@ -1,6 +1,6 @@
 <template>
   <Header/>
-  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>
+<!--  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>-->
 <!--  <pre>{{foodItems}}</pre>-->
 
 
@@ -24,9 +24,9 @@
           </tr>
           </thead>
           <tbody>
-          <tr class="bg-gray-100 text-gray-800" v-for="(item, index) in foodItems" :key="index">
-            <td class="p-3 w-96">{{item.item_name}}</td>
-            <td class="p-3 w-16">{{item.number_of_packets}}</td>
+          <tr class="bg-gray-100 text-gray-800" v-for="(item, index) in sortedFoodItems" :key="index">
+            <td class="p-3 w-96">{{ item.item_name }}</td>
+            <td class="p-3 w-16">{{ item.number_of_packets }}</td>
             <td class="p-3 w-12 text-center cursor-pointer">
               <button type="button" class="btn" @click="showEditModal(item.id, item.number_of_packets)">
                 <i class="fas fa-edit text-blue-700"></i>
@@ -127,7 +127,7 @@ export default {
     }
   },
   computed:{
-    sortedCats:function() {
+    sortedFoodItems: function() {
       return this.foodItems.sort((a,b) => {
         let modifier = 1;
         if(this.currentSortDir === 'desc') modifier = -1;
