@@ -21,20 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 //import jdk.internal.org.jline.utils.Status;
+import com.nurturecommunity.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.JsonObject;
@@ -62,6 +56,9 @@ public class MainController {
 	
 	@Autowired
 	AddFoodDetailsRepository addFoodDetailsRepository;
+
+	@Autowired
+	ProfileRepository profileRepository;
 	
 	@Autowired
 	private com.nurturecommunity.model.LoginDetails Login;
@@ -111,6 +108,7 @@ public class MainController {
 	@PostMapping("/users/login")
 	synchronized public ResponseEntity loginUser(@Valid @RequestBody AppUser user, HttpServletResponse response) {
 		List<AppUser> users = userRepository.findByEmailaddress(user.getEmailaddress());
+		List<AppUser> users1 = userRepository.findAllByusertype(user.getUsertype());
 
 		String Usertype="Failure";
 		 
@@ -148,9 +146,9 @@ public class MainController {
 		JsonParser jsonParser = new JsonParser();
 		JsonObject object = (JsonObject)jsonParser.parse(myParams);
 		AppUser user = new AppUser();
-		
-		 String password = encryptPassword(object.get("password").getAsString());
-		
+		String password = encryptPassword(object.get("password").getAsString());
+
+
 		 user.setFirst_name(object.get("first_name").getAsString());
 		 user.setLast_name(object.get("last_name").getAsString());
 		 user.setAddress1(object.get("address1").getAsString());
@@ -429,14 +427,16 @@ public class MainController {
 		private void saveUpdateFood(AddFoodDetails newfoodDetails) throws IOException {
 			try {
 				jdbcTemplate.update(Queries.updateFood, newfoodDetails.getNumberofPackets(),newfoodDetails.getId());
-
 			} catch (DataAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 		}
-	
-	
+	@PostMapping(value = "/profile/{id}")
+	public Object retrieveResaurant(@PathVariable int id) {
+
+		return profileRepository.findByid(id);
+
+	}
 }
 
