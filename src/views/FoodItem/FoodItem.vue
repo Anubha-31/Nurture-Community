@@ -7,7 +7,12 @@
   <p class="text-center mt-2">Below are the list of items that you have posted</p>
   <div class="overflow-x-auto ">
     <div class="min-w-screen min-h-screen flex justify-center font-sans overflow-hidden">
-      <div class="w-full lg:w-5/6 overflow-x-scroll">
+      <div class="w-full lg:w-4/6">
+        <div class="flex justify-end mt-8 md:mt-0">
+          <router-link to="/food-item/create" class="title-font font-medium items-center text-gray-900 md:mb-0">
+            <button class="inline-flex text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-md">Add Item</button>
+          </router-link>
+        </div>
         <div class="bg-white shadow-md rounded my-6">
           <table class="min-w-max w-full table-auto">
             <thead>
