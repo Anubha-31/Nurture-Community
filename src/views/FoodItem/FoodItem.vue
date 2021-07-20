@@ -1,7 +1,7 @@
 <template>
   <Header/>
-<!--  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>-->
-  <pre>{{foodItems}}</pre>
+  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>
+<!--  <pre>{{foodItems}}</pre>-->
 
 
   <h1 class="text-3xl md:text-5xl text-center">List of posted food items</h1>
@@ -15,8 +15,8 @@
         <table class="table w-full text-gray-400 border-separate space-y-6 text-sm">
           <thead class="bg-gray-200 text-gray-500">
           <tr>
-            <th class="p-3 w-96 text-left cursor-pointer" @click="sort('name')">Item name <i class="fas fa-exchange-alt transform rotate-90"></i></th>
-            <th class="p-3 w-16 text-left cursor-pointer" @click="sort('age')">Quantity <i class="fas fa-exchange-alt transform rotate-90"></i></th>
+            <th class="p-3 w-96 text-left cursor-pointer" @click="sort('item_name')">Item name <i class="fas fa-exchange-alt transform rotate-90"></i></th>
+            <th class="p-3 w-16 text-left cursor-pointer" @click="sort('number_of_packets')">Quantity <i class="fas fa-exchange-alt transform rotate-90"></i></th>
             <th class="p-3 w-12 text-center">Edit</th>
             <th class="p-3 w-12 text-center">Delete</th>
           </tr>
@@ -72,7 +72,7 @@ export default {
   data () {
     return {
       foodItems:[],
-      currentSort:'name',
+      currentSort:'item_name',
       currentSortDir:'asc',
       pageSize:8,
       currentPage:1,

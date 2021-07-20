@@ -118,7 +118,7 @@
                   <label
                     for="pick_up_location"
                     class="block text-sm font-medium text-gray-700"
-                    >Choose Whether food must be picked from a restaurant
+                    >Choose whether food must be picked from a restaurant
                     location</label
                   >
                   <select
