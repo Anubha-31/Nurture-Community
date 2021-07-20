@@ -3,61 +3,62 @@
 <!--  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>-->
 <!--  <pre>{{foodItems}}</pre>-->
 
-
   <h1 class="text-3xl md:text-5xl text-center">List of posted food items</h1>
   <p class="text-center mt-2">Below are the list of items that you have posted</p>
-  <div class="min-h-screen w-full px-6 md:px-0 md:w-2/3 mx-auto bg-white mt-1 md:mt-5">
-    <div class="flex justify-end">
-      <router-link to="/food-item/create" class="title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-        <button class="inline-flex text-white bg-yellow-500 border-0 py-1 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg">Add Item</button>
-      </router-link>
-    </div>
-    <div class="col-span-12">
-      <div class="overflow-auto lg:overflow-visible">
-        <table class="table w-full text-gray-400 border-separate space-y-6 text-sm">
-          <thead class="bg-gray-200 text-gray-500">
-          <tr>
-            <th class="p-3 w-96 text-left cursor-pointer" @click="sort('item_name')">Item name <i class="fas fa-exchange-alt transform rotate-90"></i></th>
-            <th class="p-3 w-16 text-left cursor-pointer" @click="sort('number_of_packets')">Quantity <i class="fas fa-exchange-alt transform rotate-90"></i></th>
-            <th class="p-3 w-12 text-center">Edit</th>
-            <th class="p-3 w-12 text-center">Delete</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr class="bg-gray-100 text-gray-800" v-for="(item, index) in sortedFoodItems" :key="index">
-            <td class="p-3 w-96">{{ item.item_name }}</td>
-            <td class="p-3 w-16">{{ item.number_of_packets }}</td>
-            <td class="p-3 w-12 text-center cursor-pointer">
-              <button type="button" class="btn" @click="showEditModal(item.id, item.number_of_packets)">
-                <i class="fas fa-edit text-blue-700"></i>
-              </button>
-            </td>
-            <td class="p-3 w-12 text-center cursor-pointer">
-              <button type="button" class="btn" @click="showDeleteModal(item.id)">
-                <i class="fas fa-trash-alt text-red-700"></i>
-              </button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+  <div class="overflow-x-auto ">
+    <div class="min-w-screen min-h-screen flex justify-center font-sans overflow-hidden">
+      <div class="w-full lg:w-5/6 overflow-x-scroll">
+        <div class="bg-white shadow-md rounded my-6">
+          <table class="min-w-max w-full table-auto">
+            <thead>
+            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+              <th class="py-3 px-6 text-left cursor-pointer" @click="sort('item_name')">Item Name <i class="fas fa-exchange-alt transform rotate-90"></i></th>
+              <th class="py-3 px-6 text-left cursor-pointer" @click="sort('number_of_packets')">Quantity <i class="fas fa-exchange-alt transform rotate-90"></i></th>
+              <th class="py-3 px-6 text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody class="text-gray-600 text-sm font-light">
+            <tr class="border-b border-gray-200 hover:bg-gray-100" v-for="(item, index) in sortedFoodItems" :key="index">
+              <td class="py-3 px-6 text-left whitespace-nowrap"><span class="font-medium">{{ item.item_name }}</span></td>
+              <td class="py-3 px-6 text-left whitespace-nowrap"><span class="font-medium">{{ item.number_of_packets }}</span></td>
+              <td class="py-3 px-6 text-center">
+                <div class="flex item-center justify-center">
+                  <div class="w-4 mr-2 transform hover:text-blue-700 hover:scale-110 cursor-pointer" @click="showEditModal(item.id, item.number_of_packets)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                  </div>
+                  <div class="w-4 mr-2 transform hover:text-red-800 hover:scale-110 cursor-pointer" @click="showDeleteModal(item.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
         <p class="flex justify-end space-x-1 mt-1">
           <button
               @click="prevPage"
               :class="currentPage > 1 ? 'bg-purple-900 hover:bg-purple-700' : 'bg-gray-200 cursor-not-allowed'"
               class="inline-flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <i class="fas fa-angle-double-left pr-2 mt-1"></i> Previous
+            <i class="fas fa-angle-double-left pr-2 mt-1"></i>
           </button>
           <button
               @click="nextPage"
               :class="(currentPage*pageSize) < foodItems.length ? 'bg-purple-900 hover:bg-purple-700' : 'bg-gray-200 cursor-not-allowed'"
               class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Next<i class="fas fa-angle-double-right pl-2 mt-1"></i></button>
+            <i class="fas fa-angle-double-right pl-2 mt-1"></i></button>
         </p>
-        <edit-food-item-modal v-show="isEditModalVisible" @close="closeEditModal" :food-item="editInfo" @reload="getFoodItems"/>
-        <delete-food-item-modal v-show="isDeleteModalVisible" @close="closeDeleteModal" :food-id="deleteInfo" @reload="getFoodItems" />
       </div>
     </div>
   </div>
+
+  <edit-food-item-modal v-show="isEditModalVisible" @close="closeEditModal" :food-item="editInfo" @reload="getFoodItems"/>
+  <delete-food-item-modal v-show="isDeleteModalVisible" @close="closeDeleteModal" :food-id="deleteInfo" @reload="getFoodItems" />
+
   <Footer/>
 </template>
 <script>
