@@ -1,10 +1,19 @@
 <template>
-  <h1>Hello</h1>
+<!--  <qrcode-stream @decode="onDecode"></qrcode-stream>-->
 </template>
 
 <script>
+import { QrcodeStream } from 'vue3-qrcode-reader'
 export default {
-  name: "QRTest"
+  name: "QRTest",
+  components: {
+    QrcodeStream
+  },
+  methods: {
+    onDecode: function (result) {
+      console.log(result)
+    }
+  }
 }
 </script>
 
