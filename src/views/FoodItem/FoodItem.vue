@@ -1,7 +1,7 @@
 <template>
   <Header/>
   <!--  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>-->
-  <!--  <pre>{{foodItems}}</pre>-->
+<!--    <pre>{{foodItems}}</pre>-->
   <div class="leading-normal tracking-normal text-white gradient" style="font-family: 'Source Sans Pro', sans-serif;">
       <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
         Food Items
@@ -21,15 +21,32 @@
             <div class="bg-white shadow-md rounded my-6">
               <table class="min-w-max w-full table-auto">
                 <thead>
-                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <tr class="text-white bg-aqua-2 uppercase text-sm leading-normal">
                   <th class="py-3 px-6 text-left cursor-pointer" @click="sort('item_name')">Item Name <i class="fas fa-exchange-alt transform rotate-90"></i></th>
+                  <th class="py-3 px-6 text-left cursor-pointer">Pickup Info</th>
                   <th class="py-3 px-6 text-left cursor-pointer" @click="sort('number_of_packets')">Quantity <i class="fas fa-exchange-alt transform rotate-90"></i></th>
                   <th class="py-3 px-6 text-center">Actions</th>
                 </tr>
                 </thead>
-                <tbody class="text-gray-600 text-sm font-light">
+                <tbody class="text-gray-600 text-sm font-light bg-white">
                 <tr class="border-b border-gray-200 hover:bg-gray-100" v-for="(item, index) in sortedFoodItems" :key="index">
-                  <td class="py-3 px-6 text-left whitespace-nowrap"><span class="font-medium">{{ item.item_name }}</span></td>
+                  <td class="py-3 px-6 text-left whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="mr-2">
+                        <img class="w-6 h-6 rounded-full" src="../../assets/images/food.png"/>
+                      </div>
+                      <div>
+                        <span class="font-medium">{{ item.item_name }}</span>
+                        <div class="text-xs">
+                          {{ item.item_description }}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="py-3 px-6 text-left whitespace-nowrap">
+                    <span class="font-medium">{{ item.pickupTime }}</span>
+                    <div class="text-xs">{{ item.address }}</div>
+                  </td>
                   <td class="py-3 px-6 text-left whitespace-nowrap"><span class="font-medium">{{ item.number_of_packets }}</span></td>
                   <td class="py-3 px-6 text-center">
                     <div class="flex item-center justify-center space-x-1">
@@ -49,23 +66,23 @@
                 </tbody>
               </table>
             </div>
-            <p class="flex justify-end space-x-1 mt-1">
+            <p class="flex justify-end space-x-2 mt-1">
               <button
                   @click="prevPage"
-                  :class="currentPage > 1 ? 'bg-purple-900 hover:bg-purple-700' : 'bg-gray-200 cursor-not-allowed'"
-                  class="inline-flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  :class="currentPage > 1 ? 'bg-aqua-3 hover:bg-aqua-1' : 'bg-gray-200 cursor-not-allowed'"
+                  class="inline-flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2">
                 <i class="fas fa-angle-double-left pr-2 mt-1"></i>
               </button>
               <button
                   @click="nextPage"
-                  :class="(currentPage*pageSize) < foodItems.length ? 'bg-purple-900 hover:bg-purple-700' : 'bg-gray-200 cursor-not-allowed'"
-                  class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  :class="(currentPage*pageSize) < foodItems.length ? 'bg-aqua-3 hover:bg-aqua-1' : 'bg-gray-200 cursor-not-allowed'"
+                  class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white  focus:outline-none focus:ring-2 focus:ring-offset-2">
                 <i class="fas fa-angle-double-right pl-2 mt-1"></i></button>
             </p>
           </div>
         </div>
       </div>
-    <div class="relative -mt-64">
+    <div class="relative -mt-24 md:-mt-56">
       <svg viewBox="0 0 1428 174" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-2.000000, 44.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -99,13 +116,12 @@ import {path} from '../settings'
 
 export default {
   name: "FoodItem",
-  props: ['id'],
   data () {
     return {
       foodItems:[],
       currentSort:'item_name',
       currentSortDir:'asc',
-      pageSize:8,
+      pageSize:5,
       currentPage:1,
       isEditModalVisible: false,
       isDeleteModalVisible: false,
