@@ -1,40 +1,36 @@
 <template>
     <transition name="modal-fade">
-      <div class="modal-backdrop" role="dialog">
-        <div class="modal relative rounded-md" ref="modal">
-          <header class="modal-header">
-            <slot name="header">
-              <h2 class="pt-5">Enter the quantity you want to update</h2>
-              <button type="button" class="font-extrabold px-4 py-1 absolute top-0 right-0" @click="close" aria-label="Close modal">x</button>
-            </slot>
-          </header>
+      <form action="#" method="POST" @submit.prevent="editFoodQuantity">
+        <div class="modal-backdrop" role="dialog">
 
-          <form action="#" method="POST" @submit.prevent="editFoodQuantity">
-            <section class="modal-body border">
-              <slot name="body">
-                <div class="flex justify-center items-center space-x-4">
-                  <label for="quantity">Quantity</label>
-                  <input type="number" id="quantity" v-model="item.numberofPackets" class="mt-1 p-2 text-center focus:ring-indigo-500 focus:border-indigo-500 w-16 shadow-sm sm:text-sm border border-gray-300 rounded-md">
+          <div class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full">
+            <div class="bg-white rounded-lg w-1/4">
+              <div class="flex flex-col items-start p-4">
+                <div class="flex items-center w-full">
+                  <div class="text-gray-900 font-medium text-lg">Enter the updated quantity below</div>
+                  <svg class="ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" @click="close" aria-label="Close modal">
+                    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"/>
+                  </svg>
                 </div>
-              </slot>
-            </section>
-
-            <footer class="modal-footer">
-              <slot name="footer">
-                <div class="space-x-2">
-                  <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-900 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <hr>
+                <div class="mt-4 flex items-center w-full">
+                  <label for="quantity" class="w-1/3">Quantity</label>
+                  <input type="number" id="quantity" v-model="item.numberofPackets" class="mt-1 p-2 text-center focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border border-gray-300 rounded-md w-2/3">
+                </div>
+                <hr>
+                <div class="ml-auto space-x-2 mt-6">
+                  <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Update
                   </button>
-                  <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-700 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @click="close" aria-label="Close modal">
+                  <button class="bg-transparent hover:bg-gray-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" @click="close" aria-label="Close modal">
                     Cancel
                   </button>
                 </div>
-              </slot>
-            </footer>
-
-          </form>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </form>
     </transition>
 </template>
 
