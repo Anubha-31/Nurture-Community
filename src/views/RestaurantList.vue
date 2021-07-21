@@ -30,12 +30,14 @@
                   <option v-for="(city, index) in cities" :key="index" :value="city[0]">{{ city[0] }}</option>
                   </select>
                 </div>
-             <button type="submit" class="flex items-center m-auto w-24 mt-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <div class="<div  pt-3 container mx-auto flex  m-auto w-24 items-center justify-center flex-col md:flex-row items-center>">
+             <button type="submit" class=" py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   Search
                 </button>
-                 <button type="button" v-on:click="reset" class="flex items-center m-auto w-24 mt-2 justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  Reset Filter
+                 <button type="button" v-on:click="reset" class=" py-2 px-4 ml-5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Reset
                 </button>
+                </div>
         </div>
         </form>
     </header>
@@ -52,13 +54,16 @@
                     <div class="flex items-end justify-end h-56 w-full bg-cover image-holder">
                       <img class="img-fluid" :src="'data:image/jpg;base64,'+content.picture" alt="" />
                     <!-- <img id="qr" :src="qrImg" /> -->
-                        <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+
+                    <router-link :to="{ name: 'RestaurantProfile', params: { id: content.id }}">
+                        <button type="button" v-on:click="getData(content.id)" class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
                             <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         </button>
+                    </router-link>
                     </div>
                     <div class="px-5 py-3">
                          <h3 class="text-gray-700 uppercase">{{ content.restaurant_name }}</h3>
-                        <!-- <h2 class="text-gray-700 uppercase">{{ content.item_name }}</h2> -->
+                        <!-- ß<h2 class="text-gray-700 uppercase">{{ content.item_name }}</h2> -->
                         <!-- <span class="text-gray-400 mt-2">Quantity {{ content.number_of_packets}}</span><br> -->
                         <span class="text-gray-400 mt-2">Timings {{ content.opens_at}} - {{ content.closes_at}}</span>
                     </div>
@@ -71,9 +76,7 @@
     </main>
 </div>
 
-
-
-
+<!-- <RestaurantProfile restaurantId="101"/> -->
 
   <Footer />
 </template>
@@ -85,12 +88,14 @@ import axios from 'axios'
 import {path} from './settings.js'
 import canada from 'canada'
 import _ from 'lodash'
+import RestaurantProfile from '@/views/RestaurantProfile';
 
 export default {
   name: "RestaurantList",
   components: {
     Header,
     Footer,
+    RestaurantProfile,
   },
   data() {
         return{
@@ -162,7 +167,14 @@ export default {
         console.log(error);
       });
       console.log(this.user.provinces)
-    }
+    },
+
+    getData: function(data)    {
+      console.log(data)
+
+      //send data in profile page 
+    },
+
         
    },  
 };
