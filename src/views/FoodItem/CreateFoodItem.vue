@@ -84,7 +84,7 @@
                     ref="uploadedPicture"
                     @change="onFileUpload"
                     autocomplete="restaurant-name"
-                    class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
+                    class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required
                   />
                 </div>
                 <div class="col-span-6 flex justify-center" >
