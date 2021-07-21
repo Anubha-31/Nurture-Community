@@ -116,7 +116,6 @@ import {path} from '../settings'
 
 export default {
   name: "FoodItem",
-  props: ['id'],
   data () {
     return {
       foodItems:[],

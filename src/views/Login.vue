@@ -63,7 +63,7 @@ export default {
         //console.log(response)
         if(response.status === 200) {
           if(response.data === "restaurant") {
-            window.location.href = "restaurant/1/food-items";
+            window.location.href = "restaurant/food-items";
           } else {
             window.location.href = "/restaurant";
           }
