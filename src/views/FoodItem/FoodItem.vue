@@ -28,7 +28,7 @@
                   <th class="py-3 px-6 text-center">Actions</th>
                 </tr>
                 </thead>
-                <tbody class="text-gray-600 text-sm font-light">
+                <tbody class="text-gray-600 text-sm font-light bg-white">
                 <tr class="border-b border-gray-200 hover:bg-gray-100" v-for="(item, index) in sortedFoodItems" :key="index">
                   <td class="py-3 px-6 text-left whitespace-nowrap">
                     <div class="flex items-center">
@@ -66,23 +66,23 @@
                 </tbody>
               </table>
             </div>
-            <p class="flex justify-end space-x-1 mt-1">
+            <p class="flex justify-end space-x-2 mt-1">
               <button
                   @click="prevPage"
-                  :class="currentPage > 1 ? 'bg-purple-900 hover:bg-purple-700' : 'bg-gray-200 cursor-not-allowed'"
-                  class="inline-flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  :class="currentPage > 1 ? 'bg-aqua-3 hover:bg-aqua-1' : 'bg-gray-200 cursor-not-allowed'"
+                  class="inline-flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2">
                 <i class="fas fa-angle-double-left pr-2 mt-1"></i>
               </button>
               <button
                   @click="nextPage"
-                  :class="(currentPage*pageSize) < foodItems.length ? 'bg-purple-900 hover:bg-purple-700' : 'bg-gray-200 cursor-not-allowed'"
-                  class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  :class="(currentPage*pageSize) < foodItems.length ? 'bg-aqua-3 hover:bg-aqua-1' : 'bg-gray-200 cursor-not-allowed'"
+                  class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white  focus:outline-none focus:ring-2 focus:ring-offset-2">
                 <i class="fas fa-angle-double-right pl-2 mt-1"></i></button>
             </p>
           </div>
         </div>
       </div>
-    <div class="relative -mt-64">
+    <div class="relative -mt-24 md:-mt-56">
       <svg viewBox="0 0 1428 174" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <g transform="translate(-2.000000, 44.000000)" fill="#FFFFFF" fill-rule="nonzero">
@@ -121,7 +121,7 @@ export default {
       foodItems:[],
       currentSort:'item_name',
       currentSortDir:'asc',
-      pageSize:8,
+      pageSize:5,
       currentPage:1,
       isEditModalVisible: false,
       isDeleteModalVisible: false,

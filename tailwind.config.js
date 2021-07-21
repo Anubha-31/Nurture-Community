@@ -6,7 +6,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'aqua-1': '#067599',
         'aqua-2': '#005f7b',
+        'aqua-3': '#003a4a',
       }
     },
   },
