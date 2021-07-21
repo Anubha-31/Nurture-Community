@@ -16,6 +16,7 @@
     "phone": "^2.4.22",
     "postal-codes-js": "^2.5.2",
     "postcss": "^7",
+    "qrcode.vue": "^3.2.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "vue": "^3.0.0",
     "vue-cookies": "^1.7.4",
