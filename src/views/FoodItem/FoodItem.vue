@@ -21,7 +21,7 @@
             <div class="bg-white shadow-md rounded my-6">
               <table class="min-w-max w-full table-auto">
                 <thead>
-                <tr class="text-white uppercase text-sm leading-normal" style="background: #005f7b;">
+                <tr class="text-white bg-aqua-2 uppercase text-sm leading-normal">
                   <th class="py-3 px-6 text-left cursor-pointer" @click="sort('item_name')">Item Name <i class="fas fa-exchange-alt transform rotate-90"></i></th>
                   <th class="py-3 px-6 text-left cursor-pointer">Pickup Info</th>
                   <th class="py-3 px-6 text-left cursor-pointer" @click="sort('number_of_packets')">Quantity <i class="fas fa-exchange-alt transform rotate-90"></i></th>
