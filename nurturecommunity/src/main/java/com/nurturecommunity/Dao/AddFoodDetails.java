@@ -24,8 +24,8 @@ public class AddFoodDetails {
 	@Column(name="itemDescription")
 	private String itemDescription;
 	
-	@Column(name="uploadedPicture")
-	private String uploadedPicture;
+	@Column(name="picture")
+	private byte[] picture;
 	
 	@Column(name="numberofPackets")
 	private int numberofPackets;
@@ -56,6 +56,7 @@ public class AddFoodDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int foodDetailId;
 
+	
 	public String getAddress1() {
 		return address1;
 	}
@@ -136,12 +137,12 @@ public class AddFoodDetails {
 		this.itemDescription = itemDescription;
 	}
 
-	public String getUploadedPicture() {
-		return uploadedPicture;
+	public byte[] getpicture() {
+		return picture;
 	}
 
-	public void setUploadedPicture(String uploadedPicture) {
-		this.uploadedPicture = uploadedPicture;
+	public void setpicture(byte[] picture) {
+		this.picture = picture;
 	}
 
 	public int getNumberofPackets() {
@@ -173,20 +174,20 @@ public class AddFoodDetails {
 	@Override
 	public String toString() {
 		return "AddFoodDetails [id=" + id + ", restaurantName=" + restaurantName + ", itemName=" + itemName
-				+ ", itemDescription=" + itemDescription + ", uploadedPicture=" + uploadedPicture + ", numberofPackets="
+				+ ", itemDescription=" + itemDescription + ", picture=" + picture + ", numberofPackets="
 				+ numberofPackets + ", locationChange=" + locationChange + ", pickupTime=" + pickupTime + ", address="
 				+ address1 + ", foodDetailId=" + foodDetailId + "]";
 	}
 
 	
 	public AddFoodDetails(long id, String restaurantName, String itemName, String itemDescription,
-			String uploadedPicture, int numberofPackets, String locationChange, String pickupTime, String address) {
+			byte[] picture, int numberofPackets, String locationChange, String pickupTime, String address) {
 		super();
 		this.id = id;
 		this.restaurantName = restaurantName;
 		this.itemName = itemName;
 		this.itemDescription = itemDescription;
-		this.uploadedPicture = uploadedPicture;
+		this.picture = picture;
 		this.numberofPackets = numberofPackets;
 		this.locationChange = locationChange;
 		this.pickupTime = pickupTime;

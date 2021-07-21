@@ -359,6 +359,15 @@ public class MainController {
 			foodDetails.setPickupTime(object.get("pickupTime").getAsString());
 			foodDetails.setId(users.get(0).getId());
 			foodDetails.setRestaurantName(users.get(0).getRestaurant_name());
+			 try {
+				 if(multipartfile!=null)
+				 {
+					 foodDetails.setpicture(multipartfile.getBytes());
+				 }
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			AddFoodDetails newfoodDetails = addFoodDetailsRepository.save(foodDetails);
 					
 			if(newfoodDetails != null && multipartfile !=null) {
