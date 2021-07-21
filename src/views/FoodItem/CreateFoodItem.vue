@@ -1,5 +1,6 @@
 <template>
   <Header />
+<pre> {{ food }}</pre>
   <div>
     <div class="container mx-auto px-1">
       <div class="text-center">
@@ -71,7 +72,7 @@
 
                 <div class="col-span-6">
                   <label
-                    for="Upload_picture"
+                    for="uploadedPicture"
                     class="block text-sm font-medium text-gray-700"
                     >Upload Picture</label
                   >
@@ -86,7 +87,9 @@
                     class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
                   />
                 </div>
-
+                <div class="col-span-6 flex justify-center" >
+                  <img :src="placeholderImage" alt="uploadedPicture" class="w-1/2 border rounded-md" ref="placeholder_image"/>
+                </div>
                 <div class="col-span-6">
                   <label
                     for="quantity"
@@ -353,6 +356,7 @@ export default {
         pickupTime: "09:00",
       },
       formData: null,
+      placeholderImage: '/img/placeholder-image.8057445e.png'
     };
   },
   created() {
@@ -363,6 +367,7 @@ export default {
       this.formData = new FormData();
       this.formData.append("model", JSON.stringify(this.food));
       this.formData.append("uploadedPicture", this.food.uploadedPicture);
+      console.log(this.food.uploadedPicture)
       axios.defaults.withCredentials = true;
       axios({
         url: path + "/addFoodDetails",
@@ -386,12 +391,17 @@ export default {
     },
 
     onFileUpload: function(event) {
+       this.$refs.placeholder_image.src = this.placeholderImage
       if (event.target.files[0].size > 5000000) {
+          this.$refs.uploadedPicture.value = null;
         alert("Please upload a file less than 5MB");
         this.$refs.uploadedPicture.value = null;
       } else {
         console.log(event.target.files[0]);
-        this.uploadedPicture = event.target.files[0];
+        this.$refs.placeholder_image.src = URL.createObjectURL(event.target.files[0])
+        
+        this.food.uploadedPicture = event.target.files[0];
+        console.log(this.food.uploadedPicture);
       }
     },
   },
