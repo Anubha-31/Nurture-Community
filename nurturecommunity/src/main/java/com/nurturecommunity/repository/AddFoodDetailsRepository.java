@@ -13,7 +13,7 @@ public interface AddFoodDetailsRepository extends JpaRepository<AddFoodDetails, 
 	List<AddFoodDetails> findByRestaurantName(String restaurantName);
 	AddFoodDetails findByfoodDetailId(int id);
 	
-	List<AddFoodDetails> findByid(long id);
+	List<AddFoodDetails> findAllByid(long id);
 	
 	
 	
