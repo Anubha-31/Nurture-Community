@@ -6,6 +6,7 @@ import CreateFoodItem from "@/views/FoodItem/CreateFoodItem";
 import ContactUs from "@/views/ContactUs"
 import RestaurantList from "@/views/RestaurantList";
 import Upload from "@/views/Upload";
+import RestaurantProfile from "@/views/RestaurantProfile";
 
 import FoodItem from "@/views/FoodItem/FoodItem";
 import EditFoodItem from "@/views/FoodItem/EditFoodItem";
@@ -56,6 +57,12 @@ const routes = [
     path: '/upload',
     name: 'Upload',
     component: Upload
+  },
+  {
+    path: '/profile/:id',
+    name: 'RestaurantProfile',
+    component: RestaurantProfile,
+    props: true
   },
 ]
 
