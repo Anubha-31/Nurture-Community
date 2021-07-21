@@ -28,10 +28,9 @@ const routes = [
     component: Login
   },
   {
-    path: '/restaurant/:id/food-items',
+    path: '/restaurant/food-items',
     name: 'FoodItem',
     component: FoodItem,
-    props: true
   },
   {
     path: '/food-item/create',

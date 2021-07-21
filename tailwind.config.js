@@ -4,7 +4,11 @@ module.exports = {
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'aqua-2': '#005f7b',
+      }
+    },
   },
   variants: {
     extend: {},
