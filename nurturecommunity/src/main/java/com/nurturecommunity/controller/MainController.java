@@ -435,15 +435,14 @@ public class MainController {
 	@PostMapping(value = "/profile/{id}")
 	public ResponseEntity retrieveResaurant(@PathVariable Long id) {
 		try {
-			List<AppUser> obj = new ArrayList<AppUser>();
 			
-			userRepository.findById(id);
+			List<AppUser> users =userRepository.findAllById(id);
 			
-			if (obj.isEmpty()) {
+			if (users.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(obj, HttpStatus.OK);
+			return new ResponseEntity<>(users, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}	
@@ -451,5 +450,22 @@ public class MainController {
 	}
 	
 		
+//	@PostMapping(value = "/restaurant/{id}")
+//	public ResponseEntity retrieveResaurantFood(@PathVariable Long id) {
+//		try {
+//			List<AddFoodDetails> obj = new ArrayList<AddFoodDetails>();
+//			
+//			obj= addFoodDetailsRepository.findByid(long id);
+//			
+//			if (obj.isEmpty()) {
+//				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//			}
+//
+//			return new ResponseEntity<>(obj, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//		}	
+//
+//	}
 }
 
