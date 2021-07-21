@@ -121,7 +121,7 @@ public class MainController {
 
 					cookie.setMaxAge(7 * 24 * 60 * 60);
 					cookie.setSecure(true);
-					cookie.setHttpOnly(true);
+					//cookie.setHttpOnly(true);
 					cookie.setPath("/");
 					cookie1.setMaxAge(7 * 24 * 60 * 60);
 					cookie1.setSecure(true);
