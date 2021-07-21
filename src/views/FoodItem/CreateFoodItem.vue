@@ -1,6 +1,6 @@
 <template>
   <Header />
-<pre> {{ food }}</pre>
+<!-- <pre> {{ food }}</pre> -->
   <div>
     <div class="container mx-auto px-1">
       <div class="text-center">
