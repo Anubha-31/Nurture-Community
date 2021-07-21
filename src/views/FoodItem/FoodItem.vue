@@ -3,10 +3,15 @@
 <!--  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>-->
 <!--  <pre>{{foodItems}}</pre>-->
 
-  <h1 class="text-3xl md:text-5xl text-center">List of posted food items</h1>
+  <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
+    Food Items
+  </h1>
+  <div class="w-full mb-4">
+    <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
+  </div>
   <p class="text-center mt-2">Below are the list of items that you have posted</p>
-  <div class="overflow-x-auto ">
-    <div class="min-w-screen min-h-screen flex justify-center font-sans overflow-hidden">
+  <div class="overflow-x-auto px-2 md:px-0">
+    <div class="min-w-screen min-h-screen flex justify-center font-sans overflow-x-auto md:overflow-hidden">
       <div class="w-full lg:w-4/6">
         <div class="flex justify-end mt-8 md:mt-0">
           <router-link to="/food-item/create" class="title-font font-medium items-center text-gray-900 md:mb-0">
@@ -176,5 +181,9 @@ tr th:nth-child(n+5) {
 tr td:nth-child(1),
 tr th:nth-child(1) {
   border-radius: .625rem 0 0 .625rem;
+}
+
+.gradient {
+  background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
 }
 </style>
