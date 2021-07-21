@@ -335,7 +335,7 @@ public class MainController {
 		@PostMapping(value = "/addFoodDetails", consumes = "multipart/form-data")
 		@ResponseStatus(HttpStatus.CREATED)
 		public ResponseEntity AddFood(@RequestParam("model") String myParams,
-				@RequestParam(value = "uploadedImage", required = false) MultipartFile multipartfile,
+				@RequestParam(value = "uploadedPicture", required = false) MultipartFile multipartfile,
 				HttpServletRequest request) {
 
 			String emailaddress = getCookies(request);
@@ -369,10 +369,8 @@ public class MainController {
 				e.printStackTrace();
 			}
 			AddFoodDetails newfoodDetails = addFoodDetailsRepository.save(foodDetails);
-					
-			if(newfoodDetails != null && multipartfile !=null) {
-				saveFooddata(newfoodDetails,multipartfile);				
-			}
+				
+			
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		
@@ -381,7 +379,6 @@ public class MainController {
 		@PostMapping(value = "/ContactUs")
 		@ResponseStatus(HttpStatus.CREATED)
 		public ResponseEntity saveQueries(@Valid @RequestBody ContactUsDetails user, HttpServletResponse response) {
-			System.out.println("bla bla");
 			contactUsrepo.save(user);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
@@ -420,17 +417,17 @@ public class MainController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 
-		private void saveFooddata(AddFoodDetails newfoodDetails, MultipartFile multipartfile) {
-			try {
-				jdbcTemplate.update(Queries.AddFoodFiles, newfoodDetails.getFoodDetailId(), multipartfile.getName(),
-						multipartfile.getBytes());
-
-			} catch (DataAccessException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
+//		private void saveFooddata(AddFoodDetails newfoodDetails, MultipartFile multipartfile) {
+//			try {
+//				jdbcTemplate.update(Queries.AddFoodFiles, newfoodDetails.getFoodDetailId(), multipartfile.getName(),
+//						multipartfile.getBytes());
+//
+//			} catch (DataAccessException | IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//		}
 		private void saveUpdateFood(AddFoodDetails newfoodDetails) throws IOException {
 			try {
 				jdbcTemplate.update(Queries.updateFood, newfoodDetails.getNumberofPackets(),newfoodDetails.getId());
