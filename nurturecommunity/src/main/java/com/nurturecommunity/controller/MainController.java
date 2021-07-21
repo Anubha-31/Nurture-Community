@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 //import jdk.internal.org.jline.utils.Status;
-import com.nurturecommunity.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -57,8 +56,7 @@ public class MainController {
 	@Autowired
 	AddFoodDetailsRepository addFoodDetailsRepository;
 
-	@Autowired
-	ProfileRepository profileRepository;
+
 	
 	@Autowired
 	private com.nurturecommunity.model.LoginDetails Login;
