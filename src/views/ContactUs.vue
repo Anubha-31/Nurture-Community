@@ -6,7 +6,9 @@
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
       <div class="mt-1 overflow-hidden">
         <div class="grid grid-cols-1 md:grid-cols-2">
-          <div class="p-6 mr-2 bg-gray-100 dark:bg-gray-800 sm:rounded-lg order-last  md:order-first ">
+          <div
+            class="p-6 mr-2 bg-gray-100 dark:bg-gray-800 sm:rounded-lg order-last  md:order-first "
+          >
             <h1
               class="text-4xl sm:text-5xl text-gray-800 dark:text-white font-extrabold tracking-tight"
             >
@@ -134,8 +136,16 @@
                 id="name"
                 v-model="user.name"
                 placeholder="Full Name"
+                @blur="FullNameRequired"
                 class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"
               />
+              <div v-if="errors.name" class="col-span-6 mt-1">
+                <ul>
+                  <li class="text-xs text-red-500 font-medium">
+                    {{ errors.name }}
+                  </li>
+                </ul>
+              </div>
             </div>
 
             <div class="flex flex-col mt-2">
@@ -146,8 +156,16 @@
                 id="email"
                 v-model="user.email"
                 placeholder="Email"
+                @blur="emailValidation"
                 class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"
               />
+              <div v-if="errors.email" class="col-span-6 mt-1">
+                <ul>
+                  <li class="text-xs text-red-500 font-medium">
+                    {{ errors.email }}
+                  </li>
+                </ul>
+              </div>
             </div>
 
             <div class="flex flex-col mt-2">
@@ -157,9 +175,17 @@
                 name="tel"
                 id="tel"
                 v-model="user.tel"
-                placeholder="Telephone Number"
+                @blur="blurEventHandler"
+                placeholder="Telephone Number e.g. 780-569-8900"
                 class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"
               />
+              <div v-if="errors.tel" class="col-span-6 mt-1">
+                <ul>
+                  <li class="text-xs text-red-500 font-medium">
+                    {{ errors.tel }}
+                  </li>
+                </ul>
+              </div>
             </div>
 
             <div class="flex flex-col mt-2">
@@ -169,9 +195,17 @@
                 name="message"
                 id="message"
                 v-model="user.message"
+                @blur="MessageRequired"
                 placeholder="How Can We Help You.."
                 class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 font-semibold focus:border-indigo-500 focus:outline-none"
               ></textarea>
+              <div v-if="errors.message" class="col-span-6 mt-1">
+                <ul>
+                  <li class="text-xs text-red-500 font-medium">
+                    {{ errors.message }}
+                  </li>
+                </ul>
+              </div>
             </div>
 
             <button
@@ -193,6 +227,7 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
+import _ from "lodash";
 import { path } from "./settings.js";
 
 export default {
@@ -205,31 +240,93 @@ export default {
         tel: "",
         message: "",
       },
+      errors: {},
     };
   },
   methods: {
-    formSubmit: function() {
-      axios.defaults.withCredentials = true;
-      axios.post(path + "/ContactUs", this.user).then(
-        (response) => {
-          if(response.status === 200){
-            alert("Your query has been registered,\nOur customer care operative will call you within 24-48 hours")
-          }
-        },
-        (error) => {
-          console.log(error);
-          alert("Please try again later!")
-        }
-      );
-    },
-  },
-   blurEventHandler: function (e) {
-      if(tel(this.user.phone, "CAN").length === 0) {
-        this.errors.phone= "Please enter a valid Canadian phone number"
+    ValidateName() {
+      if (this.user.name == 0) {
+        this.errors.name = "Name is required";
       } else {
-        delete this.errors.phone
+        delete this.errors.name;
       }
     },
+    validateTelephone() {
+      if (this.user.tel.length == 0) {
+        this.errors.tel = "Telephone number is required";
+      } else {
+        if (
+          !/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test(
+            this.user.tel
+          )
+        ) {
+          this.errors.tel = "Enter a valid canadian phone number";
+        } else {
+          delete this.errors.tel;
+        }
+      }
+    },
+    validateMessage(){
+      if (this.user.message == 0) {
+        this.errors.message = "Please type your query";
+      } else {
+        delete this.errors.message;
+      }
+    },
+    validateEmail(){
+      if (this.user.email.length == 0) {
+        this.errors.email = "Email is required";
+      } else {
+        if (
+          !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email)
+        ) {
+          this.errors.email = "Please enter a valid email";
+        } else {
+          delete this.errors.email;
+        }
+      }
+
+    },
+    validateForm(){
+      this.validateEmail()
+      this.ValidateName()
+      this.validateMessage()
+      this.validateTelephone()
+    },
+    formSubmit: function() {
+      this.validateForm()
+      this.errorExist = !_.isEmpty(this.errors);
+      console.log(this.errorExist);
+      if (!this.errorExist) {
+        axios.defaults.withCredentials = true;
+        axios.post(path + "/ContactUs", this.user).then(
+          (response) => {
+            if (response.status === 200) {
+              alert(
+                "Your query has been registered,\nOur customer care operative will call you within 24-48 hours"
+              );
+            }
+          },
+          (error) => {
+            console.log(error);
+            alert("Please try again later!");
+          }
+        );
+      }
+    },
+    blurEventHandler: function() {
+      this.validateTelephone()
+    },
+    emailValidation: function() {
+      this.validateEmail()
+    },
+    FullNameRequired: function() {
+      this.ValidateName()
+    },
+    MessageRequired: function() {
+      this.validateMessage()
+    },
+  },
   components: {
     Header,
     Footer,
