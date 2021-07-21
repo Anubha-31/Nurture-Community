@@ -23,8 +23,8 @@
                 <thead>
                 <tr class="text-white uppercase text-sm leading-normal" style="background: #005f7b;">
                   <th class="py-3 px-6 text-left cursor-pointer" @click="sort('item_name')">Item Name <i class="fas fa-exchange-alt transform rotate-90"></i></th>
-                  <th class="py-3 px-6 text-left cursor-pointer" @click="sort('number_of_packets')">Quantity <i class="fas fa-exchange-alt transform rotate-90"></i></th>
                   <th class="py-3 px-6 text-left cursor-pointer">Pickup Info</th>
+                  <th class="py-3 px-6 text-left cursor-pointer" @click="sort('number_of_packets')">Quantity <i class="fas fa-exchange-alt transform rotate-90"></i></th>
                   <th class="py-3 px-6 text-center">Actions</th>
                 </tr>
                 </thead>
@@ -43,11 +43,11 @@
                       </div>
                     </div>
                   </td>
-                  <td class="py-3 px-6 text-left whitespace-nowrap"><span class="font-medium">{{ item.number_of_packets }}</span></td>
                   <td class="py-3 px-6 text-left whitespace-nowrap">
                     <span class="font-medium">{{ item.pickupTime }}</span>
                     <div class="text-xs">{{ item.address }}</div>
                   </td>
+                  <td class="py-3 px-6 text-left whitespace-nowrap"><span class="font-medium">{{ item.number_of_packets }}</span></td>
                   <td class="py-3 px-6 text-center">
                     <div class="flex item-center justify-center space-x-1">
                       <div class="w-4 mr-2 transform hover:text-blue-700 hover:scale-110 cursor-pointer" @click="showEditModal(item.id, item.number_of_packets)">
