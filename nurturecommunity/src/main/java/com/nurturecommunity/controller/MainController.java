@@ -433,10 +433,23 @@ public class MainController {
 			}
 		}
 	@PostMapping(value = "/profile/{id}")
-	public Object retrieveResaurant(@PathVariable int id) {
+	public ResponseEntity retrieveResaurant(@PathVariable Long id) {
+		try {
+			List<AppUser> obj = new ArrayList<AppUser>();
+			
+			userRepository.findById(id);
+			
+			if (obj.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
 
-		return profileRepository.findByid(id);
+			return new ResponseEntity<>(obj, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
 
 	}
+	
+		
 }
 
