@@ -66,6 +66,7 @@
                         <!-- ß<h2 class="text-gray-700 uppercase">{{ content.item_name }}</h2> -->
                         <!-- <span class="text-gray-400 mt-2">Quantity {{ content.number_of_packets}}</span><br> -->
                         <span class="text-gray-400 mt-2">Timings {{ content.opens_at}} - {{ content.closes_at}}</span>
+                        <span class="text-gray-400 mt-2">Distance from your location {{ content.distance}} Km</span>
                     </div>
                 </div>
             <!-- End of card -->
@@ -120,7 +121,7 @@ export default {
   },
   
   mounted () {
-      axios.defaults.withCredentials = true
+    axios.defaults.withCredentials = true
     axios.get(path+'/ListOfRestaurants', this.user)
       .then((response) => {
         
@@ -174,9 +175,8 @@ export default {
 
       //send data in profile page 
     },
-
-        
-   },  
+  
+   }, 
 };
 </script>
 
