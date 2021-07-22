@@ -1,6 +1,12 @@
 package com.nurturecommunity.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -266,19 +272,32 @@ public class MainController {
 	@PostMapping("/ListOfRestaurantzip")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public ResponseEntity<List<AppUser>> getByZipCode(@RequestBody String zip) {
+	public ResponseEntity<List<AppUser>> getByZipCode(@RequestBody String zip,HttpServletRequest request) {
 	try {
 		JsonParser jsonParser = new JsonParser();
 		JsonObject object = (JsonObject)jsonParser.parse(zip);
-		
-		
+		String userZip = "";
 		zip =object.get("city").getAsString();
+		String Cookie = getCookies(request);
+		List<AppUser> user = userRepository.findByEmailaddress(Cookie);
+		if (user.size() != 0) {
+			userZip = user.get(0).getZip();
+		}
 		List<AppUser> usersByzip = new ArrayList<AppUser>();
 		userRepository.findAllByusertype("restaurant").forEach(usersByzip::add);
 		List<AppUser> data = new ArrayList<AppUser>();
 		for(AppUser obj : usersByzip){
 			if (obj.getCity().equals(zip)) {
+				
+				String tempDistance  = toDistance(userZip,obj.getZip());
+				double Doubletemp = Double.parseDouble(tempDistance);
+				DecimalFormat numberFormat = new DecimalFormat("#.00");
+				
+				numberFormat.format(Doubletemp);
+				obj.setDistance(String.valueOf(Doubletemp));
+				obj.setDistance(tempDistance);
 				data.add(obj);
+				
 			}
 		}
 		if (data.isEmpty()) {
@@ -300,14 +319,35 @@ public class MainController {
 	public ResponseEntity<List<AppUser>> getAllResturants(HttpServletRequest request) {
 		try {
 			List<AppUser> obj = new ArrayList<AppUser>();
-			
+			String userZip = "";
+			String Cookie = getCookies(request);
+//			String Cookie = "arshdeepk61@gmail.com";
+			List<AppUser> user = userRepository.findByEmailaddress(Cookie);
+			if (user.size() != 0) {
+				userZip = user.get(0).getZip();
+			}
+			List<AppUser> usersByzip = new ArrayList<AppUser>();
 			userRepository.findAllByusertype("restaurant").forEach(obj::add);
+			for(AppUser o : obj){
+				
+					
+				String tempDistance  = toDistance(userZip,o.getZip());
+				double Doubletemp = Double.parseDouble(tempDistance);
+				DecimalFormat numberFormat = new DecimalFormat("#.00");
+				
+				numberFormat.format(Doubletemp);
+				o.setDistance(String.valueOf(Doubletemp));
+				usersByzip.add(o);
+					
+				
+			}
 			
-			if (obj.isEmpty()) {
+			
+			if (usersByzip .isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
 
-			return new ResponseEntity<>(obj, HttpStatus.OK);
+			return new ResponseEntity<>(usersByzip, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}	
@@ -453,6 +493,30 @@ public class MainController {
 
 	}
 	
+
+	
+	public static String toDistance(String userzip1, String reszip2) throws IOException {
+		
+		String Search = "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/CalculateDistance/ByZip?fromzipcode="+userzip1+"&tozipcode="+reszip2+"&key=7AJTINS13OS1CEJLJCAR";
+		URL url = new URL(Search);
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("GET");
+		int status = con.getResponseCode();
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer content = new StringBuffer();
+		while ((inputLine = in.readLine()) != null) {
+				    content.append(inputLine);
+			
+			}
+		in.close();
+		con.disconnect();
+		JsonParser jsonParser = new JsonParser();
+		JsonObject object = (JsonObject)jsonParser.parse(content.toString());
+		String distance = object.get("DistanceInKm").getAsString();
+		return distance;
+		
+	}
 		
 	@PostMapping(value = "/restaurant/{id}")
 	public ResponseEntity retrieverestaurantsFood(@PathVariable Long id) {
