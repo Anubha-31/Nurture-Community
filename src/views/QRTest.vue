@@ -22,6 +22,9 @@ export default {
   methods: {
     onDecode: function (result) {
       console.log(result)
+    },
+    qrgen: function () {
+      this.value = "matha"
     }
   }
 }
