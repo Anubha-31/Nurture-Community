@@ -85,6 +85,8 @@ import { path } from "./settings.js";
 export default {
   name: "Login",
   mounted() {
+    this.$store.commit('assignUserType', 'customer')
+    console.log(this.$store.state.user_type)
     this.url_data = this.$route.params.id;
   },
   data() {
