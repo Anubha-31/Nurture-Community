@@ -11,6 +11,7 @@ import RestaurantProfile from "@/views/RestaurantProfile";
 import FoodItem from "@/views/FoodItem/FoodItem";
 import EditFoodItem from "@/views/FoodItem/EditFoodItem";
 import QRTest from "@/views/QRTest";
+import QRReader from "@/views/QRReader";
 
 const routes = [
   {
@@ -69,6 +70,11 @@ const routes = [
     path: '/qr-test',
     name: 'QRTest',
     component: QRTest
+  },
+  {
+    path: '/qr-reader',
+    name: 'QRReader',
+    component: QRReader
   },
 ]
 

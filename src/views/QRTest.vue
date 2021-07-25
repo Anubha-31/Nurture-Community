@@ -1,6 +1,8 @@
 <template>
-  <button @click="qrgen">Generate QR Code</button>
-  <qrcode-vue :value="value" :size="size" level="H" />
+<!--  <button @click="qrgen">Generate QR Code</button>-->
+  <div class="flex justify-center mt-48">
+    <qrcode-vue :value="value" :size="size" level="H" />
+  </div>
 <!--  <qrcode-stream @decode="onDecode"></qrcode-stream>-->
 </template>
 
@@ -11,7 +13,7 @@ export default {
   name: "QRTest",
   data() {
     return {
-      value: 'https://example.com',
+      value: '{"id":"1", "foodID":2, "emailaddress":"rr@yahoo.com"}',
       size: 300,
     }
   },
