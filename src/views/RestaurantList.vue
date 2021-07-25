@@ -1,33 +1,38 @@
 <template>
-  <Header />
-  <div x-data="{ cartOpen: false , isOpen: false }" class="bg-white">
-    <!-- Search Box -->
-    <header>
-      <!-- <pre>{{ user }}</pre> -->
+  <Header user_type="customer"/><header>
       <form method="POST" @submit.prevent="formSubmit">
         <div class="container mx-auto px-6 py-3">
-          <div class="relative mt-6 max-w-lg mx-auto">
-            <label for="province" class="block text-sm font-medium text-gray-700">Province*</label>
-            <select name="province" id="province" v-model="user.province" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
-              <option disabled value="">Please select one</option>
-              <option v-for="(province, index) in provinces" :key="index" :value="index">{{ province }}</option>
-            </select>
+          <div class="mt-6 flex flex-col items-center w-full md:w-3/5 mx-auto">
+            <div class="w-1/2">
+              <label for="province" class="block text-sm font-medium text-gray-700">Province*</label>
+              <select name="province" id="province" v-model="user.province" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                <option disabled value="">Please select one</option>
+                <option v-for="(province, index) in provinces" :key="index" :value="index">{{ province }}</option>
+              </select>
+            </div>
+
+
+            <div class="w-1/2">
+              <label for="city" class="block text-sm font-medium text-gray-700">City*</label>
+              <select name="city" id="city" v-model="user.city" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
+                <option disabled value="">Please select one</option>
+                <option v-for="(city, index) in cities" :key="index" :value="city[0]">{{ city[0] }}</option>
+              </select>
+            </div>
+
+            <div class="mt-3">
+              <button type="submit" class=" py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Search
+              </button>
+              <button type="button" v-on:click="reset" class=" py-2 px-4 ml-5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Reset
+              </button>
+            </div>
           </div>
-          <div class="relative mt-6 max-w-lg mx-auto">
-            <label for="city" class="block text-sm font-medium text-gray-700">City*</label>
-            <select name="city" id="city" v-model="user.city" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
-              <option disabled value="">Please select one</option>
-              <option v-for="(city, index) in cities" :key="index" :value="city[0]">{{ city[0] }}</option>
-            </select>
-          </div>
-          <div class="<div  pt-3 container mx-auto flex  m-auto w-24 items-center justify-center flex-col md:flex-row items-center>">
-            <button type="submit" class=" py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Search
-            </button>
-            <button type="button" v-on:click="reset" class=" py-2 px-4 ml-5 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Reset
-            </button>
-          </div>
+
+
+
+
         </div>
       </form>
     </header>
@@ -54,15 +59,14 @@
               <h3 class="text-gray-700 uppercase">{{ content.restaurant_name }}</h3>
               <!-- ß<h2 class="text-gray-700 uppercase">{{ content.item_name }}</h2> -->
               <!-- <span class="text-gray-400 mt-2">Quantity {{ content.number_of_packets}}</span><br> -->
-              <span class="text-gray-400 mt-2">Timings {{ content.opens_at}} - {{ content.closes_at}}</span>
-              <span class="text-gray-400 mt-2">Distance from your location {{ content.distance}} Km</span>
+              <div class="text-gray-400 mt-2">Timings {{ content.opens_at}} - {{ content.closes_at}}</div>
+              <span class="text-gray-400 mt-2">Distance from your location {{ content.distance }} Km</span>
             </div>
           </div>
           <!-- End of card -->
         </div>
       </div>
     </main>
-  </div>
   <Footer />
 </template>
 <script>
