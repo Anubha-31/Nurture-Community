@@ -73,6 +73,7 @@ export default {
       contents: null,
       image: null,
       length: '0',
+      cities: [],
       user: {
         city: null,
         provinces: null,
