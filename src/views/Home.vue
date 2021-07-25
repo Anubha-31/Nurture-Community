@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col">
-    <Header/>
+    <Header></Header>
     <Main class="flex-grow"></Main>
     <Footer />
   </div>

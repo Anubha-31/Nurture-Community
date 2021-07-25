@@ -1,5 +1,5 @@
 <template>
-  <Header/>
+  <Header user_type="restaurant"></Header>
   <!--  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>-->
 <!--    <pre>{{foodItems}}</pre>-->
   <div class="leading-normal tracking-normal text-white gradient" style="font-family: 'Source Sans Pro', sans-serif;">
