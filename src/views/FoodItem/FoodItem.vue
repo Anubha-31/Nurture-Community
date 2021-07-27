@@ -1,7 +1,7 @@
 <template>
   <Header user_type="restaurant"></Header>
   <!--  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>-->
-<!--    <pre>{{foodItems}}</pre>-->
+    <pre>{{foodItems}}</pre>
   <div class="leading-normal tracking-normal text-white gradient" style="font-family: 'Source Sans Pro', sans-serif;">
       <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
         Food Items
