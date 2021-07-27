@@ -5,7 +5,8 @@
       <div class="lg:w-4/5 mx-auto flex flex-wrap">
         <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
           <h2 class="text-sm title-font text-gray-500 tracking-widest">FAST FOOD</h2>
-          <!-- <pre>{{ contents }}</pre> -->
+<!--           <pre>{{ contents }}</pre>-->
+<!--           <pre>{{ contentsList }}</pre>-->
           <h1 class="text-gray-900 text-3xl title-font font-medium mb-1 uppercase ">{{ contents.restaurant_name }}</h1>
           <div class="flex mb-4">
             <!-- Ratings -->
@@ -90,7 +91,7 @@
           <h3 class="text-gray-700 uppercase">{{ content.itemName }}</h3>
           <span class="text-gray-400 mt-2">Quantity: {{ content.numberofPackets }}</span>
           <div v-if="content.numberofPackets > 0">
-            <button class="block w-full mt-3 text-white bg-yellow-500 py-2 px-4 focus:outline-none hover:bg-yellow-600 rounded-md">
+            <button class="block w-full mt-3 text-white bg-yellow-500 py-2 px-4 focus:outline-none hover:bg-yellow-600 rounded-md" @click="claimItem(content.foodDetailId)">
               Claim This Item
             </button>
           </div>
@@ -98,6 +99,7 @@
       </div>
     </div>
   </div>
+  <claim-food-modal v-if="claimModalVisible" @close="claimModalVisible = false" :food-id="foodId"></claim-food-modal>
   <Footer/>
 </template>
 <script>
@@ -105,39 +107,29 @@ import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import axios from 'axios'
 import {path} from './settings.js'
-
+import ClaimFoodModal from "@/components/food/ClaimFoodModal";
 
 export default {
   name: "RestaurantProfile",
-  components: {
-    Header,
-    Footer,
-  },
   props: ['id'],
   data() {
-    return{
-      foo: "bar",
+    return {
+      foodId: null,
       contents: [],
       contentsList: null,
       length: null,
+      claimModalVisible: false
     }
   },
   created() {
-    // / ** FOR DISPLAYING RESTAURANT DETAILS ** //
     axios.defaults.withCredentials = true
-
     axios.post(path+'/profile/'+this.id, this.user
     ).then((response) => {
       this.contents = response.data[0]
-
       console.log(this.contents)
-
     }, (error) => {
       console.log(error);
     });
-
-
-    // ** FOR DISPLAYING LIST OF FOOD ITEMS ** //
 
     axios.post(path+'/restaurant/'+this.id, this.user
     ).then((response) => {
@@ -148,8 +140,18 @@ export default {
     }, (error) => {
       console.log(error);
     });
-  }
-
+  },
+  methods: {
+    claimItem: function (id) {
+      this.foodId = id
+      this.claimModalVisible = true
+    }
+  },
+  components: {
+    Header,
+    Footer,
+    ClaimFoodModal
+  },
 };
 </script>
 <style scoped></style>
