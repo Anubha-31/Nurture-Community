@@ -53,10 +53,12 @@ import com.nurturecommunity.Dao.AddFoodDetails;
 import com.nurturecommunity.Dao.AppUser;
 import com.nurturecommunity.Dao.ContactUsDetails;
 import com.nurturecommunity.Dao.FoodList;
+import com.nurturecommunity.Dao.Order;
 import com.nurturecommunity.Dao.User;
 import com.nurturecommunity.constant.Queries;
 import com.nurturecommunity.repository.AddFoodDetailsRepository;
 import com.nurturecommunity.repository.ContactUsRepository;
+import com.nurturecommunity.repository.OrderRepository;
 import com.nurturecommunity.repository.UserRepository;
 import com.nurturecommunity.services.GetRequest;
 
@@ -72,6 +74,9 @@ public class MainController {
 	
 	@Autowired
 	AddFoodDetailsRepository addFoodDetailsRepository;
+	
+	@Autowired
+	OrderRepository orderRepository;
 
 	@Autowired
 	private Environment env;
@@ -846,6 +851,30 @@ try {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}	
 
+	}
+	
+	@PostMapping(value = "/customer/claim-food")
+	@ResponseStatus(HttpStatus.CREATED)
+	public void claimFood(@RequestBody String myParams, HttpServletRequest request) throws IOException {
+		
+		String emailaddress = getCookies(request);
+		
+		JsonParser jsonParser = new JsonParser();
+		JsonObject object = (JsonObject)jsonParser.parse(myParams);
+		int food_id = object.get("foodId").getAsInt();
+		
+		System.out.println(object.get("foodId").getAsInt());
+		
+		Order order = new Order();
+		
+		order.setCustomerEmail(emailaddress);
+		order.setFoodId(object.get("foodId").getAsInt());
+		order.setRestaurantId(object.get("restaurantId").getAsInt());
+		
+		Order newOrder = orderRepository.save(order);
+
+//				
+		System.out.println(emailaddress);
 	}
 }
 
