@@ -1,3 +1,15 @@
 .gradient {
   background: linear-gradient(180deg, #ffffff 0%, #003963 100%);
 }
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
