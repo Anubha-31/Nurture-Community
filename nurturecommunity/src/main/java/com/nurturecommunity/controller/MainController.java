@@ -32,6 +32,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,10 +52,14 @@ import com.nurturecommunity.constant.Queries;
 import com.nurturecommunity.repository.AddFoodDetailsRepository;
 import com.nurturecommunity.repository.ContactUsRepository;
 import com.nurturecommunity.repository.UserRepository;
+import com.nurturecommunity.security.JwtRequest;
+import com.nurturecommunity.security.JwtResponse;
+import com.nurturecommunity.security.JwtTokenUtil;
+import com.nurturecommunity.security.JwtUserDetailsService;
 import com.nurturecommunity.services.GetRequest;
-
+//allowCredentials="true"
 @RestController
-@CrossOrigin(origins = "http://localhost:8060/", allowedHeaders = "*",allowCredentials="true")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MainController {
 
 	@Autowired
@@ -76,6 +85,10 @@ public class MainController {
 	}
 	
 	
+	@GetMapping("/hello")
+	public String firstPage() {
+		return "Hello World";
+	}
 	
 	@GetMapping("/Listoffooditems")
 	synchronized public ResponseEntity<List<FoodList>> getFoodList(HttpServletRequest request) throws Exception {
@@ -520,7 +533,7 @@ public class MainController {
 		
 	@PostMapping(value = "/restaurant/{id}")
 	public ResponseEntity retrieverestaurantsFood(@PathVariable Long id) {
-try {
+		try {
 			
 			List<AddFoodDetails> users =addFoodDetailsRepository.findAllByid(id);
 			
@@ -534,5 +547,38 @@ try {
 		}	
 
 	}
+// ---------------------------------------- jwt ----------------------------------------------
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+
+	@Autowired
+	private JwtUserDetailsService userDetailsService;
+	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+
+		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+
+		final UserDetails userDetails = userDetailsService
+				.loadUserByUsername(authenticationRequest.getUsername());
+
+		final String token = jwtTokenUtil.generateToken(userDetails);
+
+		return ResponseEntity.ok(new JwtResponse(token));
+	}
+
+	private void authenticate(String username, String password) throws Exception {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+		} catch (DisabledException e) {
+			throw new Exception("USER_DISABLED", e);
+		} catch (BadCredentialsException e) {
+			throw new Exception("INVALID_CREDENTIALS", e);
+		}
+	}
+	
+	
 }
 
