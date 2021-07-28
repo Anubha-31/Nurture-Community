@@ -29,7 +29,17 @@ public class AppUser {
     private String phone;
     private String zip;
     private String distance;
-    public byte[] getPicture() {
+    private boolean verificationComplete = false;
+    
+	public boolean isVerificationComplete() {
+		return verificationComplete;
+	}
+
+	public void setVerificationComplete(boolean verificationComplete) {
+		this.verificationComplete = verificationComplete;
+	}
+
+	public byte[] getPicture() {
 		return picture;
 	}
 
@@ -197,10 +207,12 @@ public class AppUser {
 		this.loggedin = loggedin;
 	}
 
+	
+
 	public AppUser(String first_name, String last_name, String emailaddress, String password, String restaurant_name,
 			String license_number, String address1, String address2, String city, String province, String country,
-			String phone, String zip, String usertype, String opens_at, String closes_at, @NotBlank boolean loggedin,
-			byte[] picture, String distance) {
+			String phone, String zip, String distance, boolean verificationComplete, String usertype, String opens_at,
+			String closes_at, @NotBlank boolean loggedin, byte[] picture) {
 		super();
 		this.first_name = first_name;
 		this.last_name = last_name;
@@ -215,14 +227,14 @@ public class AppUser {
 		this.country = country;
 		this.phone = phone;
 		this.zip = zip;
+		this.distance = distance;
+		this.verificationComplete = verificationComplete;
 		this.usertype = usertype;
 		this.opens_at = opens_at;
 		this.closes_at = closes_at;
 		this.loggedin = loggedin;
 		this.picture = picture;
-		this.distance = distance;
 	}
-
 
 	public String getDistance() {
 		return distance;
@@ -238,8 +250,12 @@ public class AppUser {
 				+ emailaddress + ", password=" + password + ", restaurant_name=" + restaurant_name + ", license_number="
 				+ license_number + ", address1=" + address1 + ", address2=" + address2 + ", city=" + city
 				+ ", province=" + province + ", country=" + country + ", phone=" + phone + ", zip=" + zip
-				+ ", distance=" + distance + ", usertype=" + usertype + ", opens_at=" + opens_at + ", closes_at="
-				+ closes_at + ", loggedin=" + loggedin + ", picture=" + Arrays.toString(picture) + "]";
+				+ ", distance=" + distance + ", verificationComplete=" + verificationComplete + ", usertype=" + usertype
+				+ ", opens_at=" + opens_at + ", closes_at=" + closes_at + ", loggedin=" + loggedin + ", picture="
+				+ Arrays.toString(picture) + "]";
 	}
+
+
+	
 
 }

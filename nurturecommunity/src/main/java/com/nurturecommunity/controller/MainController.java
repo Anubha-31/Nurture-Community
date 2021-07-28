@@ -3,15 +3,24 @@ package com.nurturecommunity.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -26,8 +35,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 //import jdk.internal.org.jline.utils.Status;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,7 +73,8 @@ public class MainController {
 	@Autowired
 	AddFoodDetailsRepository addFoodDetailsRepository;
 
-
+	@Autowired
+	private Environment env;
 	
 	@Autowired
 	private com.nurturecommunity.model.LoginDetails Login;
@@ -114,34 +126,135 @@ public class MainController {
 		List<AppUser> users = userRepository.findByEmailaddress(user.getEmailaddress());
 		List<AppUser> users1 = userRepository.findAllByusertype(user.getUsertype());
 
-		String Usertype="Failure";
-		 
+		String Usertype = "Failure";
+
 		for (AppUser other : users) {
 			if (other.getEmailaddress().equalsIgnoreCase(user.getEmailaddress())) {
-				int strength = 10;
-				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(strength);
-				boolean isMatched = encoder.matches(user.getPassword(), other.getPassword());
-				if (isMatched) {
-					Cookie cookie = new Cookie("EmailId", other.getEmailaddress());
-					Cookie cookie1 = new Cookie("UserType", other.getUsertype());
+				if (user.isVerificationComplete()) {
+					int strength = 10;
+					BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(strength);
+					boolean isMatched = encoder.matches(user.getPassword(), other.getPassword());
+					if (isMatched) {
+						Cookie cookie = new Cookie("EmailId", other.getEmailaddress());
+						Cookie cookie1 = new Cookie("UserType", other.getUsertype());
 
-					cookie.setMaxAge(7 * 24 * 60 * 60);
-					cookie.setSecure(true);
-					//cookie.setHttpOnly(true);
-					cookie.setPath("/");
-					cookie1.setMaxAge(7 * 24 * 60 * 60);
-					cookie1.setSecure(true);
-					cookie1.setPath("/");
-					response.addCookie(cookie);
-					response.addCookie(cookie1);
-					Usertype = other.getUsertype();
-					return new ResponseEntity<>(Usertype, HttpStatus.OK);
+						cookie.setMaxAge(7 * 24 * 60 * 60);
+						cookie.setSecure(true);
+						// cookie.setHttpOnly(true);
+						cookie.setPath("/");
+						cookie1.setMaxAge(7 * 24 * 60 * 60);
+						cookie1.setSecure(true);
+						cookie1.setPath("/");
+						response.addCookie(cookie);
+						response.addCookie(cookie1);
+						Usertype = other.getUsertype();
+						return new ResponseEntity<>(Usertype, HttpStatus.OK);
+					}
+				}else {
+					return new ResponseEntity<>(Usertype, HttpStatus.CONFLICT);
 				}
 			}
 		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 	
+	@PostMapping("/verify/login")
+	public ResponseEntity<String> verifyUser(HttpServletRequest request) {
+		String key = env.getProperty("cipher.key");
+
+		StringBuffer jb = new StringBuffer();
+		String line = null;
+
+		try {
+			BufferedReader reader = request.getReader();
+			while ((line = reader.readLine()) != null) {
+				jb.append(line);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		JsonParser jsonParser = new JsonParser();
+		JsonObject object = (JsonObject) jsonParser.parse(jb.toString());
+
+		String urlData = object.get("urldata").getAsString();
+
+		String data2 = simpleDecrypt(urlData, key);
+
+		Optional<AppUser> user = userRepository.findById(Long.parseLong(data2));
+
+		if (user.isPresent()) {
+			AppUser updatedUser = user.get();
+			updatedUser.setVerificationComplete(true);
+			userRepository.save(updatedUser);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+	}
+	
+	public String simpleEncrypt(String text, String key) {
+		
+		String data = "";
+		Base64 base64 = new Base64(true);
+		try {
+			SecretKeySpec keySpec = new SecretKeySpec(key.getBytes("UTF8"), "Blowfish");
+			Cipher cipher = Cipher.getInstance("Blowfish");
+			cipher.init(cipher.ENCRYPT_MODE, keySpec);
+			data = base64.encodeToString(cipher.doFinal(text.getBytes("UTF8")));
+			//data = new String(encrypted);
+			
+		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return data;
+	}
+	
+	public String simpleDecrypt(String encryptedtext, String key) {
+		String data = "";
+		Base64 base64 = new Base64(true);
+		byte[] encryptedDataBase64 = base64.decodeBase64(encryptedtext);
+		try {
+			SecretKeySpec keySpec = new SecretKeySpec(key.getBytes("UTF8"), "Blowfish");
+			Cipher cipher = Cipher.getInstance("Blowfish");
+			cipher.init(cipher.DECRYPT_MODE, keySpec);
+			byte[] decrypted = cipher.doFinal(encryptedDataBase64);
+			data = new String(decrypted);
+			
+		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return data;
+	}
 	
 	@PostMapping(value = "/users/register", consumes = "multipart/form-data")
 	public ResponseEntity<String> createNewObjectWithImage(@RequestParam("model") String myParams,
@@ -213,29 +326,7 @@ public class MainController {
 		try {
 			msg.setFrom(new InternetAddress("nurturecommunityp13@gmail.com", false));
 
-			String html = "<!DOCTYPE html>\r\n"
-					+ "<html lang=\"en\">\r\n"
-					+ "  <head>\r\n"
-					+ "    <meta charset=\"UTF-8\" />\r\n"
-					+ "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\r\n"
-					+ "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\r\n"
-					+ "    <title>Monument</title>\r\n"
-					+ "  </head>\r\n"
-					+ "  <body>\r\n"
-					+ "    <h1>Welcome to Nurture community</h1>\r\n"
-					+ "    <h3>\r\n"
-					+ "      Our organisation has pleadged to revome food wastage and hunger from the\r\n"
-					+ "      canadian community\r\n"
-					+ "    </h3>\r\n"
-					+ "    \r\n"
-					+ "    <h4>Please click on below link to verify the email\r\n"
-					+ "    <a href=\"http://localhost:8060\">Verify Email</a></h4>\r\n"
-					+ "\r\n"
-					+ "    <p>Happy Browsing!</p>\r\n"
-					+ "    <p>Thanks and Regads,</p>\r\n"
-					+ "    <p>Nurture Community</p>\r\n"
-					+ "  </body>\r\n"
-					+ "</html>";
+			String html = getEmailBody(newuser);
 			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(newuser.getEmailaddress()));
 			msg.setSubject("Welcome to Nurture Community | Do not reply on this email");
 			msg.setContent("Welcome to Nurture Community", "text/html");
@@ -253,6 +344,228 @@ public class MainController {
 			e.printStackTrace();
 		}
 
+	}
+
+
+
+	private String getEmailBody(AppUser user) {
+		
+		Long userId = user.getId();
+		String key = env.getProperty("cipher.key");
+		String path = env.getProperty("settings.cors_origin");
+		String encryptedId = simpleEncrypt(userId.toString(), key);
+		String pathHref = path+"/login/"+encryptedId;
+		
+		String html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n"
+				+ "<html\r\n"
+				+ "  xmlns=\"http://www.w3.org/1999/xhtml\"\r\n"
+				+ "  xmlns:v=\"urn:schemas-microsoft-com:vml\"\r\n"
+				+ "  xmlns:o=\"urn:schemas-microsoft-com:office:office\"\r\n"
+				+ ">\r\n"
+				+ "  <head>\r\n"
+				+ "    <title>Email</title>\r\n"
+				+ "    <style type=\"text/css\" media=\"screen\">\r\n"
+				+ "      @media only screen and (max-device-width: 480px),\r\n"
+				+ "        only screen and (max-width: 480px) {\r\n"
+				+ "        .mobile-shell {\r\n"
+				+ "          width: 100% !important;\r\n"
+				+ "          min-width: 100% !important;\r\n"
+				+ "        }\r\n"
+				+ "        .center {\r\n"
+				+ "          margin: 0 auto !important;\r\n"
+				+ "        }\r\n"
+				+ "        .container {\r\n"
+				+ "          padding: 20px 10px !important;\r\n"
+				+ "        }\r\n"
+				+ "\r\n"
+				+ "        .td {\r\n"
+				+ "          width: 100% !important;\r\n"
+				+ "          min-width: 100% !important;\r\n"
+				+ "        }\r\n"
+				+ "\r\n"
+				+ "        .p30-15 {\r\n"
+				+ "          padding: 30px 15px !important;\r\n"
+				+ "        }\r\n"
+				+ "        .m-hide {\r\n"
+				+ "          display: none !important;\r\n"
+				+ "          width: 0 !important;\r\n"
+				+ "          height: 0 !important;\r\n"
+				+ "          font-size: 0 !important;\r\n"
+				+ "          line-height: 0 !important;\r\n"
+				+ "          min-height: 0 !important;\r\n"
+				+ "        }\r\n"
+				+ "      }\r\n"
+				+ "    </style>\r\n"
+				+ "  </head>\r\n"
+				+ "  <body\r\n"
+				+ "    class=\"body\"\r\n"
+				+ "    style=\"\r\n"
+				+ "      padding: 0 !important;\r\n"
+				+ "      margin: 0 !important;\r\n"
+				+ "      display: block !important;\r\n"
+				+ "      min-width: 100% !important;\r\n"
+				+ "      width: 100% !important;\r\n"
+				+ "      background:white;\r\n"
+				+ "      -webkit-text-size-adjust: none;\r\n"
+				+ "    \"\r\n"
+				+ "  >\r\n"
+				+ "    <table\r\n"
+				+ "      width=\"100%\"\r\n"
+				+ "      border=\"0\"\r\n"
+				+ "      cellspacing=\"0\"\r\n"
+				+ "      cellpadding=\"0\"\r\n"
+				+ "      style=\"background-color: white;\"\r\n"
+				+ "    >\r\n"
+				+ "      <tr>\r\n"
+				+ "        <td align=\"center\" valign=\"top\" style=\"padding-bottom: 0px\">\r\n"
+				+ "          <table\r\n"
+				+ "            width=\"850\"\r\n"
+				+ "            border=\"0\"\r\n"
+				+ "            cellspacing=\"0\"\r\n"
+				+ "            cellpadding=\"0\"\r\n"
+				+ "            class=\"mobile-shell\"\r\n"
+				+ "          >\r\n"
+				+ "            <tr>\r\n"
+				+ "              <td\r\n"
+				+ "                class=\"td container\"\r\n"
+				+ "                style=\"\r\n"
+				+ "                  width: 850px;\r\n"
+				+ "                  min-width: 850px;\r\n"
+				+ "                  font-size: 0pt;\r\n"
+				+ "                  line-height: 0pt;\r\n"
+				+ "                  margin: 0;\r\n"
+				+ "                  font-weight: normal;\r\n"
+				+ "                  padding: 55px 0px;\r\n"
+				+ "                \"\r\n"
+				+ "              >\r\n"
+				+ "                <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n"
+				+ "                  <tr>\r\n"
+				+ "                    <td>\r\n"
+				+ "                      <table\r\n"
+				+ "                        width=\"100%\"\r\n"
+				+ "                        border=\"0\"\r\n"
+				+ "                        cellspacing=\"0\"\r\n"
+				+ "                        cellpadding=\"0\"\r\n"
+				+ "                      >\r\n"
+				+ "                        <tr>\r\n"
+				+ "                          <td\r\n"
+				+ "                            class=\"tbrr p30-15\"\r\n"
+				+ "                            style=\"\r\n"
+				+ "                              padding: 30px 30px;\r\n"
+				+ "                              border-radius: 26px 26px 26px 26px;\r\n"
+				+ "                            \"\r\n"
+				+ "                            bgcolor=\"white\"\r\n"
+				+ "                          >\r\n"
+				+ "                            <table\r\n"
+				+ "                              width=\"100%\"\r\n"
+				+ "                              border=\"0\"\r\n"
+				+ "                              cellspacing=\"0\"\r\n"
+				+ "                              cellpadding=\"0\"\r\n"
+				+ "                            >\r\n"
+				+ "                              <tr>\r\n"
+				+ "                                <td\r\n"
+				+ "                                  class=\"h1 pb25\"\r\n"
+				+ "                                  style=\"\r\n"
+				+ "                                    color: #0f0a0a;\r\n"
+				+ "                                    font-family: 'Muli', Arial, sans-serif;\r\n"
+				+ "                                    font-size: 40px;\r\n"
+				+ "                                    line-height: 46px;\r\n"
+				+ "                                    text-align: center;\r\n"
+				+ "                                    padding-bottom: 25px;\r\n"
+				+ "                                  \"\r\n"
+				+ "                                >\r\n"
+				+ "                                  Welcome To Nurture Community\r\n"
+				+ "                                </td>\r\n"
+				+ "                              </tr>\r\n"
+				+ "                              <tr>\r\n"
+				+ "                                <td\r\n"
+				+ "                                  class=\"text-center pb25\"\r\n"
+				+ "                                  style=\"\r\n"
+				+ "                                    color: #353431;\r\n"
+				+ "                                    font-family: 'Muli', Arial, sans-serif;\r\n"
+				+ "                                    font-size: 18px;\r\n"
+				+ "                                    line-height: 30px;\r\n"
+				+ "                                    text-align: center;\r\n"
+				+ "                                    padding-bottom: 25px;\r\n"
+				+ "                                  \"\r\n"
+				+ "                                >\r\n"
+				+ "                                  We have pledged to remove the food wastage and\r\n"
+				+ "                                  hunger from the canadian community. <span\r\n"
+				+ "                                    class=\"m-hide\"\r\n"
+				+ "                                    ><br /></span\r\n"
+				+ "                                  >If you are a restaurant owner, we thankyou for giving back to the Community\r\n"
+				+ "                                  <span\r\n"
+				+ "                                    class=\"m-hide\"\r\n"
+				+ "                                    ><br /></span>\r\n"
+				+ "                                  If you are someone in need, we are pleased that we could help.\r\n"
+				+ "                                  <span\r\n"
+				+ "                                    class=\"m-hide\"\r\n"
+				+ "                                    ><br /></span>\r\n"
+				+ "                                  Join Us in this mission, Click the below link to verify your email\r\n"
+				+ "                                  \r\n"
+				+ "                                </td>\r\n"
+				+ "                              </tr>\r\n"
+				+ "                              <tr>\r\n"
+				+ "                                <td align=\"center\">\r\n"
+				+ "                                  <table\r\n"
+				+ "                                    class=\"center\"\r\n"
+				+ "                                    border=\"0\"\r\n"
+				+ "                                    cellspacing=\"0\"\r\n"
+				+ "                                    cellpadding=\"0\"\r\n"
+				+ "                                    style=\"text-align: center\"\r\n"
+				+ "                                  >\r\n"
+				+ "                                    <tr>\r\n"
+				+ "                                      <td\r\n"
+				+ "                                        class=\"pink-button text-button\"\r\n"
+				+ "                                        style=\"\r\n"
+				+ "                                          background: #e27208;\r\n"
+				+ "                                          color: #c1cddc;\r\n"
+				+ "                                          font-family: 'Muli', Arial, sans-serif;\r\n"
+				+ "                                          font-size: 14px;\r\n"
+				+ "                                          line-height: 18px;\r\n"
+				+ "                                          padding: 12px 30px;\r\n"
+				+ "                                          text-align: center;\r\n"
+				+ "                                          border-radius: 0px 22px 22px 22px;\r\n"
+				+ "                                          font-weight: bold;\r\n"
+				+ "                                        \"\r\n"
+				+ "                                      >\r\n"
+				+ "                                        <a\r\n"
+				+ "                                          href=\""+pathHref+"\"\r\n"
+				+ "                                          target=\"_blank\"\r\n"
+				+ "                                          style=\"\r\n"
+				+ "                                            color: #ffffff;\r\n"
+				+ "                                            text-decoration: none;\r\n"
+				+ "                                          \"\r\n"
+				+ "                                          ><span\r\n"
+				+ "                                            style=\"\r\n"
+				+ "                                              color: #ffffff;\r\n"
+				+ "                                              text-decoration: none;\r\n"
+				+ "                                            \"\r\n"
+				+ "                                            >CLICK HERE</span\r\n"
+				+ "                                          ></a\r\n"
+				+ "                                        >\r\n"
+				+ "                                      </td>\r\n"
+				+ "                                    </tr>\r\n"
+				+ "                                  </table>\r\n"
+				+ "                                </td>\r\n"
+				+ "                              </tr>\r\n"
+				+ "                            </table>\r\n"
+				+ "                          </td>\r\n"
+				+ "                        </tr>\r\n"
+				+ "                      </table>\r\n"
+				+ "                    </td>\r\n"
+				+ "                  </tr>\r\n"
+				+ "                </table>\r\n"
+				+ "              </td>\r\n"
+				+ "            </tr>\r\n"
+				+ "          </table>\r\n"
+				+ "        </td>\r\n"
+				+ "      </tr>\r\n"
+				+ "    </table>\r\n"
+				+ "  </body>\r\n"
+				+ "</html>\r\n"
+				+ "";
+		return html;
 	}
 
 
