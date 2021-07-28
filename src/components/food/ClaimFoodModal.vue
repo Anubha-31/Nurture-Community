@@ -2,7 +2,7 @@
   <transition name="modal-fade">
       <div class="modal-backdrop" role="dialog">
         <div class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full">
-          <div class="bg-white rounded-lg w-1/4">
+          <div class="bg-white rounded-lg w-11/12 md:w-1/4">
             <div class="flex flex-col items-start p-4">
               <div class="flex items-center w-full">
                 <div class="text-gray-900 font-medium text-lg">Are you sure you want to claim this item?</div>
