@@ -1,6 +1,20 @@
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="min-h-screen flex flex-col space-y-3">
     <Header></Header>
+    <div
+      v-if="notVerified"
+      class="bg-red-300 rounded-md shadow-tranparent text-center w-1/3 m-auto text-sm py-2 "
+    >
+      We have sent you a verification email.<br />
+      Please login and verify email before logging in
+    </div>
+    <div
+      v-if="verificationCompleted"
+      class="bg-green-300 rounded-md shadow-tranparent text-center w-1/3 m-auto text-sm py-2 "
+    >
+      Your email has been verified<br />
+      Please login to continue browsing
+    </div>
     <div class="flex-grow">
       <div class="container mx-auto px-6">
         <div class="text-center">
@@ -85,15 +99,34 @@ import { path } from "./settings.js";
 export default {
   name: "Login",
   mounted() {
-    this.url_data = this.$route.params.id;
+    this.url_data = this.$route.params.userId;
+    if (this.url_data != null && this.url_data != "") {
+      console.log(this.url_data);
+      axios.defaults.withCredentials = true;
+      axios.post(path + "/verify/login", { urldata: this.url_data}).then(
+        (response) => {
+          console.log(response.status)
+          if (response.status === 200) {
+            this.verificationCompleted = true;
+          } else if(response.status === 404){
+            this.notVerified = true
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
   },
   data() {
     return {
       user: {
         emailaddress: "",
-        password: "",
+        password: ""
       },
+      notVerified: false,
       url_data: "",
+      verificationCompleted: false,
       capsOn: false,
     };
   },
@@ -115,6 +148,8 @@ export default {
           console.log(error);
           if (error.response.status === 401) {
             alert("Please enter the correct password!!");
+          } else if(error.response.status === 409){
+            this.notVerified = true
           }
         }
       );
