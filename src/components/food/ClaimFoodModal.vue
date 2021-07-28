@@ -26,17 +26,29 @@
 </template>
 
 <script>
+import axios from "axios";
+import {path} from '@/views/settings'
 export default {
   name: "ClaimFoodModal",
   props: {
-    foodId: Number
+    foodId: Number,
+    restaurantId: Number
   },
   methods: {
     close: function() {
       this.$emit('close');
     },
-    claimItem: function (id) {
-      // implement post request
+    claimItem: function () {
+      console.log(this.foodId)
+      console.log(this.restaurantId)
+      axios.post(path + '/customer/claim-food', {
+        foodId: this.foodId,
+        restaurantId: this.restaurantId,
+      }).then(response => {
+        console.log(response)
+      }).catch(error => {
+        console.log(error)
+      })
     }
   }
 }

@@ -91,7 +91,7 @@
           <h3 class="text-gray-700 uppercase">{{ content.itemName }}</h3>
           <span class="text-gray-400 mt-2">Quantity: {{ content.numberofPackets }}</span>
           <div v-if="content.numberofPackets > 0">
-            <button class="block w-full mt-3 text-white bg-yellow-500 py-2 px-4 focus:outline-none hover:bg-yellow-600 rounded-md" @click="claimItem(content.foodDetailId)">
+            <button class="block w-full mt-3 text-white bg-yellow-500 py-2 px-4 focus:outline-none hover:bg-yellow-600 rounded-md" @click="claimItem(content.foodDetailId, content.id)">
               Claim This Item
             </button>
           </div>
@@ -99,7 +99,7 @@
       </div>
     </div>
   </div>
-  <claim-food-modal v-if="claimModalVisible" @close="claimModalVisible = false" :food-id="foodId"></claim-food-modal>
+  <claim-food-modal v-if="claimModalVisible" @close="claimModalVisible = false" :food-id="foodId" :restaurant-id="restaurantId"></claim-food-modal>
   <Footer/>
 </template>
 <script>
@@ -115,6 +115,7 @@ export default {
   data() {
     return {
       foodId: null,
+      restaurantId: null,
       contents: [],
       contentsList: null,
       length: null,
@@ -142,8 +143,9 @@ export default {
     });
   },
   methods: {
-    claimItem: function (id) {
-      this.foodId = id
+    claimItem: function (foodId, restaurantId) {
+      this.foodId = foodId
+      this.restaurantId = restaurantId
       this.claimModalVisible = true
     }
   },
