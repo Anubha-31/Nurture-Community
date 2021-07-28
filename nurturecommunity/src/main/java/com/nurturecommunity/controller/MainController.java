@@ -84,12 +84,6 @@ public class MainController {
 		return this.getRequest.getLoginresponse();
 	}
 	
-	
-	@GetMapping("/hello")
-	public String firstPage() {
-		return "Hello World";
-	}
-	
 	@GetMapping("/Listoffooditems")
 	synchronized public ResponseEntity<List<FoodList>> getFoodList(HttpServletRequest request) throws Exception {
 
@@ -330,11 +324,12 @@ public class MainController {
 
 	@GetMapping("/ListOfRestaurants")
 	public ResponseEntity<List<AppUser>> getAllResturants(HttpServletRequest request) {
+		
 		try {
 			List<AppUser> obj = new ArrayList<AppUser>();
 			String userZip = "";
-			String Cookie = getCookies(request);
-//			String Cookie = "arshdeepk61@gmail.com";
+//			String Cookie = getCookies(request);
+			String Cookie = "arshdeepk61@gmail.com";
 			List<AppUser> user = userRepository.findByEmailaddress(Cookie);
 			if (user.size() != 0) {
 				userZip = user.get(0).getZip();
@@ -344,8 +339,9 @@ public class MainController {
 			for(AppUser o : obj){
 				
 					
-				String tempDistance  = toDistance(userZip,o.getZip());
-				double Doubletemp = Double.parseDouble(tempDistance);
+//				String tempDistance  = toDistance(userZip,o.getZip());
+//				double Doubletemp = Double.parseDouble(tempDistance);
+				double Doubletemp = 0.0;
 				DecimalFormat numberFormat = new DecimalFormat("#.00");
 				
 				numberFormat.format(Doubletemp);
