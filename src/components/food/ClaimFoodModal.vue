@@ -45,7 +45,7 @@ export default {
         foodId: this.foodId,
         restaurantId: this.restaurantId,
       }).then(response => {
-        console.log(response)
+        this.$emit('close');
       }).catch(error => {
         console.log(error)
       })
