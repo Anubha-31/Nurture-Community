@@ -14,6 +14,7 @@ import QRTest from "@/views/QRTest";
 import QRReader from "@/views/QRReader";
 import Orders from "@/views/Customer/Orders";
 import CustomerQRCode from "@/views/Customer/CustomerQRCode";
+import RestaurantScanQRCode from "@/views/Restaurant/RestaurantScanQRCode";
 
 const routes = [
   {
@@ -87,6 +88,11 @@ const routes = [
     path: '/customer/qr-code',
     name: 'CustomerQRCode',
     component: CustomerQRCode
+  },
+  {
+    path: '/restaurant/scan-qr-code',
+    name: 'RestaurantScanQRCode',
+    component: RestaurantScanQRCode
   },
 ]
 
