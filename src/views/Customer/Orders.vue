@@ -8,6 +8,7 @@
       <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
     </div>
     <p class="text-center mt-2 text-gray-800">List of food items that you have ordered from the restaurants</p>
+<!--    <pre>{{foodItems}}</pre>-->
     <div class="overflow-x-auto px-2 md:px-0">
       <div class="min-w-screen min-h-screen flex justify-center font-sans overflow-x-auto md:overflow-hidden">
         <div class="w-full lg:w-4/6">
@@ -190,7 +191,7 @@ export default {
     }
   },
   created() {
-    this.getFoodItems()
+    // this.getFoodItems()
   },
   methods:{
     getFoodItems: function () {
