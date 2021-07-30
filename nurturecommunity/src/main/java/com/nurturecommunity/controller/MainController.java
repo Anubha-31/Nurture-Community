@@ -855,26 +855,24 @@ try {
 	
 	@PostMapping(value = "/customer/claim-food")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void claimFood(@RequestBody String myParams, HttpServletRequest request) throws IOException {
+	public ResponseEntity claimFood(@RequestBody String myParams, HttpServletRequest request) throws IOException {
 		
-		String emailaddress = getCookies(request);
-		
-		JsonParser jsonParser = new JsonParser();
-		JsonObject object = (JsonObject)jsonParser.parse(myParams);
-		int food_id = object.get("foodId").getAsInt();
-		
-		System.out.println(object.get("foodId").getAsInt());
-		
-		Order order = new Order();
-		
-		order.setCustomerEmail(emailaddress);
-		order.setFoodId(object.get("foodId").getAsInt());
-		order.setRestaurantId(object.get("restaurantId").getAsInt());
-		
-		Order newOrder = orderRepository.save(order);
+		try {
+            JsonParser jsonParser = new JsonParser();
+            JsonObject object = (JsonObject)jsonParser.parse(myParams);
 
-//				
-		System.out.println(emailaddress);
+            Order order = new Order();
+
+            order.setCustomerEmail(getCookies(request));
+            order.setFoodId(object.get("foodId").getAsInt());
+            order.setRestaurantId(object.get("restaurantId").getAsInt());
+
+            Order newOrder = orderRepository.save(order);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 }
 
