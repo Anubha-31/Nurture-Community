@@ -7,7 +7,7 @@
       <nav class=" md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400 flex flex-wrap items-center text-base justify-center">
         <!-- <a class="mr-5 hover:text-gray-900 cursor-pointer">Home Page</a> -->
         <router-link class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/" exact>Home Page</router-link>
-        <router-link v-if="user_type = 'customer'" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/customer/orders" exact>My Orders</router-link>
+        <router-link v-if="user_type === 'customer'" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/customer/orders" exact>My Orders</router-link>
 <!--        <router-link tag="li" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/Post" exact>Add Post</router-link>-->
 <!--        <router-link tag="li" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/list" exact>Restaurant List</router-link>-->
 
