@@ -1,9 +1,12 @@
 <template>
-  <h1>Test</h1>
+  <Header></Header>
   <qrcode-stream @decode="onDecode"></qrcode-stream>
+  <Footer></Footer>
 </template>
 
 <script>
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 import { QrcodeStream } from 'vue3-qrcode-reader'
 
 export default {
@@ -16,6 +19,8 @@ export default {
     },
   },
   components: {
+    Header,
+    Footer,
     QrcodeStream
   },
 }
