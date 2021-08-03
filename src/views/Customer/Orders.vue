@@ -18,7 +18,7 @@
 
                 <div class="flex flex-row" data-v-2a66f80c="">
                   <div class="relative w-2/5 md:w-auto mb-3" data-v-2a66f80c="">
-                    <img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2018/07/chicken-fry.jpg" alt="aji" class="w-40 h-40 md:w-32 md:h-32 object-cover rounded-2xl" data-v-2a66f80c="">
+                    <img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2018/07/chicken-fry.jpg" alt="aji" class="w-40 h-40 md:w-56 md:h-40 object-cover rounded-2xl" data-v-2a66f80c="">
                   </div>
 
                   <div class="w-3/5 md:w-full ml-5 py-2 justify-evenly" data-v-2a66f80c="">
@@ -44,14 +44,12 @@
                         <p class="" data-v-2a66f80c="">14 Components</p>
                       </div>
                       <router-link to="/customer/qr-code" class="title-font font-medium items-center text-gray-900 md:mb-0">
-                        <button class="hidden md:flex md:flex-no-shrink bg-yellow-500 hover:bg-yellow-400 px-5 ml-4 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-yellow-500 hover:border-yellow-400 text-white rounded-full transition ease-in duration-300">View QR Code</button>
+                        <button class="hidden md:flex md:flex-no-shrink bg-yellow-500 hover:bg-yellow-400 px-5 ml-4 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-yellow-500 hover:border-yellow-400 text-white rounded-full transition ease-in duration-300 mr-4">View QR Code</button>
                       </router-link>
                     </div>
                     <button class="flex-no-shrink md:hidden bg-yellow-500 hover:bg-yellow-400 px-5 ml-4 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-yellow-500 hover:border-yellow-400 text-white rounded-full transition ease-in duration-300">View QR Code</button>
                   </div>
-
                 </div>
-
               </div>
             </div>
           </div>
