@@ -9,7 +9,6 @@
         <router-link class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/" exact>Home Page</router-link>
         <router-link v-if="user_type === 'customer'" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/customer/orders" exact>My Orders</router-link>
         <router-link v-if="user_type === 'restaurant'" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/restaurant/scan-qr-code" exact>Scan QR Code</router-link>
-        {{ user_type }}
         <router-link v-if="user_type === 'customer'" tag="li" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/Post" exact>My Orders</router-link>
 <!--        <router-link tag="li" class="mr-5 hover:text-gray-900 cursor-pointer" class-active="active" to="/list" exact>Restaurant List</router-link>-->
 
