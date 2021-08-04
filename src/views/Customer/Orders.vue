@@ -33,13 +33,13 @@
                     <div class="flex pt-2  text-sm text-gray-400" data-v-2a66f80c="">
                       <div class="flex-1 inline-flex items-center" data-v-2a66f80c="">
                         <i class="far fa-clock"></i>
-                        <p class="pl-1" data-v-2a66f80c="">Pick-up time: {{ item.pickup_time }}</p>
+                        <p class="pl-1" data-v-2a66f80c="">Ordered at: {{ item.created_at }}</p>
                       </div>
                       <div class="flex-1 inline-flex items-center" data-v-2a66f80c="">
                         <i class="far fa-clock"></i>
-                        <p class="pl-1" data-v-2a66f80c="">Ordered at: {{ item.order_at }}</p>
+                        <p class="pl-1" data-v-2a66f80c="">Picked at: {{ item.picked_at }}</p>
                       </div>
-                      <router-link to="/customer/qr-code" class="title-font font-medium items-center text-gray-900 md:mb-0">
+                      <router-link  to="/customer/qr-code" class="title-font font-medium items-center text-gray-900 md:mb-0">
                         <button class="hidden md:flex md:flex-no-shrink bg-yellow-500 hover:bg-yellow-400 px-5 ml-4 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-yellow-500 hover:border-yellow-400 text-white rounded-full transition ease-in duration-300 mr-4">View QR Code</button>
                       </router-link>
                     </div>
@@ -106,96 +106,96 @@ export default {
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
           picture: '',
-          pickup_time: '22:00',
-          order_at: '9:00'
+          created_at: '22:00',
+          picked_at: ''
         },
         {
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
           picture: '',
-          pickup_time: '22:00',
-          order_at: '9:00'
+          created_at: '22:00',
+          picked_at: ''
         },
         {
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
           picture: '',
-          pickup_time: '22:00',
-          order_at: '9:00'
+          created_at: '22:00',
+          picked_at: ''
         },
         {
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
           picture: '',
-          pickup_time: '22:00',
-          order_at: '9:00'
+          created_at: '22:00',
+          picked_at: ''
         },
         {
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
           picture: '',
-          pickup_time: '22:00',
-          order_at: '9:00'
+          created_at: '22:00',
+          picked_at: ''
         },
         {
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
           picture: '',
-          pickup_time: '22:00',
-          order_at: '9:00'
+          created_at: '22:00',
+          picked_at: ''
         },
         {
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
           picture: '',
-          pickup_time: '22:00',
-          order_at: '9:00'
+          created_at: '22:00',
+          picked_at: ''
         },
         {
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
           picture: '',
-          pickup_time: '22:00',
-          order_at: '9:00'
+          created_at: '22:00',
+          picked_at: ''
         },
         {
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
           picture: '',
-          pickup_time: '22:00',
-          order_at: '9:00'
+          created_at: '22:00',
+          picked_at: ''
         },
         {
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
           picture: '',
-          pickup_time: '22:00',
-          order_at: '9:00'
+          created_at: '22:00',
+          picked_at: ''
         },
         {
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
           picture: '',
-          pickup_time: '22:00',
-          order_at: '9:00'
+          created_at: '22:00',
+          picked_at: ''
         },
         {
           item_name: 'Beef Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
           picture: '',
-          pickup_time: '22:00',
-          order_at: '9:00'
+          created_at: '22:00',
+          picked_at: ''
         },
       ],
       currentSort:'item_name',

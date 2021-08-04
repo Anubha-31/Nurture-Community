@@ -17,7 +17,11 @@ export default {
   name: "CustomerQRCode",
   data() {
     return {
-      value: '{"id":"1", "foodID":2, "emailaddress":"rr@yahoo.com"}',
+      value: `{
+        "id":"3",
+        "foodID":2,
+        "emailaddress":"rr@yahoo.com"
+      }`,
       size: 300,
     }
   },
