@@ -109,7 +109,8 @@ import axios from 'axios'
 import {path} from './settings.js'
 import ClaimFoodModal from "@/components/food/ClaimFoodModal";
 
-export default {
+export default
+{
   name: "RestaurantProfile",
   props: ['id'],
   data() {

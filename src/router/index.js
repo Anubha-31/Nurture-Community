@@ -85,9 +85,10 @@ const routes = [
     component: Orders
   },
   {
-    path: '/customer/qr-code',
+    path: '/customer/qr-code/:orderId/:foodId',
     name: 'CustomerQRCode',
-    component: CustomerQRCode
+    component: CustomerQRCode,
+    props: true
   },
   {
     path: '/restaurant/scan-qr-code',

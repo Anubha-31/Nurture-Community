@@ -15,12 +15,15 @@ import { QrcodeStream } from 'vue3-qrcode-reader'
 import QrcodeVue from 'qrcode.vue'
 export default {
   name: "CustomerQRCode",
+  props: {
+    orderId: Number,
+    foodId: Number,
+  },
   data() {
     return {
       value: `{
-        "id":"3",
-        "foodID":2,
-        "emailaddress":"rr@yahoo.com"
+        "orderId": ${this.orderId},
+        "foodId": ${this.foodId},
       }`,
       size: 300,
     }

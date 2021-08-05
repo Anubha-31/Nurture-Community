@@ -39,7 +39,7 @@
                         <i class="far fa-clock"></i>
                         <p class="pl-1" data-v-2a66f80c="">Picked at: {{ item.picked_at }}</p>
                       </div>
-                      <router-link  to="/customer/qr-code" class="title-font font-medium items-center text-gray-900 md:mb-0">
+                      <router-link :to="{ name: 'CustomerQRCode', params: { orderId: item.order_id, foodId: item.food_id }}" class="title-font font-medium items-center text-gray-900 md:mb-0">
                         <button class="hidden md:flex md:flex-no-shrink bg-yellow-500 hover:bg-yellow-400 px-5 ml-4 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-yellow-500 hover:border-yellow-400 text-white rounded-full transition ease-in duration-300 mr-4">View QR Code</button>
                       </router-link>
                     </div>
@@ -102,6 +102,8 @@ export default {
     return {
       foodItems:[
         {
+          order_id: 1,
+          food_id: 3,
           item_name: 'Laddu',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
@@ -110,6 +112,8 @@ export default {
           picked_at: ''
         },
         {
+          order_id: 2,
+          food_id: 5,
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
@@ -118,6 +122,8 @@ export default {
           picked_at: ''
         },
         {
+          order_id: 3,
+          food_id: 4,
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
@@ -126,6 +132,8 @@ export default {
           picked_at: ''
         },
         {
+          order_id: 4,
+          food_id: 6,
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
@@ -134,6 +142,8 @@ export default {
           picked_at: ''
         },
         {
+          order_id: 5,
+          food_id: 7,
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
@@ -142,6 +152,8 @@ export default {
           picked_at: ''
         },
         {
+          order_id: 6,
+          food_id: 11,
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
@@ -150,6 +162,8 @@ export default {
           picked_at: ''
         },
         {
+          order_id: 7,
+          food_id: 1,
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
@@ -158,6 +172,8 @@ export default {
           picked_at: ''
         },
         {
+          order_id: 8,
+          food_id: 5,
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
@@ -166,6 +182,8 @@ export default {
           picked_at: ''
         },
         {
+          order_id: 9,
+          food_id: 8,
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
@@ -174,6 +192,8 @@ export default {
           picked_at: ''
         },
         {
+          order_id: 10,
+          food_id: 12,
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
@@ -182,6 +202,8 @@ export default {
           picked_at: ''
         },
         {
+          order_id: 11,
+          food_id: 13,
           item_name: 'Chicken Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
@@ -190,6 +212,8 @@ export default {
           picked_at: ''
         },
         {
+          order_id: 12,
+          food_id: 13,
           item_name: 'Beef Fry',
           item_description: 'lorem ipsum',
           restaurant_name: 'KFC',
