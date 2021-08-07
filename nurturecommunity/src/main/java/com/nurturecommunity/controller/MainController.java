@@ -874,5 +874,19 @@ try {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 	}
+	
+	@PostMapping(value = "/order/update")
+	@ResponseStatus(HttpStatus.CREATED)
+	public void updateOrder(@RequestBody String myParams, HttpServletRequest request) throws IOException {
+		
+
+            JsonParser jsonParser = new JsonParser();
+            JsonObject object = (JsonObject)jsonParser.parse(myParams);
+            
+            System.out.println(object.get("orderId").getAsInt());
+            System.out.println(object.get("foodId").getAsInt());
+
+
+	}
 }
 
