@@ -52,15 +52,17 @@ export default {
   },
   methods: {
     formSubmit: function () {
-      this.errors = [];
-        axios.defaults.withCredentials = true
+        this.errors = [];
+        const token = localStorage.getItem("token");
         axios({
           url: path+'/upload',
           method: 'POST',
           data: this.formData,
           headers: {
             Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
             'Content-type': `multipart/form-data;boundary=--`,
+            "Access-Control-Allow-Origin": "*"
           }
         }).then((response) => {
           if(response.status === 200) {

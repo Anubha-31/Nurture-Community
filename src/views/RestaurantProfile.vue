@@ -124,17 +124,33 @@ export default
     }
   },
   created() {
-    axios.defaults.withCredentials = true
-    axios.post(path+'/profile/'+this.id, this.user
-    ).then((response) => {
+    const token = localStorage.getItem("token");
+    axios({
+      url: path + '/profile/'+this.id,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json",
+      },
+      data : this.user
+    }).then((response) => {
       this.contents = response.data[0]
       console.log(this.contents)
     }, (error) => {
       console.log(error);
     });
 
-    axios.post(path+'/restaurant/'+this.id, this.user
-    ).then((response) => {
+    axios({
+      url: path + '/restaurant/'+this.id,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json",
+      },
+      data : this.user
+    }).then((response) => {
       this.contentsList = response.data
       this.length = response.data.length
       console.log(this.length)

@@ -155,8 +155,6 @@ export default {
   created() {
     const token = localStorage.getItem("token");
     this.provinces = canada.provinces;
-    
-    console.log("token " + token);
     axios({
       url: path + "/ListOfRestaurants",
       method: "GET",
@@ -187,7 +185,6 @@ export default {
   },
   methods: {
     formSubmit: function() {
-      //  axios.defaults.withCredentials = true
       const token = localStorage.getItem("token");
       axios({
       url: path + "/ListOfRestaurantzip",

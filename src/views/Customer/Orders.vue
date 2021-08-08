@@ -237,9 +237,16 @@ export default {
   },
   methods:{
     getFoodItems: function () {
-      axios.defaults.withCredentials = true
-      axios.get(path + '/Listoffooditems')
-          .then(response => {
+      const token = localStorage.getItem("token");
+      axios({
+      url: path + '/Listoffooditems',
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json",
+      },
+    }).then(response => {
             console.log(response.data)
             this.foodItems = response.data
           }).catch(error => {

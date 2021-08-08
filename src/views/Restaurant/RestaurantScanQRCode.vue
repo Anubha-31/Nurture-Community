@@ -21,18 +21,22 @@ export default {
       orderId: 11,
       foodId: 22
     }
-    axios.defaults.withCredentials = true
-    axios.post(path +  '/order/update', obj)
-        .then(response => {
-          console.log(response)
-        })
-        .catch(error => {
+
+    axios({
+      url: path + '/order/update'+this.id,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json",
+      },
+      data : obj
+    }).catch(error => {
           console.log(error)
         });
   },
   methods: {
     onDecode: function (result) {
-      // console.log(result)
       let obj = JSON.parse(result)
       console.log(obj.id)
     },
