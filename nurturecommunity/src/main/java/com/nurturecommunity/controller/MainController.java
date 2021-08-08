@@ -65,6 +65,7 @@ import com.nurturecommunity.Dao.ContactUsDetails;
 import com.nurturecommunity.Dao.FoodList;
 import com.nurturecommunity.Dao.Order;
 import com.nurturecommunity.Dao.User;
+import com.nurturecommunity.Dao.UserTypeToken;
 import com.nurturecommunity.repository.AddFoodDetailsRepository;
 import com.nurturecommunity.repository.ContactUsRepository;
 import com.nurturecommunity.repository.OrderRepository;
@@ -138,8 +139,12 @@ public class MainController {
 						final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmailaddress());
 
 						final String token = jwtTokenUtil.generateToken(userDetails);
+						
+						UserTypeToken usertype1 = new UserTypeToken();
+						usertype1.setUsertype(Usertype);
+						usertype1.setToken(new JwtResponse(token));
 
-						return ResponseEntity.ok(new JwtResponse(token));
+						return ResponseEntity.ok(usertype1);
 					}
 				} else {
 					return new ResponseEntity<>(Usertype, HttpStatus.CONFLICT);
