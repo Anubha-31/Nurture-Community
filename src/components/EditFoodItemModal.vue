@@ -63,8 +63,19 @@ export default {
     },
     editFoodQuantity: function () {
       console.log(this.item)
-      axios.defaults.withCredentials = true
-      axios.post(path + '/updateFood', this.item)
+   //   axios.defaults.withCredentials = true
+    //  axios.post(path + '/updateFood', this.item)
+       const token = localStorage.getItem("token");
+      axios({
+      url: path + "/updateFood",
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json",
+      },
+      data : this.item
+    })
         .then(response => {
           console.log(response.data)
           this.$emit('reload')

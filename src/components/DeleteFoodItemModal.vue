@@ -59,8 +59,18 @@ export default {
     },
     deleteFoodQuantity: function () {
       // console.log(this.item.id)
-      axios.post(path + '/deleteFood', this.item)
-        .then(response => {
+      // axios.post(path + '/deleteFood', this.item)
+         const token = localStorage.getItem("token");
+      axios({
+      url: path + "/deleteFood",
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json",
+      },
+      data : this.item
+    }).then(response => {
           console.log(response.data)
           this.$emit('reload')
           this.$emit('close');

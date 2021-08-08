@@ -155,8 +155,8 @@ export default {
       (response) => {
         console.log(response);
         if (response.status === 200) {
-          this.contents = response.data;
-          this.length = response.data.length;
+          console.log(response.data)
+          this.foodItems = response.data
         }
       },
       (error) => {
