@@ -481,13 +481,15 @@ public class MainController {
 			for (AppUser obj : usersByzip) {
 				if (obj.getCity().equals(zip)) {
 
-					String tempDistance = toDistance(userZip, obj.getZip());
-					double Doubletemp = Double.parseDouble(tempDistance);
+					//String tempDistance = toDistance(userZip, obj.getZip());
+					//double Doubletemp = Double.parseDouble(tempDistance);
+					double Doubletemp = 0.0;
+					
 					DecimalFormat numberFormat = new DecimalFormat("#.00");
 
 					numberFormat.format(Doubletemp);
 					obj.setDistance(String.valueOf(Doubletemp));
-					obj.setDistance(tempDistance);
+					//obj.setDistance(tempDistance);	
 					data.add(obj);
 
 				}
