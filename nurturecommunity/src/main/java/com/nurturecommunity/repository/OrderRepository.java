@@ -9,4 +9,3 @@ import com.nurturecommunity.Dao.Order;
 public interface OrderRepository extends JpaRepository<Order, Long>{
 
 }
-

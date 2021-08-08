@@ -2,6 +2,7 @@ package com.nurturecommunity.Dao;
 
 import java.util.Arrays;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,8 +30,9 @@ public class AppUser {
     private String phone;
     private String zip;
     private String distance;
-    private boolean verificationComplete = false;
-    
+    @Column(name="verificationcomplete")
+    public boolean verificationComplete;
+
 	public boolean isVerificationComplete() {
 		return verificationComplete;
 	}
@@ -207,13 +209,32 @@ public class AppUser {
 		this.loggedin = loggedin;
 	}
 
-	
+	public String getDistance() {
+		return distance;
+	}
 
-	public AppUser(String first_name, String last_name, String emailaddress, String password, String restaurant_name,
-			String license_number, String address1, String address2, String city, String province, String country,
-			String phone, String zip, String distance, boolean verificationComplete, String usertype, String opens_at,
-			String closes_at, @NotBlank boolean loggedin, byte[] picture) {
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
+
+	
+	@Override
+	public String toString() {
+		return "AppUser [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name + ", emailaddress="
+				+ emailaddress + ", password=" + password + ", restaurant_name=" + restaurant_name + ", license_number="
+				+ license_number + ", address1=" + address1 + ", address2=" + address2 + ", city=" + city
+				+ ", province=" + province + ", country=" + country + ", phone=" + phone + ", zip=" + zip
+				+ ", distance=" + distance + ", verificationComplete=" + verificationComplete + ", usertype=" + usertype
+				+ ", opens_at=" + opens_at + ", closes_at=" + closes_at + ", loggedin=" + loggedin + ", picture="
+				+ Arrays.toString(picture) + "]";
+	}
+
+	public AppUser(Long id, String first_name, String last_name, String emailaddress, String password,
+			String restaurant_name, String license_number, String address1, String address2, String city,
+			String province, String country, String phone, String zip, String distance, boolean verificationComplete,
+			String usertype, String opens_at, String closes_at, @NotBlank boolean loggedin, byte[] picture) {
 		super();
+		this.id = id;
 		this.first_name = first_name;
 		this.last_name = last_name;
 		this.emailaddress = emailaddress;
@@ -235,27 +256,4 @@ public class AppUser {
 		this.loggedin = loggedin;
 		this.picture = picture;
 	}
-
-	public String getDistance() {
-		return distance;
-	}
-
-	public void setDistance(String distance) {
-		this.distance = distance;
-	}
-
-	@Override
-	public String toString() {
-		return "AppUser [id=" + id + ", first_name=" + first_name + ", last_name=" + last_name + ", emailaddress="
-				+ emailaddress + ", password=" + password + ", restaurant_name=" + restaurant_name + ", license_number="
-				+ license_number + ", address1=" + address1 + ", address2=" + address2 + ", city=" + city
-				+ ", province=" + province + ", country=" + country + ", phone=" + phone + ", zip=" + zip
-				+ ", distance=" + distance + ", verificationComplete=" + verificationComplete + ", usertype=" + usertype
-				+ ", opens_at=" + opens_at + ", closes_at=" + closes_at + ", loggedin=" + loggedin + ", picture="
-				+ Arrays.toString(picture) + "]";
-	}
-
-
-	
-
 }

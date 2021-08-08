@@ -1,16 +1,10 @@
 package com.nurturecommunity.Dao;
 
-import java.util.Arrays;
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="orders")
@@ -20,8 +14,6 @@ public class Order {
     private String customer_email;
     private int food_id;
     private int restaurant_id;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at = new Date(System.currentTimeMillis());
 
     public Order(){
 
