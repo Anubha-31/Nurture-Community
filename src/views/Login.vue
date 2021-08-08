@@ -135,9 +135,10 @@ export default {
       axios.defaults.withCredentials = true;
       axios.post(path + "/users/login", this.user).then(
         (response) => {
-          localStorage.setItem('token', response.data.token)
+          localStorage.setItem('token', response.data.token.token)
+          console.log(response.data.usertype)
           if (response.status === 200) {
-            if (response.data === "restaurant") {
+            if (response.data.usertype === "restaurant") {
               window.location.href = "restaurant/food-items";
             } else {
               window.location.href = "/restaurant";

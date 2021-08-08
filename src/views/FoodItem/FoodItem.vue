@@ -134,14 +134,35 @@ export default {
   },
   methods:{
     getFoodItems: function () {
-      axios.defaults.withCredentials = true
-      axios.get(path + '/Listoffooditems')
-          .then(response => {
-            console.log(response.data)
-            this.foodItems = response.data
-          }).catch(error => {
-        console.log(error.data)
-      })
+       const token = localStorage.getItem("token");
+      // axios.defaults.withCredentials = true
+      // axios.get(path + '/Listoffooditems')
+      //     .then(response => {
+      //       console.log(response.data)
+      //       this.foodItems = response.data
+      //     }).catch(error => {
+      //   console.log(error.data)
+      // })
+       axios({
+      url: path + "/Listoffooditems",
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json",
+      },
+    }).then(
+      (response) => {
+        console.log(response);
+        if (response.status === 200) {
+          this.contents = response.data;
+          this.length = response.data.length;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
     },
     sort:function(s) {
       //if s == current sort, reverse

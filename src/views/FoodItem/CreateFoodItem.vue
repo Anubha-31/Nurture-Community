@@ -368,7 +368,8 @@ export default {
       this.formData.append("model", JSON.stringify(this.food));
       this.formData.append("uploadedPicture", this.food.uploadedPicture);
       console.log(this.food.uploadedPicture)
-      axios.defaults.withCredentials = true;
+    //  axios.defaults.withCredentials = true;
+     const token = localStorage.getItem("token");
       axios({
         url: path + "/addFoodDetails",
         method: "POST",
@@ -376,6 +377,9 @@ export default {
         headers: {
           Accept: "application/json",
           "Content-type": `multipart/form-data;boundary=--`,
+          Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json",
         },
       }).then(
         (response) => {
