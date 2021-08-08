@@ -60,6 +60,7 @@ import com.nurturecommunity.services.GetRequest;
 //allowCredentials="true"
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+//@CrossOrigin(origins = "http://localhost:8060/", allowedHeaders = "*",allowCredentials="true")
 public class MainController {
 
 	@Autowired
@@ -117,7 +118,7 @@ public class MainController {
 		 */
 	
 	@PostMapping("/users/login")
-	synchronized public ResponseEntity loginUser(@Valid @RequestBody AppUser user, HttpServletResponse response) {
+	synchronized public ResponseEntity<?> loginUser(@Valid @RequestBody AppUser user, HttpServletResponse response) throws Exception {
 		List<AppUser> users = userRepository.findByEmailaddress(user.getEmailaddress());
 		List<AppUser> users1 = userRepository.findAllByusertype(user.getUsertype());
 
@@ -142,7 +143,14 @@ public class MainController {
 					response.addCookie(cookie);
 					response.addCookie(cookie1);
 					Usertype = other.getUsertype();
-					return new ResponseEntity<>(Usertype, HttpStatus.OK);
+					authenticate(user.getEmailaddress(), user.getPassword());
+
+					final UserDetails userDetails = userDetailsService
+							.loadUserByUsername(user.getEmailaddress());
+
+					final String token = jwtTokenUtil.generateToken(userDetails);
+
+					return ResponseEntity.ok(new JwtResponse(token));
 				}
 			}
 		}
@@ -319,8 +327,6 @@ public class MainController {
 		
 		
 	}
-
-
 
 	@GetMapping("/ListOfRestaurants")
 	public ResponseEntity<List<AppUser>> getAllResturants(HttpServletRequest request) {
