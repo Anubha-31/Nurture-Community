@@ -1,5 +1,6 @@
 <template>
   <HeaderRestaurants></HeaderRestaurants>
+  <h1 class="text-center text-lg md:text-3xl mb-5 md:mb-10">Place the QR code in front of the Camera</h1>
   <div class="w-full md:w-1/4 mx-auto">
     <qrcode-stream @decode="onDecode"></qrcode-stream>
   </div>
