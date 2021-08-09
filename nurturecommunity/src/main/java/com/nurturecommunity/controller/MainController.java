@@ -99,8 +99,20 @@ public class MainController {
 	@Autowired
 	ContactUsRepository contactUsrepo;
 
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+
+	@Autowired
+	private JwtUserDetailsService userDetailsService;
+
+	@Autowired
+	UserRepository userRepository;
+
 	@GetMapping("/login")
-	public List<User> getRequest() throws Exception {
+	synchronized public List<User> getRequest() throws Exception {
 		return this.getRequest.getLoginresponse();
 	}
 
@@ -116,9 +128,6 @@ public class MainController {
 		}
 
 	}
-
-	@Autowired
-	UserRepository userRepository;
 
 	@PostMapping("/users/login")
 	synchronized public ResponseEntity<?> loginUser(@Valid @RequestBody AppUser user, HttpServletResponse response)
@@ -139,7 +148,7 @@ public class MainController {
 						final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmailaddress());
 
 						final String token = jwtTokenUtil.generateToken(userDetails);
-						
+
 						UserTypeToken usertype1 = new UserTypeToken();
 						usertype1.setUsertype(Usertype);
 						usertype1.setToken(new JwtResponse(token));
@@ -156,7 +165,7 @@ public class MainController {
 
 	@SuppressWarnings("deprecation")
 	@PostMapping("/verify/login")
-	public ResponseEntity<String> verifyUser(HttpServletRequest request) {
+	synchronized public ResponseEntity<String> verifyUser(HttpServletRequest request) {
 		String key = env.getProperty("cipher.key");
 
 		StringBuffer jb = new StringBuffer();
@@ -186,6 +195,385 @@ public class MainController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+	}
+
+	@SuppressWarnings("deprecation")
+	@PostMapping(value = "/users/register", consumes = "multipart/form-data")
+	synchronized public ResponseEntity<String> createNewObjectWithImage(@RequestParam("model") String myParams,
+			@RequestParam(value = "cover_image", required = false) MultipartFile multipartfile) {
+
+		JsonParser jsonParser = new JsonParser();
+		JsonObject object = (JsonObject) jsonParser.parse(myParams);
+		AppUser user = new AppUser();
+		String password = encryptPassword(object.get("password").getAsString());
+
+		user.setFirst_name(object.get("first_name").getAsString());
+		user.setLast_name(object.get("last_name").getAsString());
+		user.setAddress1(object.get("address1").getAsString());
+		user.setAddress2(object.get("address2").getAsString());
+		user.setCity(object.get("city").getAsString());
+		user.setProvince(object.get("province").getAsString());
+		user.setCountry(object.get("country").getAsString());
+		user.setEmailaddress(object.get("emailaddress").getAsString());
+		user.setPassword(password);
+		user.setRestaurant_name(object.get("restaurant_name").getAsString());
+		user.setLicense_number(object.get("license_number").getAsString());
+		user.setOpens_at(object.get("opens_at").getAsString());
+		user.setCloses_at(object.get("closes_at").getAsString());
+		user.setPhone(object.get("phone").getAsString());
+		user.setZip(object.get("zip").getAsString());
+		user.setUsertype(object.get("user_type").getAsString());
+		try {
+			if (multipartfile != null) {
+				user.setPicture(multipartfile.getBytes());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		List<AppUser> users = userRepository.findByEmailaddress(user.getEmailaddress());
+
+		if (!users.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);// 409
+		} else {
+			AppUser newuser = userRepository.save(user);
+			sendEmail(newuser);
+			// savedata(newuser,multipartfile);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+
+	}
+
+	@SuppressWarnings("deprecation")
+	@PostMapping("/ListOfRestaurantzip")
+	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseBody
+	synchronized public ResponseEntity<List<AppUser>> getByZipCode(@RequestBody String zip,
+			HttpServletRequest request) {
+		try {
+			JsonParser jsonParser = new JsonParser();
+			JsonObject object = (JsonObject) jsonParser.parse(zip);
+			String userZip = "";
+			zip = object.get("city").getAsString();
+			String Cookie = getCookies(request);
+			List<AppUser> user = userRepository.findByEmailaddress(Cookie);
+			if (user.size() != 0) {
+				userZip = user.get(0).getZip();
+			}
+			List<AppUser> usersByzip = new ArrayList<AppUser>();
+			userRepository.findAllByusertype("restaurant").forEach(usersByzip::add);
+			List<AppUser> data = new ArrayList<AppUser>();
+			for (AppUser obj : usersByzip) {
+				if (obj.getCity().equals(zip)) {
+
+					String tempDistance = toDistance(userZip, obj.getZip());
+					double Doubletemp = Double.parseDouble(tempDistance);
+					DecimalFormat numberFormat = new DecimalFormat("#.00");
+
+					numberFormat.format(Doubletemp);
+					obj.setDistance(String.valueOf(Doubletemp));
+					obj.setDistance(tempDistance);
+					data.add(obj);
+
+				}
+			}
+			if (data.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(data, HttpStatus.OK);
+		} catch (Exception e) {
+
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/ListOfRestaurants")
+	synchronized public ResponseEntity<List<AppUser>> getAllResturants(HttpServletRequest request) {
+		try {
+			List<AppUser> obj = new ArrayList<AppUser>();
+			String userZip = "";
+			String cookies = getCookies(request);
+			List<AppUser> user = userRepository.findByEmailaddress(cookies);
+			if (user.size() != 0) {
+				userZip = user.get(0).getZip();
+			}
+			List<AppUser> usersByzip = new ArrayList<AppUser>();
+			userRepository.findAllByusertype("restaurant").forEach(obj::add);
+
+			for (AppUser o : obj) {
+				double Doubletemp = 0.0;
+				// String tempDistance = toDistance(userZip, o.getZip());
+				// double Doubletemp = Double.parseDouble(tempDistance);
+				DecimalFormat numberFormat = new DecimalFormat("#.00");
+
+				numberFormat.format(Doubletemp);
+				o.setDistance(String.valueOf(Doubletemp));
+				usersByzip.add(o);
+
+			}
+
+			if (usersByzip.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(usersByzip, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	@PostMapping(value = "/addFoodDetails", consumes = "multipart/form-data")
+	@ResponseStatus(HttpStatus.CREATED)
+	synchronized public ResponseEntity<?> AddFood(@RequestParam("model") String myParams,
+			@RequestParam(value = "uploadedPicture", required = false) MultipartFile multipartfile,
+			HttpServletRequest request) {
+
+		String emailaddress = getCookies(request);
+
+		AddFoodDetails foodDetails = new AddFoodDetails();
+		List<AppUser> users = userRepository.findByEmailaddress(emailaddress);
+
+		JsonParser jsonParser = new JsonParser();
+		JsonObject object = (JsonObject) jsonParser.parse(myParams);
+
+		foodDetails.setItemName(object.get("itemName").getAsString());
+		foodDetails.setItemDescription(object.get("itemDescription").getAsString());
+		foodDetails.setNumberofPackets(object.get("numberofPackets").getAsInt());
+		foodDetails.setLocationChange(object.get("locationChange").getAsString());
+		foodDetails.setAddress1(object.get("address1").getAsString());
+		foodDetails.setAddress2(object.get("address2").getAsString());
+		foodDetails.setCity(object.get("city").getAsString());
+		foodDetails.setProvince(object.get("province").getAsString());
+		foodDetails.setCountry(object.get("country").getAsString());
+		foodDetails.setPickupTime(object.get("pickupTime").getAsString());
+		foodDetails.setId(users.get(0).getId());
+		foodDetails.setRestaurantName(users.get(0).getRestaurant_name());
+		try {
+			if (multipartfile != null) {
+				foodDetails.setpicture(multipartfile.getBytes());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		addFoodDetailsRepository.save(foodDetails);
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/ContactUs")
+	@ResponseStatus(HttpStatus.CREATED)
+	synchronized public ResponseEntity<?> saveQueries(@Valid @RequestBody ContactUsDetails user,
+			HttpServletResponse response) {
+		contactUsrepo.save(user);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@SuppressWarnings("deprecation")
+	@PostMapping(value = "/updateFood")
+	@ResponseStatus(HttpStatus.CREATED)
+	synchronized public ResponseEntity<?> updateFood(@RequestBody String myParams, HttpServletRequest request)
+			throws IOException {
+
+		JsonParser jsonParser = new JsonParser();
+		JsonObject object = (JsonObject) jsonParser.parse(myParams);
+
+		AddFoodDetails foodDetails = addFoodDetailsRepository.findByfoodDetailId(object.get("id").getAsInt());
+		foodDetails.setNumberofPackets(object.get("numberofPackets").getAsInt());
+		addFoodDetailsRepository.save(foodDetails);
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@SuppressWarnings("deprecation")
+	@PostMapping(value = "/deleteFood")
+	@ResponseStatus(HttpStatus.CREATED)
+	synchronized public ResponseEntity<?> deleteFood(@RequestBody String myParams, HttpServletRequest request)
+			throws IOException {
+		AddFoodDetails foodDetails = new AddFoodDetails();
+
+		JsonParser jsonParser = new JsonParser();
+		JsonObject object = (JsonObject) jsonParser.parse(myParams);
+		foodDetails.setFoodDetailId(object.get("id").getAsInt());
+		addFoodDetailsRepository.delete(foodDetails);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@PostMapping(value = "/profile/{id}")
+	synchronized public ResponseEntity<?> retrieveResaurant(@PathVariable Long id) {
+		try {
+
+			List<AppUser> users = userRepository.findAllById(id);
+
+			if (users.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(users, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
+	@SuppressWarnings("deprecation")
+	synchronized public static String toDistance(String userzip1, String reszip2) throws IOException {
+
+		String Search = "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/CalculateDistance/ByZip?fromzipcode=" + userzip1
+				+ "&tozipcode=" + reszip2 + "&key=7AJTINS13OS1CEJLJCAR";
+		URL url = new URL(Search);
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
+		con.setRequestMethod("GET");
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer content = new StringBuffer();
+		while ((inputLine = in.readLine()) != null) {
+			content.append(inputLine);
+
+		}
+		in.close();
+		con.disconnect();
+		JsonParser jsonParser = new JsonParser();
+		JsonObject object = (JsonObject) jsonParser.parse(content.toString());
+		String distance = object.get("DistanceInKm").getAsString();
+		return distance;
+
+	}
+
+	@PostMapping(value = "/restaurant/{id}")
+	synchronized public ResponseEntity<?> retrieverestaurantsFood(@PathVariable Long id) {
+		try {
+
+			List<AddFoodDetails> users = addFoodDetailsRepository.findAllByid(id);
+
+			if (users.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(users, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
+	@SuppressWarnings("deprecation")
+	@PostMapping(value = "/customer/claim-food")
+	@ResponseStatus(HttpStatus.CREATED)
+	synchronized public ResponseEntity<?> claimFood(@RequestBody String myParams, HttpServletRequest request)
+			throws IOException {
+
+		try {
+			JsonParser jsonParser = new JsonParser();
+			JsonObject object = (JsonObject) jsonParser.parse(myParams);
+
+			Order order = new Order();
+
+			order.setCustomerEmail(getCookies(request));
+			order.setFoodId(object.get("foodId").getAsInt());
+			order.setRestaurantId(object.get("restaurantId").getAsInt());
+
+			orderRepository.save(order);
+
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	@PostMapping(value = "/order/update")
+	@ResponseStatus(HttpStatus.CREATED)
+	synchronized public void updateOrder(@RequestBody String myParams, HttpServletRequest request) throws IOException {
+
+		JsonParser jsonParser = new JsonParser();
+		JsonObject object = (JsonObject) jsonParser.parse(myParams);
+
+		System.out.println(object.get("orderId").getAsInt());
+		System.out.println(object.get("foodId").getAsInt());
+
+	}
+
+	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+	synchronized public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
+			throws Exception {
+
+		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+
+		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+
+		final String token = jwtTokenUtil.generateToken(userDetails);
+
+		return ResponseEntity.ok(new JwtResponse(token));
+	}
+
+	private void authenticate(String username, String password) throws Exception {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+		} catch (DisabledException e) {
+			throw new Exception("USER_DISABLED", e);
+		} catch (BadCredentialsException e) {
+			throw new Exception("INVALID_CREDENTIALS", e);
+		}
+	}
+
+	private String getCookies(HttpServletRequest request) {
+
+		String requestTokenHeader = request.getHeader("Authorization");
+		String username = null;
+		String jwtToken = null;
+		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+			jwtToken = requestTokenHeader.substring(7);
+			try {
+				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+			} catch (IllegalArgumentException e) {
+				System.out.println("Unable to get JWT Token");
+			} catch (ExpiredJwtException e) {
+				System.out.println("JWT Token has expired");
+			}
+		}
+
+		return username;
+	}
+
+	private String encryptPassword(String password) {
+		int strength = 10;
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(strength);
+		String encodedPassword = encoder.encode(password);
+		return encodedPassword;
+	}
+
+	private void sendEmail(AppUser newuser) {
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props);
+
+		Message msg = new MimeMessage(session);
+		try {
+			msg.setFrom(new InternetAddress("nurturecommunityp13@gmail.com", false));
+
+			String html = getEmailBody(newuser);
+			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(newuser.getEmailaddress()));
+			msg.setSubject("Welcome to Nurture Community | Do not reply on this email");
+			msg.setContent("Welcome to Nurture Community", "text/html");
+			msg.setSentDate(new Date());
+			Multipart multipart = new MimeMultipart();
+			MimeBodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setContent(html, "text/html");
+			multipart.addBodyPart(messageBodyPart);
+
+			msg.setContent(multipart);
+			Transport.send(msg, "nurturecommunityp13@gmail.com", "nurture@123!");
+
+		} catch (MessagingException e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -240,92 +628,6 @@ public class MainController {
 		}
 
 		return data;
-	}
-
-	@SuppressWarnings("deprecation")
-	@PostMapping(value = "/users/register", consumes = "multipart/form-data")
-	public ResponseEntity<String> createNewObjectWithImage(@RequestParam("model") String myParams,
-			@RequestParam(value = "cover_image", required = false) MultipartFile multipartfile) {
-
-		JsonParser jsonParser = new JsonParser();
-		JsonObject object = (JsonObject) jsonParser.parse(myParams);
-		AppUser user = new AppUser();
-		String password = encryptPassword(object.get("password").getAsString());
-
-		user.setFirst_name(object.get("first_name").getAsString());
-		user.setLast_name(object.get("last_name").getAsString());
-		user.setAddress1(object.get("address1").getAsString());
-		user.setAddress2(object.get("address2").getAsString());
-		user.setCity(object.get("city").getAsString());
-		user.setProvince(object.get("province").getAsString());
-		user.setCountry(object.get("country").getAsString());
-		user.setEmailaddress(object.get("emailaddress").getAsString());
-		user.setPassword(password);
-		user.setRestaurant_name(object.get("restaurant_name").getAsString());
-		user.setLicense_number(object.get("license_number").getAsString());
-		user.setOpens_at(object.get("opens_at").getAsString());
-		user.setCloses_at(object.get("closes_at").getAsString());
-		user.setPhone(object.get("phone").getAsString());
-		user.setZip(object.get("zip").getAsString());
-		user.setUsertype(object.get("user_type").getAsString());
-		try {
-			if (multipartfile != null) {
-				user.setPicture(multipartfile.getBytes());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		List<AppUser> users = userRepository.findByEmailaddress(user.getEmailaddress());
-
-		if (!users.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.CONFLICT);// 409
-		} else {
-			AppUser newuser = userRepository.save(user);
-			sendEmail(newuser);
-			// savedata(newuser,multipartfile);
-			return new ResponseEntity<>(HttpStatus.OK);
-		}
-
-	}
-
-	private String encryptPassword(String password) {
-		int strength = 10;
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(strength);
-		String encodedPassword = encoder.encode(password);
-		return encodedPassword;
-	}
-
-	private void sendEmail(AppUser newuser) {
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
-
-		Session session = Session.getInstance(props);
-
-		Message msg = new MimeMessage(session);
-		try {
-			msg.setFrom(new InternetAddress("nurturecommunityp13@gmail.com", false));
-
-			String html = getEmailBody(newuser);
-			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(newuser.getEmailaddress()));
-			msg.setSubject("Welcome to Nurture Community | Do not reply on this email");
-			msg.setContent("Welcome to Nurture Community", "text/html");
-			msg.setSentDate(new Date());
-			Multipart multipart = new MimeMultipart();
-			MimeBodyPart messageBodyPart = new MimeBodyPart();
-			messageBodyPart.setContent(html, "text/html");
-			multipart.addBodyPart(messageBodyPart);
-
-			msg.setContent(multipart);
-			Transport.send(msg, "nurturecommunityp13@gmail.com", "nurture@123!");
-
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	private String getEmailBody(AppUser user) {
@@ -464,302 +766,4 @@ public class MainController {
 				+ "  </body>\r\n" + "</html>\r\n" + "";
 		return html;
 	}
-
-	@SuppressWarnings("deprecation")
-	@PostMapping("/ListOfRestaurantzip")
-	@ResponseStatus(HttpStatus.CREATED)
-	@ResponseBody
-	public ResponseEntity<List<AppUser>> getByZipCode(@RequestBody String zip, HttpServletRequest request) {
-		try {
-			JsonParser jsonParser = new JsonParser();
-			JsonObject object = (JsonObject) jsonParser.parse(zip);
-			String userZip = "";
-			zip = object.get("city").getAsString();
-			String Cookie = getCookies(request);
-			List<AppUser> user = userRepository.findByEmailaddress(Cookie);
-			if (user.size() != 0) {
-				userZip = user.get(0).getZip();
-			}
-			List<AppUser> usersByzip = new ArrayList<AppUser>();
-			userRepository.findAllByusertype("restaurant").forEach(usersByzip::add);
-			List<AppUser> data = new ArrayList<AppUser>();
-			for (AppUser obj : usersByzip) {
-				if (obj.getCity().equals(zip)) {
-
-					String tempDistance = toDistance(userZip, obj.getZip());
-					double Doubletemp = Double.parseDouble(tempDistance);
-					DecimalFormat numberFormat = new DecimalFormat("#.00");
-
-					numberFormat.format(Doubletemp);
-					obj.setDistance(String.valueOf(Doubletemp));
-					obj.setDistance(tempDistance);
-					data.add(obj);
-
-				}
-			}
-			if (data.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-
-			return new ResponseEntity<>(data, HttpStatus.OK);
-		} catch (Exception e) {
-
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@GetMapping("/ListOfRestaurants")
-	public ResponseEntity<List<AppUser>> getAllResturants(HttpServletRequest request) {
-		try {
-			List<AppUser> obj = new ArrayList<AppUser>();
-			String userZip = "";
-			String cookies = getCookies(request);
-			List<AppUser> user = userRepository.findByEmailaddress(cookies);
-			if (user.size() != 0) {
-				userZip = user.get(0).getZip();
-			}
-			List<AppUser> usersByzip = new ArrayList<AppUser>();
-			userRepository.findAllByusertype("restaurant").forEach(obj::add);
-			
-			for (AppUser o : obj) {
-				double Doubletemp =0.0;
-				//String tempDistance = toDistance(userZip, o.getZip());
-				//double Doubletemp = Double.parseDouble(tempDistance);
-				DecimalFormat numberFormat = new DecimalFormat("#.00");
-
-				numberFormat.format(Doubletemp);
-				o.setDistance(String.valueOf(Doubletemp));
-				usersByzip.add(o);
-
-			}
-			 
-
-			if (usersByzip.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-
-			return new ResponseEntity<>(usersByzip, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@SuppressWarnings("deprecation")
-	@PostMapping(value = "/addFoodDetails", consumes = "multipart/form-data")
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> AddFood(@RequestParam("model") String myParams,
-			@RequestParam(value = "uploadedPicture", required = false) MultipartFile multipartfile,
-			HttpServletRequest request) {
-
-		String emailaddress = getCookies(request);
-
-		AddFoodDetails foodDetails = new AddFoodDetails();
-		List<AppUser> users = userRepository.findByEmailaddress(emailaddress);
-
-		JsonParser jsonParser = new JsonParser();
-		JsonObject object = (JsonObject) jsonParser.parse(myParams);
-
-		foodDetails.setItemName(object.get("itemName").getAsString());
-		foodDetails.setItemDescription(object.get("itemDescription").getAsString());
-		foodDetails.setNumberofPackets(object.get("numberofPackets").getAsInt());
-		foodDetails.setLocationChange(object.get("locationChange").getAsString());
-		foodDetails.setAddress1(object.get("address1").getAsString());
-		foodDetails.setAddress2(object.get("address2").getAsString());
-		foodDetails.setCity(object.get("city").getAsString());
-		foodDetails.setProvince(object.get("province").getAsString());
-		foodDetails.setCountry(object.get("country").getAsString());
-		foodDetails.setPickupTime(object.get("pickupTime").getAsString());
-		foodDetails.setId(users.get(0).getId());
-		foodDetails.setRestaurantName(users.get(0).getRestaurant_name());
-		try {
-			if (multipartfile != null) {
-				foodDetails.setpicture(multipartfile.getBytes());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		addFoodDetailsRepository.save(foodDetails);
-
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@PostMapping(value = "/ContactUs")
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> saveQueries(@Valid @RequestBody ContactUsDetails user, HttpServletResponse response) {
-		contactUsrepo.save(user);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@SuppressWarnings("deprecation")
-	@PostMapping(value = "/updateFood")
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> updateFood(@RequestBody String myParams, HttpServletRequest request) throws IOException {
-
-		JsonParser jsonParser = new JsonParser();
-		JsonObject object = (JsonObject) jsonParser.parse(myParams);
-
-		AddFoodDetails foodDetails = addFoodDetailsRepository.findByfoodDetailId(object.get("id").getAsInt());
-		foodDetails.setNumberofPackets(object.get("numberofPackets").getAsInt());
-		addFoodDetailsRepository.save(foodDetails);
-
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@SuppressWarnings("deprecation")
-	@PostMapping(value = "/deleteFood")
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> deleteFood(@RequestBody String myParams, HttpServletRequest request) throws IOException {
-		AddFoodDetails foodDetails = new AddFoodDetails();
-
-		JsonParser jsonParser = new JsonParser();
-		JsonObject object = (JsonObject) jsonParser.parse(myParams);
-		foodDetails.setFoodDetailId(object.get("id").getAsInt());
-		addFoodDetailsRepository.delete(foodDetails);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	@PostMapping(value = "/profile/{id}")
-	public ResponseEntity<?> retrieveResaurant(@PathVariable Long id) {
-		try {
-
-			List<AppUser> users = userRepository.findAllById(id);
-
-			if (users.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-
-			return new ResponseEntity<>(users, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-	}
-
-	@SuppressWarnings("deprecation")
-	public static String toDistance(String userzip1, String reszip2) throws IOException {
-
-		String Search = "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/CalculateDistance/ByZip?fromzipcode=" + userzip1
-				+ "&tozipcode=" + reszip2 + "&key=7AJTINS13OS1CEJLJCAR";
-		URL url = new URL(Search);
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod("GET");
-		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer content = new StringBuffer();
-		while ((inputLine = in.readLine()) != null) {
-			content.append(inputLine);
-
-		}
-		in.close();
-		con.disconnect();
-		JsonParser jsonParser = new JsonParser();
-		JsonObject object = (JsonObject) jsonParser.parse(content.toString());
-		String distance = object.get("DistanceInKm").getAsString();
-		return distance;
-
-	}
-
-	@PostMapping(value = "/restaurant/{id}")
-	public ResponseEntity<?> retrieverestaurantsFood(@PathVariable Long id) {
-		try {
-
-			List<AddFoodDetails> users = addFoodDetailsRepository.findAllByid(id);
-
-			if (users.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-
-			return new ResponseEntity<>(users, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-	}
-
-	@SuppressWarnings("deprecation")
-	@PostMapping(value = "/customer/claim-food")
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> claimFood(@RequestBody String myParams, HttpServletRequest request) throws IOException {
-
-		try {
-			JsonParser jsonParser = new JsonParser();
-			JsonObject object = (JsonObject) jsonParser.parse(myParams);
-
-			Order order = new Order();
-
-			order.setCustomerEmail(getCookies(request));
-			order.setFoodId(object.get("foodId").getAsInt());
-			order.setRestaurantId(object.get("restaurantId").getAsInt());
-
-			orderRepository.save(order);
-
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@SuppressWarnings("deprecation")
-	@PostMapping(value = "/order/update")
-	@ResponseStatus(HttpStatus.CREATED)
-	public void updateOrder(@RequestBody String myParams, HttpServletRequest request) throws IOException {
-
-		JsonParser jsonParser = new JsonParser();
-		JsonObject object = (JsonObject) jsonParser.parse(myParams);
-
-		System.out.println(object.get("orderId").getAsInt());
-		System.out.println(object.get("foodId").getAsInt());
-
-	}
-
-	@Autowired
-	private AuthenticationManager authenticationManager;
-
-	@Autowired
-	private JwtTokenUtil jwtTokenUtil;
-
-	@Autowired
-	private JwtUserDetailsService userDetailsService;
-
-	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
-		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
-		final String token = jwtTokenUtil.generateToken(userDetails);
-
-		return ResponseEntity.ok(new JwtResponse(token));
-	}
-
-	private void authenticate(String username, String password) throws Exception {
-		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		} catch (DisabledException e) {
-			throw new Exception("USER_DISABLED", e);
-		} catch (BadCredentialsException e) {
-			throw new Exception("INVALID_CREDENTIALS", e);
-		}
-	}
-	
-	private String getCookies(HttpServletRequest request) {
-
-		String requestTokenHeader = request.getHeader("Authorization");
-		String username = null;
-		String jwtToken = null;
-		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-			jwtToken = requestTokenHeader.substring(7);
-			try {
-				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-			} catch (IllegalArgumentException e) {
-				System.out.println("Unable to get JWT Token");
-			} catch (ExpiredJwtException e) {
-				System.out.println("JWT Token has expired");
-			}
-		}
-
-		return username;
-	}
-
 }
