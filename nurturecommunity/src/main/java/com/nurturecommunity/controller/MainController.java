@@ -267,14 +267,14 @@ public class MainController {
 			List<AppUser> data = new ArrayList<AppUser>();
 			for (AppUser obj : usersByzip) {
 				if (obj.getCity().equals(zip)) {
-
-					String tempDistance = toDistance(userZip, obj.getZip());
-					double Doubletemp = Double.parseDouble(tempDistance);
+					double Doubletemp = 0.0;
+//					String tempDistance = toDistance(userZip, obj.getZip());
+//					double Doubletemp = Double.parseDouble(tempDistance);
 					DecimalFormat numberFormat = new DecimalFormat("#.00");
 
 					numberFormat.format(Doubletemp);
 					obj.setDistance(String.valueOf(Doubletemp));
-					obj.setDistance(tempDistance);
+				//	obj.setDistance(tempDistance);
 					data.add(obj);
 
 				}
@@ -475,7 +475,13 @@ public class MainController {
 			order.setCustomerEmail(getCookies(request));
 			order.setFoodId(object.get("foodId").getAsInt());
 			order.setRestaurantId(object.get("restaurantId").getAsInt());
-
+			List<AppUser> user =userRepository.findAllById(object.get("restaurantId").getAsLong());
+            
+			order.setRestaurant_name(user.get(0).getRestaurant_name());
+			List<AddFoodDetails> fooddetails= addFoodDetailsRepository.findAllByid(object.get("foodId").getAsLong());
+			order.setItem_description(fooddetails.get(0).getItemDescription());
+			order.setItem_name(fooddetails.get(0).getItemName());
+			order.setPicture(fooddetails.get(0).getpicture());
 			orderRepository.save(order);
 
 			return new ResponseEntity<>(HttpStatus.OK);
@@ -483,7 +489,22 @@ public class MainController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@SuppressWarnings("deprecation")
+	@GetMapping("/customer/orderd-details")
+	synchronized public ResponseEntity<List<Order>> getOrder(HttpServletRequest request) throws Exception {
 
+		String Cookie = getCookies(request);
+           
+		if (Cookie != null) {
+			return new ResponseEntity<>(orderRepository.findBycustomeremail(Cookie), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+
+	}
+
+	
 	@SuppressWarnings("deprecation")
 	@PostMapping(value = "/order/update")
 	@ResponseStatus(HttpStatus.CREATED)
