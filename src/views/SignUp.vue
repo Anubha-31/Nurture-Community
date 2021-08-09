@@ -238,6 +238,7 @@ export default {
           headers: {
             Accept: 'application/json',
             'Content-type': `multipart/form-data;boundary=--`,
+            "Access-Control-Allow-Origin": "*",
           }
         }).then((response) => {
           console.log(response.status)
