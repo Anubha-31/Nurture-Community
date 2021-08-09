@@ -19,12 +19,14 @@ export default {
   props: {
     orderId: Number,
     foodId: Number,
+    restaurantId: Number,
   },
   data() {
     return {
       value: `{
         "orderId": ${this.orderId},
-        "foodId": ${this.foodId}
+        "foodId": ${this.foodId},
+        "restaurantId": ${this.restaurantId}
       }`,
       size: 300,
     }
