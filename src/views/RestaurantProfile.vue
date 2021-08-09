@@ -1,5 +1,6 @@
 <template>
-  <Header user_type="customer"></Header>
+  <!-- <Header user_type="customer"></Header> -->
+  <HeaderCustomer/>
   <section class="text-gray-600 body-font overflow-hidden">
     <div class="container px-5 pt-10 pb-5 mx-auto">
       <div class="lg:w-4/5 mx-auto flex flex-wrap">
@@ -103,7 +104,7 @@
   <Footer/>
 </template>
 <script>
-import Header from "@/components/Header.vue";
+import HeaderCustomer from "@/components/HeaderCustomer.vue";
 import Footer from "@/components/Footer.vue";
 import axios from 'axios'
 import {path} from './settings.js'
@@ -167,7 +168,7 @@ export default
     }
   },
   components: {
-    Header,
+    HeaderCustomer,
     Footer,
     ClaimFoodModal
   },

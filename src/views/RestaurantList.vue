@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Header user_type="customer"></Header>
+    <!-- <Header user_type="customer"></Header> -->
+    <HeaderCustomer/>
     <div class="container mx-auto px-6 py-3">
       <form @submit.prevent="formSubmit">
         <div class="mt-6 space-y-3 md:w-2/5 md:mx-auto">
@@ -127,7 +128,7 @@
   </div>
 </template>
 <script>
-import Header from "@/components/Header.vue";
+import HeaderCustomer from "@/components/HeaderCustomer.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
 import { path } from "./settings.js";
@@ -136,7 +137,7 @@ import canada from "canada";
 export default {
   name: "RestaurantList",
   components: {
-    Header,
+    HeaderCustomer,
     Footer,
   },
   data() {

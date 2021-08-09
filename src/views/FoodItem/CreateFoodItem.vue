@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <HeaderRestaurants />
 <!-- <pre> {{ food }}</pre> -->
   <div>
     <div class="container mx-auto px-1">
@@ -333,7 +333,7 @@
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import HeaderRestaurants from "@/components/HeaderRestaurants.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
 import { path } from "../settings.js";
@@ -410,7 +410,7 @@ export default {
     },
   },
   components: {
-    Header,
+    HeaderRestaurants,
     Footer,
   },
 };

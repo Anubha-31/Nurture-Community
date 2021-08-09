@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <HeaderRestaurants />
   <div>
     <div class="container mx-auto px-1">
       <div class="text-center">
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import Header from "@/components/Header.vue";
+import HeaderRestaurants from "@/components/HeaderRestaurants.vue";
 import Footer from "@/components/Footer.vue";
 import food from "@/static/food.json";
 
@@ -103,7 +103,7 @@ export default {
     console.log(response)
   },
   components: {
-    Header,
+    HeaderRestaurants,
     Footer,
   },
 }

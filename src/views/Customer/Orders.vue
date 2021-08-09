@@ -1,5 +1,6 @@
 <template>
-  <Header user_type="customer"></Header>
+  <!-- <Header user_type="customer"></Header> -->
+  <HeaderCustomer/>
   <div class="leading-normal tracking-normal text-white gradient" style="font-family: 'Source Sans Pro', sans-serif;">
     <h1 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
      My Orders
@@ -90,7 +91,7 @@
 
 <script>
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import HeaderCustomer from "@/components/HeaderCustomer";
 import EditFoodItemModal from "@/components/EditFoodItemModal";
 import DeleteFoodItemModal from "@/components/DeleteFoodItemModal";
 import axios from 'axios'
@@ -297,7 +298,7 @@ export default {
     }
   },
   components: {
-    Header,
+    HeaderCustomer,
     Footer,
     EditFoodItemModal,
     DeleteFoodItemModal

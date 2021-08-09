@@ -1,5 +1,6 @@
 <template>
-  <Header user_type="customer"></Header>
+  <!-- <Header user_type="customer"></Header> -->
+  <HeaderCustomer/>
     <div class="flex justify-center items-center md:min-h-screen">
       <div class="pt-10 pb-48 md:-mt-56">
         <qrcode-vue :value="value" :size="size" level="H" />
@@ -9,7 +10,7 @@
 </template>
 
 <script>
-import Header from "@/components/Header";
+import HeaderCustomer from "@/components/HeaderCustomer";
 import Footer from "@/components/Footer";
 import { QrcodeStream } from 'vue3-qrcode-reader'
 import QrcodeVue from 'qrcode.vue'
@@ -29,7 +30,7 @@ export default {
     }
   },
   components: {
-    Header,
+    HeaderCustomer,
     Footer,
     QrcodeStream,
     QrcodeVue

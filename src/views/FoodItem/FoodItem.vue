@@ -1,5 +1,6 @@
 <template>
-  <Header user_type="restaurant"></Header>
+  <!-- <Header user_type="restaurant"></Header> -->
+  <HeaderRestaurants/>
   <!--  <div>debug: sort={{currentSort}}, dir={{currentSortDir}}, page={{currentPage}}</div>-->
 <!--    <pre>{{foodItems}}</pre>-->
   <div class="leading-normal tracking-normal text-white gradient" style="font-family: 'Source Sans Pro', sans-serif;">
@@ -108,7 +109,7 @@
 </template>
 <script>
 import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import HeaderRestaurants from "@/components/HeaderRestaurants";
 import EditFoodItemModal from "@/components/EditFoodItemModal";
 import DeleteFoodItemModal from "@/components/DeleteFoodItemModal";
 import axios from 'axios'
@@ -208,7 +209,7 @@ export default {
     }
   },
   components: {
-    Header,
+    HeaderRestaurants,
     Footer,
     EditFoodItemModal,
     DeleteFoodItemModal
