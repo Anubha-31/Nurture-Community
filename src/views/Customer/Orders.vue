@@ -19,7 +19,9 @@
 
                 <div class="flex flex-row" data-v-2a66f80c="">
                   <div class="relative w-2/5 md:w-auto mb-3" data-v-2a66f80c="">
-                    <img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2018/07/chicken-fry.jpg" alt="aji" class="w-40 h-40 md:w-56 md:h-40 object-cover rounded-2xl" data-v-2a66f80c="">
+                    <img v-if="item.picture" class="w-40 h-40 md:w-56 md:h-40 object-cover rounded-2xl" :src="'data:image/jpg;base64,'+item.picture" alt="" />
+                    <img v-else class="w-40 h-40 md:w-56 md:h-40 object-cover rounded-2xl" src="https://www.capitalcitysoulfood.com/Content/commerce-icons/menu-item-placeholder.png" alt="" />
+<!--                    <img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2018/07/chicken-fry.jpg" alt="aji" class="w-40 h-40 md:w-56 md:h-40 object-cover rounded-2xl" data-v-2a66f80c="">-->
                   </div>
 
                   <div class="w-3/5 md:w-full ml-5 py-2 justify-evenly" data-v-2a66f80c="">
