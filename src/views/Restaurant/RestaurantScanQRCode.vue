@@ -38,7 +38,7 @@ export default {
   methods: {
     onDecode: function (result) {
       let obj = JSON.parse(result)
-      console.log(obj.id)
+      console.log(obj)
     },
   },
   components: {

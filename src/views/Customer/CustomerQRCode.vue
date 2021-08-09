@@ -24,7 +24,7 @@ export default {
     return {
       value: `{
         "orderId": ${this.orderId},
-        "foodId": ${this.foodId},
+        "foodId": ${this.foodId}
       }`,
       size: 300,
     }
