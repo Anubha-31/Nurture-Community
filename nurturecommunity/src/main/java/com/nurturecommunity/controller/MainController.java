@@ -517,8 +517,19 @@ public class MainController {
 		JsonParser jsonParser = new JsonParser();
 		JsonObject object = (JsonObject) jsonParser.parse(myParams);
 
-		System.out.println(object.get("orderId").getAsInt());
+		System.out.println(object.get("restaurantId").getAsInt());
 		System.out.println(object.get("foodId").getAsInt());
+		System.out.println(object.get("orderId").getAsInt());
+		
+		/* if the restaurant id matches with the current logged-in restaurant 
+		 * then the following changes take place
+		 * 
+		 * update the order table's picked_at timestamp to current time
+		 * 
+		 * update the food_details table by decrementing the number of packets by 1
+		 * 
+		 * success message or failure message
+		 */
 
 	}
 
