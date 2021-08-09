@@ -1,11 +1,11 @@
 <template>
-  <Header></Header>
+  <HeaderRestaurants></HeaderRestaurants>
   <qrcode-stream @decode="onDecode"></qrcode-stream>
   <Footer></Footer>
 </template>
 
 <script>
-import Header from "../../components/Header";
+import HeaderRestaurants from "../../components/HeaderRestaurants";
 import Footer from "../../components/Footer";
 import { QrcodeStream } from 'vue3-qrcode-reader'
 import axios from "axios";
@@ -21,7 +21,7 @@ export default {
       orderId: 11,
       foodId: 22
     }
-
+ const token = localStorage.getItem("token");
     axios({
       url: path + '/order/update'+this.id,
       method: "POST",
@@ -42,7 +42,7 @@ export default {
     },
   },
   components: {
-    Header,
+    HeaderRestaurants,
     Footer,
     QrcodeStream
   },
