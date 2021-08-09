@@ -21,9 +21,9 @@ export default {
       orderId: 11,
       foodId: 22
     }
- const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     axios({
-      url: path + '/order/update'+this.id,
+      url: path + '/order/update',
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -32,8 +32,8 @@ export default {
       },
       data : obj
     }).catch(error => {
-          console.log(error)
-        });
+        console.log(error)
+    });
   },
   methods: {
     onDecode: function (result) {
