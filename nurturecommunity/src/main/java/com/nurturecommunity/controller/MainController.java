@@ -478,10 +478,10 @@ public class MainController {
 			List<AppUser> user =userRepository.findAllById(object.get("restaurantId").getAsLong());
             
 			order.setRestaurant_name(user.get(0).getRestaurant_name());
-			List<AddFoodDetails> fooddetails= addFoodDetailsRepository.findAllByid(object.get("foodId").getAsLong());
-			order.setItem_description(fooddetails.get(0).getItemDescription());
-			order.setItem_name(fooddetails.get(0).getItemName());
-			order.setPicture(fooddetails.get(0).getpicture());
+			AddFoodDetails fooddetails= addFoodDetailsRepository.findByfoodDetailId(object.get("foodId").getAsInt());
+			order.setItem_description(fooddetails.getItemDescription());
+			order.setItem_name(fooddetails.getItemName());
+			order.setPicture(fooddetails.getpicture());
 			orderRepository.save(order);
 
 			return new ResponseEntity<>(HttpStatus.OK);
