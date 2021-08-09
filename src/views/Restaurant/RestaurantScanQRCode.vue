@@ -17,27 +17,29 @@ export default {
   // for testing purpose
   created() {
     // alert("test")
-    let obj = {
-      orderId: 11,
-      foodId: 22
-    }
-    const token = localStorage.getItem("token");
-    axios({
-      url: path + '/order/update',
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Access-Control-Allow-Origin": "*",
-        "Content-type": "application/json",
-      },
-      data : obj
-    }).catch(error => {
-        console.log(error)
-    });
+    // let obj = {
+    //   orderId: 11,
+    //   foodId: 22
+    // }
+
   },
   methods: {
     onDecode: function (result) {
       let obj = JSON.parse(result)
+      const token = localStorage.getItem("token");
+      axios({
+        url: path + '/order/update',
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "application/json",
+        },
+        data : obj
+      }).catch(error => {
+        console.log(error)
+      });
+
       console.log(obj)
     },
   },
