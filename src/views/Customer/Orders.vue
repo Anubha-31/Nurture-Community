@@ -102,126 +102,126 @@ export default {
   data () {
     return {
       foodItems:[
-        {
-          order_id: 1,
-          food_id: 3,
-          item_name: 'Laddu',
-          item_description: 'lorem ipsum',
-          restaurant_name: 'KFC',
-          picture: '',
-          created_at: '22:00',
-          picked_at: ''
-        },
-        {
-          order_id: 2,
-          food_id: 5,
-          item_name: 'Chicken Fry',
-          item_description: 'lorem ipsum',
-          restaurant_name: 'KFC',
-          picture: '',
-          created_at: '22:00',
-          picked_at: ''
-        },
-        {
-          order_id: 3,
-          food_id: 4,
-          item_name: 'Chicken Fry',
-          item_description: 'lorem ipsum',
-          restaurant_name: 'KFC',
-          picture: '',
-          created_at: '22:00',
-          picked_at: ''
-        },
-        {
-          order_id: 4,
-          food_id: 6,
-          item_name: 'Chicken Fry',
-          item_description: 'lorem ipsum',
-          restaurant_name: 'KFC',
-          picture: '',
-          created_at: '22:00',
-          picked_at: ''
-        },
-        {
-          order_id: 5,
-          food_id: 7,
-          item_name: 'Chicken Fry',
-          item_description: 'lorem ipsum',
-          restaurant_name: 'KFC',
-          picture: '',
-          created_at: '22:00',
-          picked_at: ''
-        },
-        {
-          order_id: 6,
-          food_id: 11,
-          item_name: 'Chicken Fry',
-          item_description: 'lorem ipsum',
-          restaurant_name: 'KFC',
-          picture: '',
-          created_at: '22:00',
-          picked_at: ''
-        },
-        {
-          order_id: 7,
-          food_id: 1,
-          item_name: 'Chicken Fry',
-          item_description: 'lorem ipsum',
-          restaurant_name: 'KFC',
-          picture: '',
-          created_at: '22:00',
-          picked_at: ''
-        },
-        {
-          order_id: 8,
-          food_id: 5,
-          item_name: 'Chicken Fry',
-          item_description: 'lorem ipsum',
-          restaurant_name: 'KFC',
-          picture: '',
-          created_at: '22:00',
-          picked_at: ''
-        },
-        {
-          order_id: 9,
-          food_id: 8,
-          item_name: 'Chicken Fry',
-          item_description: 'lorem ipsum',
-          restaurant_name: 'KFC',
-          picture: '',
-          created_at: '22:00',
-          picked_at: ''
-        },
-        {
-          order_id: 10,
-          food_id: 12,
-          item_name: 'Chicken Fry',
-          item_description: 'lorem ipsum',
-          restaurant_name: 'KFC',
-          picture: '',
-          created_at: '22:00',
-          picked_at: ''
-        },
-        {
-          order_id: 11,
-          food_id: 13,
-          item_name: 'Chicken Fry',
-          item_description: 'lorem ipsum',
-          restaurant_name: 'KFC',
-          picture: '',
-          created_at: '22:00',
-          picked_at: ''
-        },
-        {
-          order_id: 12,
-          food_id: 13,
-          item_name: 'Beef Fry',
-          item_description: 'lorem ipsum',
-          restaurant_name: 'KFC',
-          picture: '',
-          created_at: '22:00',
-          picked_at: ''
-        },
+        // {
+        //   order_id: 1,
+        //   food_id: 3,
+        //   item_name: 'Laddu',
+        //   item_description: 'lorem ipsum',
+        //   restaurant_name: 'KFC',
+        //   picture: '',
+        //   created_at: '22:00',
+        //   picked_at: ''
+        // },
+        // {
+        //   order_id: 2,
+        //   food_id: 5,
+        //   item_name: 'Chicken Fry',
+        //   item_description: 'lorem ipsum',
+        //   restaurant_name: 'KFC',
+        //   picture: '',
+        //   created_at: '22:00',
+        //   picked_at: ''
+        // },
+        // {
+        //   order_id: 3,
+        //   food_id: 4,
+        //   item_name: 'Chicken Fry',
+        //   item_description: 'lorem ipsum',
+        //   restaurant_name: 'KFC',
+        //   picture: '',
+        //   created_at: '22:00',
+        //   picked_at: ''
+        // },
+        // {
+        //   order_id: 4,
+        //   food_id: 6,
+        //   item_name: 'Chicken Fry',
+        //   item_description: 'lorem ipsum',
+        //   restaurant_name: 'KFC',
+        //   picture: '',
+        //   created_at: '22:00',
+        //   picked_at: ''
+        // },
+        // {
+        //   order_id: 5,
+        //   food_id: 7,
+        //   item_name: 'Chicken Fry',
+        //   item_description: 'lorem ipsum',
+        //   restaurant_name: 'KFC',
+        //   picture: '',
+        //   created_at: '22:00',
+        //   picked_at: ''
+        // },
+        // {
+        //   order_id: 6,
+        //   food_id: 11,
+        //   item_name: 'Chicken Fry',
+        //   item_description: 'lorem ipsum',
+        //   restaurant_name: 'KFC',
+        //   picture: '',
+        //   created_at: '22:00',
+        //   picked_at: ''
+        // },
+        // {
+        //   order_id: 7,
+        //   food_id: 1,
+        //   item_name: 'Chicken Fry',
+        //   item_description: 'lorem ipsum',
+        //   restaurant_name: 'KFC',
+        //   picture: '',
+        //   created_at: '22:00',
+        //   picked_at: ''
+        // },
+        // {
+        //   order_id: 8,
+        //   food_id: 5,
+        //   item_name: 'Chicken Fry',
+        //   item_description: 'lorem ipsum',
+        //   restaurant_name: 'KFC',
+        //   picture: '',
+        //   created_at: '22:00',
+        //   picked_at: ''
+        // },
+        // {
+        //   order_id: 9,
+        //   food_id: 8,
+        //   item_name: 'Chicken Fry',
+        //   item_description: 'lorem ipsum',
+        //   restaurant_name: 'KFC',
+        //   picture: '',
+        //   created_at: '22:00',
+        //   picked_at: ''
+        // },
+        // {
+        //   order_id: 10,
+        //   food_id: 12,
+        //   item_name: 'Chicken Fry',
+        //   item_description: 'lorem ipsum',
+        //   restaurant_name: 'KFC',
+        //   picture: '',
+        //   created_at: '22:00',
+        //   picked_at: ''
+        // },
+        // {
+        //   order_id: 11,
+        //   food_id: 13,
+        //   item_name: 'Chicken Fry',
+        //   item_description: 'lorem ipsum',
+        //   restaurant_name: 'KFC',
+        //   picture: '',
+        //   created_at: '22:00',
+        //   picked_at: ''
+        // },
+        // {
+        //   order_id: 12,
+        //   food_id: 13,
+        //   item_name: 'Beef Fry',
+        //   item_description: 'lorem ipsum',
+        //   restaurant_name: 'KFC',
+        //   picture: '',
+        //   created_at: '22:00',
+        //   picked_at: ''
+        // },
       ],
       currentSort:'item_name',
       currentSortDir:'asc',
@@ -235,6 +235,22 @@ export default {
   },
   created() {
     // this.getFoodItems()
+    const token = localStorage.getItem("token");
+    axios({
+      url: path + '/customer/orderd-details',
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json",
+      },
+      data : this.user
+    }).then((response) => {
+      this.foodItems = response.data
+      console.log(response)
+    }, (error) => {
+      console.log(error);
+    });
   },
   methods:{
     getFoodItems: function () {
