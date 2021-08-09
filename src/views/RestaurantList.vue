@@ -221,7 +221,7 @@ export default {
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              "Access-Control-Allow-Origin": "http://localhost:8060",
+              "Access-Control-Allow-Origin": "*",
             },
           },
           this.user

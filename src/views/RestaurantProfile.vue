@@ -149,6 +149,7 @@ export default
         Authorization: `Bearer ${token}`,
         "Access-Control-Allow-Origin": "*",
         "Content-type": "application/json",
+        
       },
       data : this.user
     }).then((response) => {

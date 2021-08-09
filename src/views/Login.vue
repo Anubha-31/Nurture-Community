@@ -132,8 +132,16 @@ export default {
   },
   methods: {
     formSubmit: function() {
-      axios.defaults.withCredentials = true;
-      axios.post(path + "/users/login", this.user).then(
+      axios({
+      url: path + "/users/login",
+      method: "POST",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json",
+        
+      },
+      data : this.user
+    }).then(
         (response) => {
           localStorage.setItem('token', response.data.token.token)
           console.log(response.data.usertype)
