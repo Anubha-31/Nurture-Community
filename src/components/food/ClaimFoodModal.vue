@@ -41,10 +41,25 @@ export default {
     claimItem: function () {
       console.log(this.foodId)
       console.log(this.restaurantId)
-      axios.post(path + '/customer/claim-food', {
-        foodId: this.foodId,
-        restaurantId: this.restaurantId,
-      }).then(response => {
+      const token = localStorage.getItem("token");
+      // axios.post(path + '/customer/claim-food', {
+      //   foodId: this.foodId,
+      //   restaurantId: this.restaurantId,
+      // })
+      
+      axios({
+      url: path + "/customer/claim-food",
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Access-Control-Allow-Origin": "*",
+        "Content-type": "application/json",
+      },
+     data: {
+      foodId: this.foodId,
+      restaurantId: this.restaurantId
+      },
+    }).then(response => {
         this.$emit('close');
       }).catch(error => {
         console.log(error)
