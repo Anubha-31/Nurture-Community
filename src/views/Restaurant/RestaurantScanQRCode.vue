@@ -1,6 +1,8 @@
 <template>
   <HeaderRestaurants></HeaderRestaurants>
-  <qrcode-stream @decode="onDecode"></qrcode-stream>
+  <div class="w-full md:w-1/4 mx-auto">
+    <qrcode-stream @decode="onDecode"></qrcode-stream>
+  </div>
   <Footer></Footer>
 </template>
 
