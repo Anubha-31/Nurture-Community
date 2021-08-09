@@ -9,7 +9,9 @@ import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -471,7 +473,8 @@ public class MainController {
 			JsonObject object = (JsonObject) jsonParser.parse(myParams);
 
 			Order order = new Order();
-
+			String createdate =(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss")).format(Calendar.getInstance().getTime());
+            order.setCreatedat(createdate);
 			order.setCustomerEmail(getCookies(request));
 			order.setFoodId(object.get("foodId").getAsInt());
 			order.setRestaurantId(object.get("restaurantId").getAsInt());
@@ -497,7 +500,8 @@ public class MainController {
 		String Cookie = getCookies(request);
            
 		if (Cookie != null) {
-			return new ResponseEntity<>(orderRepository.findBycustomeremail(Cookie), HttpStatus.OK);
+			List<Order> orders =orderRepository.findBycustomeremail(Cookie);
+			return new ResponseEntity<>(orders, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}

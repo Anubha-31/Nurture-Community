@@ -1,6 +1,8 @@
 package com.nurturecommunity.Dao;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.mail.Multipart;
@@ -20,10 +22,19 @@ public class Order {
     private String customeremail;
     private int food_id;
     private int restaurant_id;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at = new Date(System.currentTimeMillis());
+    
+    
+    private String  createdat ;
 
-    private String restaurant_name;
+    public String getCreatedat() {
+		return createdat;
+	}
+
+	public void setCreatedat(String createdat) {
+		this.createdat = createdat;
+	}
+
+	private String restaurant_name;
 	private String item_description;
 	private String item_name;
 	
@@ -98,7 +109,7 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", customer_email=" + customeremail + ", food_id=" + food_id + ", restaurant_id="
-				+ restaurant_id + ", created_at=" + created_at + ", restaurant_name=" + restaurant_name
+				+ restaurant_id + ", created_at=" + createdat + ", restaurant_name=" + restaurant_name
 				+ ", item_description=" + item_description + ", item_name=" + item_name + ", picture="
 				+ Arrays.toString(picture) + "]";
 	}
