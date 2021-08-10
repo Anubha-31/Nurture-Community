@@ -206,7 +206,7 @@
                   />
                 </div>
 
-                <div class="col-span-3" v-if="food.locationChange === 'No'">
+                <div class="col-span-6 md:col-span-3" v-if="food.locationChange === 'No'">
                   <label
                     for="city"
                     class="block text-sm font-medium text-gray-700"
@@ -260,7 +260,7 @@
                     "
                   />
                 </div>
-                <div class="col-span-3" v-if="food.locationChange === 'No'">
+                <div class="col-span-6" v-if="food.locationChange === 'No'">
                   <label
                     for="country"
                     class="block text-sm font-medium text-gray-700"
@@ -287,8 +287,7 @@
                     "
                   />
                 </div>
-                <br>
-                <div class="col-span-3">
+                <div class="col-span-6">
                   <label
                     for="pick_up_time"
                     class="block text-sm font-medium text-gray-700"
