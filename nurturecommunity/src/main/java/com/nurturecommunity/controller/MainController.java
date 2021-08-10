@@ -517,9 +517,11 @@ public class MainController {
 		JsonParser jsonParser = new JsonParser();
 		JsonObject object = (JsonObject) jsonParser.parse(myParams);
 
-		System.out.println(object.get("restaurantId").getAsInt());
-		System.out.println(object.get("foodId").getAsInt());
-		System.out.println(object.get("orderId").getAsInt());
+		
+		 // System.out.println(object.get("restaurantId").getAsInt());
+		  System.out.println(object.get("foodId").getAsInt());
+		  System.out.println(object.get("orderId").getAsInt());
+		 
 		
 		/* if the restaurant id matches with the current logged-in restaurant 
 		 * then the following changes take place

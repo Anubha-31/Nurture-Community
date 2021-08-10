@@ -40,7 +40,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 //				"Access-Control-Allow-Origin, Access-Control-Allow-Credentials");
 //		response.addHeader("Access-Control-Allow-Credentials", "true");
 //		response.addHeader("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huQGdtYWlsLmNvbSNyZXN0YXVyYW50IiwiZXhwIjoxNjI4NDQwNDgzLCJpYXQiOjE2Mjg0MjI0ODN9.BsxMMg8_EZl9vJ97H0yO7FzHYSlyb84DlsI-XW25q9zLFk7houBDNpavVcomlUE6eOl4ktyVexBfNP9cjYzXRA");
-//		response.addIntHeader("Access-Control-Max-Age", 10);
+//		response.addIntHeader("Access-Control-Max-Age", 10); 
 		//response.addHeader("Access-Control-Allow-Headers", "*");
 		
 		
