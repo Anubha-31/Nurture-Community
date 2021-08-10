@@ -40,13 +40,13 @@
                       </div>
                       <div class="flex-1 inline-flex items-center" data-v-2a66f80c="">
                         <i class="far fa-clock"></i>
-                        <p class="pl-1" data-v-2a66f80c="">Picked at: {{ item.picked_at }}</p>
+                        <p class="pl-1" data-v-2a66f80c="">Picked at: {{ item.pickedat }}</p>
                       </div>
-                      <router-link :to="{ name: 'CustomerQRCode', params: { orderId: item.id, foodId: item.foodId, restaurantId: item.restaurantId }}" class="title-font font-medium items-center text-gray-900 md:mb-0">
+                      <router-link v-if="!item.pickedat" :to="{ name: 'CustomerQRCode', params: { orderId: item.id, foodId: item.foodId, restaurantId: item.restaurantId }}" class="title-font font-medium items-center text-gray-900 md:mb-0">
                         <button class="hidden md:flex md:flex-no-shrink bg-yellow-500 hover:bg-yellow-400 px-5 ml-4 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-yellow-500 hover:border-yellow-400 text-white rounded-full transition ease-in duration-300 mr-4">View QR Code</button>
                       </router-link>
                     </div>
-                    <router-link :to="{ name: 'CustomerQRCode', params: { orderId: item.id, foodId: item.foodId, restaurantId: item.restaurantId }}" class="title-font font-medium items-center text-gray-900 md:mb-0">
+                    <router-link v-if="!item.pickedat" :to="{ name: 'CustomerQRCode', params: { orderId: item.id, foodId: item.foodId, restaurantId: item.restaurantId }}" class="title-font font-medium items-center text-gray-900 md:mb-0">
                       <button class="flex-no-shrink md:hidden bg-yellow-500 hover:bg-yellow-400 px-5 ml-4 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-yellow-500 hover:border-yellow-400 text-white rounded-full transition ease-in duration-300 mt-2">View QR Code</button>
                     </router-link>
                   </div>
