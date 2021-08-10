@@ -159,6 +159,8 @@
       </div>
     </div>
   </div>
+  <sign-up-loading-modal v-if="showLoadingModal"></sign-up-loading-modal>
+  <sign-up-success-modal v-if="showSuccessModal"></sign-up-success-modal>
   <Footer/>
 </template>
 
@@ -170,10 +172,12 @@ import _ from 'lodash'
 import Footer from "@/components/Footer";
 import postalCodes from 'postal-codes-js';
 import {path} from './settings.js'
+import SignUpLoadingModal from "@/components/Modals/SignUpLoadingModal";
+import SignUpSuccessModal from "@/components/Modals/SignUpSuccessModal";
 
 export default {
   name: "SignUp",
-  components: {Footer},
+  components: {Footer, SignUpLoadingModal, SignUpSuccessModal},
   data() {
     return {
       user: {
@@ -206,7 +210,9 @@ export default {
       cities: [],
       errorExist: false,
       duplicateEmail: false,
-      placeholderImage: '/img/placeholder-image.8057445e.png'
+      placeholderImage: '/img/placeholder-image.8057445e.png',
+      showLoadingModal: false,
+      showSuccessModal: false,
     }
   },
   created() {
@@ -230,6 +236,7 @@ export default {
       this.errorExist = false;
       this.errorExist = !_.isEmpty(this.errors);
       if(!this.errorExist) {
+        this.showLoadingModal = true
         axios.defaults.withCredentials = true
         axios({
           url: path +'/users/register',
@@ -240,14 +247,20 @@ export default {
             'Content-type': `multipart/form-data;boundary=--`,
             "Access-Control-Allow-Origin": "*",
           }
-        }).then((response) => {
+        })
+        .then(response => {
           console.log(response.status)
           if(response.status === 200) {
             this.fileData = response
-            alert("Signed Up successfully")
+            this.showLoadingModal = false
+            this.showSuccessModal = true
+            // alert("Signed Up successfully")
           }
-        }, (error) => {
+        })
+        .catch(error => {
+          this.response = "failed"
           if(error.request.status === 409) {
+            this.showLoadingModal = false
             this.duplicateEmail = true
             window.scrollTo(0, 0);
           }
