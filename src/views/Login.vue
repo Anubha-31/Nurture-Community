@@ -147,7 +147,7 @@ export default {
           console.log(response.data.usertype)
           if (response.status === 200) {
             if (response.data.usertype === "restaurant") {
-              window.location.href = "restaurant/food-items";
+              window.location.href = "/restaurant/food-items";
             } else {
               window.location.href = "/restaurant";
             }

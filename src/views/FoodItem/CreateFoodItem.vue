@@ -329,6 +329,8 @@
       </div>
     </div>
   </div>
+  <q-r-loading-modal v-if="showQRLoadingModal"></q-r-loading-modal>
+  <post-item-success v-if="showPostItemSuccessModal" @close="showPostItemSuccessModal = false"></post-item-success>
   <Footer />
 </template>
 
@@ -337,6 +339,8 @@ import HeaderRestaurants from "@/components/HeaderRestaurants.vue";
 import Footer from "@/components/Footer.vue";
 import axios from "axios";
 import { path } from "../settings.js";
+import PostItemSuccess from "../../components/food/PostItemSuccess";
+import QRLoadingModal from "../../components/Modals/QRLoadingModal";
 
 export default {
   name: "CreateFoodItem",
@@ -352,11 +356,13 @@ export default {
         address2: "",
         city:"",
         province:"",
-        country:"",
+        country:"Canada",
         pickupTime: "09:00",
       },
       formData: null,
-      placeholderImage: '/img/placeholder-image.8057445e.png'
+      placeholderImage: '/img/placeholder-image.8057445e.png',
+      showPostItemSuccessModal: false,
+      showQRLoadingModal: false
     };
   },
   created() {
@@ -369,6 +375,7 @@ export default {
       this.formData.append("uploadedPicture", this.food.uploadedPicture);
       console.log(this.food.uploadedPicture)
     //  axios.defaults.withCredentials = true;
+      this.showQRLoadingModal = true
      const token = localStorage.getItem("token");
       axios({
         url: path + "/addFoodDetails",
@@ -385,13 +392,16 @@ export default {
         (response) => {
           console.log(response);
           if (response.status === 200) {
-            alert("Post Added!");
+            this.showQRLoadingModal = false
+            this.showPostItemSuccessModal = true
+            // alert("Post Added!");
           }
         },
         (error) => {
           console.log(error);
         }
       );
+
     },
 
     onFileUpload: function(event) {
@@ -412,6 +422,8 @@ export default {
   components: {
     HeaderRestaurants,
     Footer,
+    PostItemSuccess,
+    QRLoadingModal
   },
 };
 </script>
