@@ -4,6 +4,7 @@
   <div class="w-full md:w-1/4 mx-auto">
     <qrcode-stream @decode="onDecode"></qrcode-stream>
   </div>
+  <q-r-loading-modal v-if="showLoadingModal"></q-r-loading-modal>
   <Footer></Footer>
 </template>
 
@@ -13,10 +14,16 @@ import Footer from "../../components/Footer";
 import { QrcodeStream } from 'vue3-qrcode-reader'
 import axios from "axios";
 import {path} from "@/views/settings";
+import QRLoadingModal from "../../components/Modals/QRLoadingModal";
 
 
 export default {
   name: "RestaurantScanQRCode",
+  data() {
+    return {
+      showLoadingModal: false
+    }
+  },
   // for testing purpose
   created() {
     // alert("test")
@@ -28,6 +35,7 @@ export default {
   },
   methods: {
     onDecode: function (result) {
+      this.showLoadingModal = true
       let obj = JSON.parse(result)
       const token = localStorage.getItem("token");
       axios({
@@ -39,17 +47,24 @@ export default {
           "Content-type": "application/json",
         },
         data : obj
-      }).catch(error => {
+      })
+      .then(response => {
+        console.log(response)
+        this.showLoadingModal = false
+        window.location.href = "/restaurant/food-items";
+      })
+      .catch(error => {
         console.log(error)
       });
 
-      console.log(obj)
+      // console.log(obj)
     },
   },
   components: {
     HeaderRestaurants,
     Footer,
-    QrcodeStream
+    QrcodeStream,
+    QRLoadingModal
   },
 }
 </script>
