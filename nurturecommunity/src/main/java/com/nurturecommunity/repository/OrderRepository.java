@@ -12,4 +12,5 @@ import com.nurturecommunity.Dao.Order;
 public interface OrderRepository extends JpaRepository<Order, Long>{
 
 	List<Order> findBycustomeremail(String emailaddress);
+	List<Order> findAllById(int id);
 }

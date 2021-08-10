@@ -512,7 +512,7 @@ public class MainController {
 	@SuppressWarnings("deprecation")
 	@PostMapping(value = "/order/update")
 	@ResponseStatus(HttpStatus.CREATED)
-	synchronized public void updateOrder(@RequestBody String myParams, HttpServletRequest request) throws IOException {
+	synchronized public ResponseEntity<Object> updateOrder(@RequestBody String myParams, HttpServletRequest request) throws IOException {
 
 		JsonParser jsonParser = new JsonParser();
 		JsonObject object = (JsonObject) jsonParser.parse(myParams);
@@ -520,6 +520,21 @@ public class MainController {
 		System.out.println(object.get("orderId").getAsInt());
 		System.out.println(object.get("foodId").getAsInt());
 
+		String Cookie = getCookies(request);
+		
+		
+		AddFoodDetails fooddetails= addFoodDetailsRepository.findByfoodDetailId(object.get("foodId").getAsInt());
+		int packtes =fooddetails.getNumberofPackets();
+		fooddetails.setNumberofPackets(packtes-1);
+		addFoodDetailsRepository.save(fooddetails);
+		
+		
+		List<Order> orders =orderRepository.findAllById(object.get("orderId").getAsInt());
+		String createdate =(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss")).format(Calendar.getInstance().getTime());
+		orders.get(0).setPickedat(createdate);
+		orderRepository.save(orders.get(0));
+		
+		return new ResponseEntity<>( HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)

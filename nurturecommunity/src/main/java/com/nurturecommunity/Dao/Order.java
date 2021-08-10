@@ -23,8 +23,17 @@ public class Order {
     private int food_id;
     private int restaurant_id;
     
+    private String pickedat;
     
-    private String  createdat ;
+    public String getPickedat() {
+		return pickedat;
+	}
+
+	public void setPickedat(String pickedat) {
+		this.pickedat = pickedat;
+	}
+
+	private String  createdat ;
 
     public String getCreatedat() {
 		return createdat;
@@ -106,11 +115,13 @@ public class Order {
 		this.item_name = item_name;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", customer_email=" + customeremail + ", food_id=" + food_id + ", restaurant_id="
-				+ restaurant_id + ", created_at=" + createdat + ", restaurant_name=" + restaurant_name
-				+ ", item_description=" + item_description + ", item_name=" + item_name + ", picture="
+		return "Order [id=" + id + ", customeremail=" + customeremail + ", food_id=" + food_id + ", restaurant_id="
+				+ restaurant_id + ", pickedat=" + pickedat + ", createdat=" + createdat + ", restaurant_name="
+				+ restaurant_name + ", item_description=" + item_description + ", item_name=" + item_name + ", picture="
 				+ Arrays.toString(picture) + "]";
 	}
 
