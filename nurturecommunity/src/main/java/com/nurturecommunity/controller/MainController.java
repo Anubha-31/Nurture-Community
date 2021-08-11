@@ -307,7 +307,7 @@ public class MainController {
 
 			for (AppUser o : obj) {
 				//double Doubletemp = 0.0;
-				 String tempDistance = toDistance(userZip, o.getZip());
+				 String tempDistance = toDistance(userZip.replace(" ", ""), o.getZip().replace(" ", ""));
 				 double Doubletemp = Double.parseDouble(tempDistance);
 				DecimalFormat numberFormat = new DecimalFormat("#.00");
 
@@ -434,7 +434,7 @@ public class MainController {
 		StringBuffer content = new StringBuffer();
 		while ((inputLine = in.readLine()) != null) {
 			content.append(inputLine);
-
+			
 		}
 		in.close();
 		con.disconnect();
