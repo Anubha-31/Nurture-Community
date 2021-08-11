@@ -237,7 +237,6 @@ export default {
       this.errorExist = !_.isEmpty(this.errors);
       if(!this.errorExist) {
         this.showLoadingModal = true
-        axios.defaults.withCredentials = true
         axios({
           url: path +'/users/register',
           method: 'POST',
