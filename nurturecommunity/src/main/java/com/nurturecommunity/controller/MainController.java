@@ -269,14 +269,14 @@ public class MainController {
 			List<AppUser> data = new ArrayList<AppUser>();
 			for (AppUser obj : usersByzip) {
 				if (obj.getCity().equals(zip)) {
-					double Doubletemp = 0.0;
-//					String tempDistance = toDistance(userZip, obj.getZip());
-//					double Doubletemp = Double.parseDouble(tempDistance);
+					//double Doubletemp = 0.0;
+					String tempDistance = toDistance(userZip, obj.getZip());
+					double Doubletemp = Double.parseDouble(tempDistance);
 					DecimalFormat numberFormat = new DecimalFormat("#.00");
 
 					numberFormat.format(Doubletemp);
 					obj.setDistance(String.valueOf(Doubletemp));
-				//	obj.setDistance(tempDistance);
+					obj.setDistance(tempDistance);
 					data.add(obj);
 
 				}
@@ -306,9 +306,9 @@ public class MainController {
 			userRepository.findAllByusertype("restaurant").forEach(obj::add);
 
 			for (AppUser o : obj) {
-				double Doubletemp = 0.0;
-				// String tempDistance = toDistance(userZip, o.getZip());
-				// double Doubletemp = Double.parseDouble(tempDistance);
+				//double Doubletemp = 0.0;
+				 String tempDistance = toDistance(userZip, o.getZip());
+				 double Doubletemp = Double.parseDouble(tempDistance);
 				DecimalFormat numberFormat = new DecimalFormat("#.00");
 
 				numberFormat.format(Doubletemp);
@@ -425,7 +425,7 @@ public class MainController {
 	synchronized public static String toDistance(String userzip1, String reszip2) throws IOException {
 
 		String Search = "https://api.zip-codes.com/ZipCodesAPI.svc/1.0/CalculateDistance/ByZip?fromzipcode=" + userzip1
-				+ "&tozipcode=" + reszip2 + "&key=7AJTINS13OS1CEJLJCAR";
+				+ "&tozipcode=" + reszip2 + "&key=BXLG3PHLKP9ZEGNC0WML";
 		URL url = new URL(Search);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
