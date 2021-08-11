@@ -30,7 +30,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 
-		response.addHeader("Access-Control-Allow-Origin", "http://localhost:8060");
+		response.addHeader("Access-Control-Allow-Origin", "http://13.68.150.104:8060");
 		response.addHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, PATCH, HEAD");
 		response.addHeader("Access-Control-Allow-Credentials", "true");
 		response.addHeader("Access-Control-Allow-Headers",
