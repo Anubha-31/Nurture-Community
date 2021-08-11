@@ -270,7 +270,7 @@ public class MainController {
 			for (AppUser obj : usersByzip) {
 				if (obj.getCity().equals(zip)) {
 					//double Doubletemp = 0.0;
-					String tempDistance = toDistance(userZip, obj.getZip());
+					String tempDistance = toDistance(userZip.replace(" ", ""), obj.getZip().replace(" ", ""));
 					double Doubletemp = Double.parseDouble(tempDistance);
 					DecimalFormat numberFormat = new DecimalFormat("#.00");
 
