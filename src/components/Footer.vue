@@ -5,12 +5,12 @@
 <!--        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-yellow-500 rounded-full" viewBox="0 0 24 24" >-->
 <!--          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" ></path>-->
 <!--        </svg>-->
-<!--        <span class="ml-3 text-xl">Nurture Community</span>-->
+<!--        <span class="ml-3 text-xl">Movie Recommendation Guru</span>-->
         <router-link to="/" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
           <img src="..\assets\images\logo.png" alt="" class="w-36">
         </router-link>
       </a>
-      <p class=" text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4 " > © 2021 Nurtune Community — <a href="https://github.com/Anubha-31/Nurture-Community" class="text-gray-600 ml-1" rel="noopener noreferrer" target="_blank" >@github</a > </p>
+      <p class=" text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4 " > © 2021 movie recommendation guru — <a href="https://github.com/Anubha-31/Nurture-Community" class="text-gray-600 ml-1" rel="noopener noreferrer" target="_blank" >@github</a > </p>
       <span class=" inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start " >
             <a class="text-gray-500">
                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24" >

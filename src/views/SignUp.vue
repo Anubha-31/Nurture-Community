@@ -12,24 +12,24 @@
       </div>
     </header>
     <div class="container mx-auto px-6">
-      <div class="text-center">
+   <div class="text-center">
         <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Sign Up</h1>
-        <p class="mt-5">Please provide the information below to sign up as a user</p>
+        <p class="mt-5">Please provide the information below to sign up as a user/ admin</p>
       </div>
-<!--      <pre>{{user}}</pre>-->
+       <!--   <pre>{{user}}</pre> -->
       <div class="mt-5 md:mt-6 md:w-1/2 md:mx-auto">
         <form method="POST" @submit.prevent="formSubmit">
           <p class="text-center pb-2 text-red-500 font-medium" v-if="errorExist || duplicateEmail">You have some errors on form!</p>
           <div class="shadow overflow-hidden rounded-lg border border-gray-200">
             <div class="px-4 py-5 bg-white sm:p-6">
               <div class="grid grid-cols-6 gap-6">
-                <div class="col-span-6">
+              <!--   <div class="col-span-6">
                   <label for="user_type" class="block text-sm font-medium text-gray-700">Sign Up As</label>
                   <select id="user_type" name="user_type" autocomplete="user_type" v-model="user.user_type" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <option value="restaurant">Restaurant Representative</option>
                     <option value="customer">Customer</option>
                   </select>
-                </div>
+                </div> -->
 
                 <div class="col-span-6 sm:col-span-3">
                   <label for="first_name" class="block text-sm font-medium text-gray-700">First name*</label>
@@ -78,7 +78,7 @@
                   <input type="password" name="confirm_password" id="confirm_password" v-on:keyup="keyMonitor" @blur="validatePassword" v-model="user.confirm_password" autocomplete="email" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
 
-                <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
+            <!--     <div class="col-span-6 sm:col-span-3 lg:col-span-3" v-if="user.user_type === 'restaurant'">
                   <label for="restaurant_name" class="block text-sm font-medium text-gray-700">Restaurant's Name*</label>
                   <input type="text" name="restaurant_name" id="restaurant_name" v-model="user.restaurant_name" autocomplete="restaurant-name" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" required>
                 </div>
@@ -146,9 +146,9 @@
                 <div class="col-span-6 sm:col-span-3 lg:col-span-3" >
                   <label for="country" class="block text-sm font-medium text-gray-700">Country*</label>
                   <input name="country" id="country" cols="30" rows="4" v-model="user.country" class="mt-1 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md" disabled/>
-                </div>
+                </div> -->
               </div>
-            </div>
+            </div> 
             <div class="px-4 py-3 bg-gray-50 text-right sm:pt-6 sm:pb-8">
               <button type="submit" class="inline-flex w-full justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Sign Up
@@ -187,49 +187,25 @@ export default {
         emailaddress: "",
         password: "",
         confirm_password: "",
-        restaurant_name: "",
-        license_number: "",
-        cover_image: "",
-        opens_at: "09:00",
-        closes_at: "22:00",
-        phone: "",
-        address1: "",
-        address2: "",
-        city:"",
-        province:"",
-        country:"Canada",
-        zip: ""
+      
       },
       formData: null,
       fileData: null,
       capsOn: false,
       errors: {},
       passwordValidation: [],
-      zipValidation: [],
-      provinces: [],
-      cities: [],
-      errorExist: false,
+           errorExist: false,
       duplicateEmail: false,
-      placeholderImage: '/img/placeholder-image.8057445e.png',
-      showLoadingModal: false,
+          showLoadingModal: false,
       showSuccessModal: false,
     }
   },
-  created() {
-    this.provinces = canada.provinces
-  },
-  watch: {
-    'user.province': function (val) {
-        this.cities = canada.cities.filter(city => {
-          return city[1] === val
-        })
-    }
-  },
+
   methods: {
     formSubmit: function () {
       this.formData = new FormData();
       this.formData.append("model", JSON.stringify(this.user));
-      this.formData.append("cover_image", this.user.cover_image)
+    
       if(_.isEmpty(this.errors.password)) {
         delete this.errors.password
       }
@@ -266,19 +242,8 @@ export default {
         });
       } else {
         window.scrollTo(0, 0);
-      }
-    },
-    onFileUpload: function (event) {
-      this.$refs.placeholder_image.src = this.placeholderImage
-
-      if(event.target.files[0].size > 5000000) {
-        alert("Please upload a file less than 5MB")
-        this.$refs.cover_image.value = null;
-      } else {
-        console.log(event.target.files[0])
-        this.$refs.placeholder_image.src = URL.createObjectURL(event.target.files[0])
-        this.user.cover_image = event.target.files[0]
-      }
+      
+    }
     },
     keyMonitor: function (event) {
       let index = this.passwordValidation.indexOf("Capslock is on");
@@ -327,13 +292,7 @@ export default {
       this.errors.password = this.passwordValidation
 
     },
-    validateZip: function () {
-      if(postalCodes.validate("CAN", this.user.zip) !== true) {
-        this.errors.zip_code = "Invalid zip code"
-      } else {
-        delete this.errors.zip_code
-      }
-    },
+    
     blurEventHandler: function (e) {
       if(phone(this.user.phone, "CAN").length === 0) {
         this.errors.phone= "Please enter a valid Canadian phone number"

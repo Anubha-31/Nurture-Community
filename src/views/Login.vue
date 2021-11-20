@@ -24,8 +24,7 @@
             Login
           </h1>
           <p class="mt-5">
-            Please provide the information below to sign in as a user or as a
-            restaurant representative
+            Please provide the information below to sign in as a user or admin
           </p>
         </div>
         <div class="mt-1 md:mt-10 md:w-1/2 md:mx-auto">
